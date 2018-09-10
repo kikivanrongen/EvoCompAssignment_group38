@@ -15,6 +15,12 @@ public class player38 implements ContestSubmission
 		rnd_ = new Random();
 	}
 	
+	//public ArrayList generateRandomInitialSample
+	
+	public static void main(String[] args) {
+		System.out.println("Test");
+	}
+	
 	public void setSeed(long seed)
 	{
 		// Set seed of algortihms random process
