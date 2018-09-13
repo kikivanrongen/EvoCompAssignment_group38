@@ -19,6 +19,7 @@ public class player38 implements ContestSubmission
 	
 	public static void main(String[] args) {
 		System.out.println("Test");
+		run();
 	}
 	
 	public void setSeed(long seed)
@@ -55,7 +56,18 @@ public class player38 implements ContestSubmission
 		// Run your algorithm here
         
         int evals = 0;
+        
         // init population
+        double[][] population = new double[100][10];
+		
+		for (int j = 0; j < 100; j++)
+		{
+		    for (int k = 0; k < 10; k++)
+		    {
+		    	population[j][k] = rnd_.nextDouble();
+		    }
+		}
+        
         // calculate fitness
         while(evals<evaluations_limit_){
             // Select parents
