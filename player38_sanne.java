@@ -124,7 +124,14 @@ public class player38 implements ContestSubmission
 		    }
 		    
 		    // TODO: fix the lost parent in case of uneven number of parents?
-	
+
+                    // Apply mutation to each child. Sanne:Willen we dit echt? increased randomness extreem!
+                    for(int i=0; i<children.size(); i++)
+                    {
+                        rnd_idx = rnd_.nextInt()%10;
+                        children[i][rnd_idx] = rnd_.nextDouble();
+                    }
+
 	        // Select survivors
 		    double[] childProbs = new double[num_child];
 		    
