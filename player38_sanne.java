@@ -62,7 +62,7 @@ public class player38 implements ContestSubmission
         // init population
 		double[][] population = new double[100][10];
 		
-		for(int j = 0; j < 100; j++)
+		for (int j = 0; j < 100; j++)
 		{
 		    for (int k = 0; k < 10; k++)
 		    {
@@ -71,7 +71,7 @@ public class player38 implements ContestSubmission
 		}
 	    
 		// calculate fitness
-	    while(evals < evaluations_limit_)
+	    while (evals < evaluations_limit_)
 		{
 	        // Select parents
 		    double[] parentProbs = new double[100];
