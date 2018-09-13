@@ -88,7 +88,7 @@ public class player38 implements ContestSubmission
 		    
 		    for (int i = 0; i < 100; i++)
 		    {
-		    	if( rnd_.nextDouble() >= parentProbs[i])
+		    	if (rnd_.nextDouble() >= parentProbs[i])
 				{
 				    selectedParents.add(population[i]);
 				}
@@ -134,6 +134,7 @@ public class player38 implements ContestSubmission
 		    }
 		    
 		    // TODO: Scale probs combined with parentProbs
+		    
 		    // TODO: Elimininate num_child individuals
 	 
 	        evals++; 
