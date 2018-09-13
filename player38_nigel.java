@@ -75,23 +75,23 @@ public class player38_nigel implements ContestSubmission
 		{
 	      // track parent evaluations
 		    double[] parentProbs = new double[100];
-				double lenParentProbs = 0;
+				double maxParentProb = 0;
 
 				// loop over all parents
 		    for (int j = 0; j < 100; j++)
 		    {
 					// calculate all parent probabilities (not normalized)
 		    	parentProbs[j] = (double) evaluation_.evaluate(population[j]);
-					lenParentProbs += parentProbs[j] * parentProbs[j];
+					if (parentProbs[j] > maxParentProb)
+					{
+						maxParentProb = parentProbs[j];
+					}
 		    }
-
-		    // calc length of probabilities vector
-				lenParentProbs = Math.sqrt(lenParentProbs);
 
 				// normalize probabilities
 				for (int i = 0; i < 100; i++)
 				{
-					parentProbs[i] /= lenParentProbs;
+					parentProbs[i] /= maxParentProb;
 				}
 
 		    // Select parents
