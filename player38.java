@@ -8,20 +8,20 @@ public class player38 implements ContestSubmission
 {
 	Random rnd_;
 	ContestEvaluation evaluation_;
-    private int evaluations_limit_;
-	
+	private int evaluations_limit_;
+
 	public player38()
 	{
 		rnd_ = new Random();
 	}
-	
+
 	//public ArrayList generateRandomInitialSample
-	
+
 	public static void main(String[] args) {
 		System.out.println("Test");
-		run();
+		//run();
 	}
-	
+
 	public void setSeed(long seed)
 	{
 		// Set seed of algortihms random process
@@ -32,52 +32,117 @@ public class player38 implements ContestSubmission
 	{
 		// Set evaluation problem used in the run
 		evaluation_ = evaluation;
-		
+
 		// Get evaluation properties
 		Properties props = evaluation.getProperties();
-        // Get evaluation limit
-        evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
+		// Get evaluation limit
+		evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
 		// Property keys depend on specific evaluation
 		// E.g. double param = Double.parseDouble(props.getProperty("property_name"));
-        boolean isMultimodal = Boolean.parseBoolean(props.getProperty("Multimodal"));
-        boolean hasStructure = Boolean.parseBoolean(props.getProperty("Regular"));
-        boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
+		boolean isMultimodal = Boolean.parseBoolean(props.getProperty("Multimodal"));
+		boolean hasStructure = Boolean.parseBoolean(props.getProperty("Regular"));
+		boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
 
 		// Do sth with property values, e.g. specify relevant settings of your algorithm
-        if(isMultimodal){
-            // Do sth
-        }else{
-            // Do sth else
-        }
-    }
-    
+		if(isMultimodal){
+				// Do sth
+		}else{
+				// Do sth else
+		}
+	}
+
 	public void run()
 	{
 		// Run your algorithm here
-        
-        int evals = 0;
-        
-        // init population
-        double[][] population = new double[100][10];
-		
+
+		int evals = 0;
+
+		// init population DONE
+		double[][] population = new double[100][10];
+
 		for (int j = 0; j < 100; j++)
 		{
-		    for (int k = 0; k < 10; k++)
-		    {
-		    	population[j][k] = rnd_.nextDouble();
-		    }
+			for (int k = 0; k < 10; k++)
+			{
+				population[j][k] = rnd_.nextDouble();
+			}
 		}
-        
-        // calculate fitness
-        while(evals<evaluations_limit_){
-            // Select parents
-            // Apply crossover / mutation operators
-            double child[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-            // Check fitness of unknown fuction
-            Double fitness = (double) evaluation_.evaluate(child);
-            evals++;
-            // Select survivors
-        }
+
+		// calculate fitness
+		while(evals<evaluations_limit_){
+
+			// Select parents DONE
+			double[] parentProbs = new double[100];
+
+			for (int j = 0; j < 100; j++)
+			{
+				parentProbs[j] = (double) evaluation_.evaluate(population[j]);
+			}
+
+			// TODO: Scale probs to contain no zeros and no ones, between 0 and 1.
+
+			// Select parents continued
+			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
+
+			for (int i = 0; i < 100; i++)
+			{
+				if (rnd_.nextDouble() >= parentProbs[i])
+				{
+					selectedParents.add(population[i]);
+				}
+			}
+
+			int num_child = selectedParents.size();
+
+			// Apply crossover / mutation operators
+			// Shuffle parents to increase diversity
+			Collections.shuffle(selectedParents);
+			double[][] children = new double[num_child][10];
+			int idx = 0;
+
+			for (int i = 0; i < Math.floor(num_child/2); i++)
+			{
+				// pick a position to crossover and make 2 children
+				int cut = rnd_.nextInt()%10;
+
+				for (int j = 0; j < cut; j++)
+				{
+					children[idx][j] = population[idx][j];
+					children[idx+1][j] = population[idx+1][j];
+				}
+
+				for (int j = cut; j < 10; j++)
+				{
+					children[idx][j] = population[idx+1][j];
+					children[idx+1][j] = population[idx][j];
+				}
+
+				idx = idx + 2;
+			}
+
+			// TODO: fix the lost parent in case of uneven number of parents?
+
+			// Apply mutation to each child. Sanne:Willen we dit echt? increased randomness extreem!
+			for(int i=0; i<children.size(); i++)
+			{
+				rnd_idx = rnd_.nextInt()%10;
+				children[i][rnd_idx] = rnd_.nextDouble();
+			}
+
+			// Select survivors
+			double[] childProbs = new double[num_child];
+
+			for (int j = 0; j < 100; j++)
+			{
+				childProbs[j] = (double) evaluation_.evaluate(population[j]);
+			}
+
+			// TODO: Scale probs combined with parentProbs
+
+			// TODO: Elimininate num_child individuals
+
+			evals++;
+		}
 
 	}
 }
