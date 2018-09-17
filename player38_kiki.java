@@ -6,13 +6,13 @@ import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class player38 implements ContestSubmission
+public class player38_kiki implements ContestSubmission
 {
 	Random rnd_;
 	ContestEvaluation evaluation_;
     private int evaluations_limit_;
 
-	public player38()
+	public player38_kiki()
 	{
 		rnd_ = new Random();
 	}
@@ -88,7 +88,7 @@ public class player38 implements ContestSubmission
 
 		    for (int i = 0; i < 100; i++)
 		    {
-		    	if (rnd_.nextDouble() >= parentProbs[i])
+		    	if (rnd_.nextDouble() >= parentProbs[i]) // moet dit niet een bepaalde threshold zijn afhankelijk van de fitness??
 				{
 				    selectedParents.add(population[i]);
 				}
@@ -103,41 +103,75 @@ public class player38 implements ContestSubmission
 		    double[][] children = new double[num_child][10];
 		    int idx = 0;
 
+				int firstGroup = num_child;
+				boolean unevenParents = false;
+
         // check for uneven number of parents
-        if (num_child % 2 == 1){
-
-          // recombine last three parents and create three children
-
+        if (num_child % 2 == 1)
+				{
+					// seperate last three parents for different crossover
+					firstGroup = num_child - 3;
+					unevenParents = true;
         }
 
-		    for (int i = 0; i < Math.floor(num_child/2); i++)
+		    for (int i = 0; i < firstGroup/2; i++)
 		    {
-		        // pick a position to crossover and make 2 children
-				int cut = rnd_.nextInt()%10;
+				        // pick a position to crossover and make 2 children
+						int cut = rnd_.nextInt()%10;
 
-				for (int j = 0; j < cut; j++)
-				{
-				    children[idx][j] = population[idx][j];
-				    children[idx+1][j] = population[idx+1][j];
-				}
+						for (int j = 0; j < cut; j++)
+						{
+						    children[idx][j] = population[idx][j];
+						    children[idx+1][j] = population[idx+1][j];
+						}
 
-				for (int j = cut; j < 10; j++)
-				{
-				    children[idx][j] = population[idx+1][j];
-				    children[idx+1][j] = population[idx][j];
-				}
+						for (int j = cut; j < 10; j++)
+						{
+						    children[idx][j] = population[idx+1][j];
+						    children[idx+1][j] = population[idx][j];
+						}
 
-				idx += 2;
+						idx += 2;
 		    }
 
-		    // TODO: fix the lost parent in case of uneven number of parents?
+				if (unevenParents == true)
+				{
 
-                    // Apply mutation to each child. Sanne:Willen we dit echt? increased randomness extreem!
-                    for(int i=0; i<children.size(); i++)
-                    {
-                        rnd_idx = rnd_.nextInt()%10;
-                        children[i][rnd_idx] = rnd_.nextDouble();
-                    }
+					// pick a position to crossover
+					int cut = rnd_.nextInt()%10;
+
+					// create six children
+					for (int j = 0; j < cut; j++)
+					{
+
+							children[idx][j] = population[idx][j];
+							children[idx+1][j] = population[idx][j];
+							children[idx+2][j] = population[idx+1][j];
+							children[idx+3][j] = population[idx+1][j];
+							children[idx+4][j] = population[idx+2][j];
+							children[idx+5][j] = population[idx+2][j];
+
+					}
+
+					for (int j = cut; j < 10; j++)
+					{
+
+						children[idx][j] = population[idx+1][j];
+						children[idx+1][j] = population[idx+2][j];
+						children[idx+2][j] = population[idx][j];
+						children[idx+3][j] = population[idx+2][j];
+						children[idx+4][j] = population[idx][j];
+						children[idx+5][j] = population[idx+1][j];
+
+					}
+				}
+
+        // Apply mutation to each child. Sanne:Willen we dit echt? increased randomness extreem!
+        // for(int i=0; i<children.size(); i++)
+        // {
+        //     int rnd_idx = rnd_.nextInt()%10;
+        //     children[i][rnd_idx] = rnd_.nextDouble();
+        // }
 
 	        // Select survivors
 		    double[] childProbs = new double[num_child];
