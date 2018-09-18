@@ -115,14 +115,24 @@ public class player38 implements ContestSubmission
 					}
 		    }
 
-		    int num_child = selectedParents.size();
+		    int numChild = selectedParents.size();
 
 		    Collections.shuffle(selectedParents);
 
-				double[][] children = new double[num_child][10];
+				double[][] children = new double[numChild][10];
 
-		 	 // TODO: [Kiki] Aanpassen voor oneven ouders ouderss
-		 	 for (int ind = 0; ind < num_child-1; ind += 2)
+				int firstGroup = numChild;
+				boolean unevenParents = false;
+
+        // check for uneven number of parents
+        if (numChild % 2 == 1)
+				{
+					// seperate last three parents for different crossover
+					firstGroup = numChild - 3;
+					unevenParents = true;
+        }
+
+			 for (int ind = 0; ind < firstGroup; ind += 2)
 		 	 {
 		 		 // pick a position to crossover and make 2 children
 		 		 int cut = rnd_.nextInt(10)  & Integer.MAX_VALUE;
@@ -141,6 +151,40 @@ public class player38 implements ContestSubmission
 
 		 	}
 
+			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
+			if (unevenParents == true)
+				{
+
+					// pick a position to crossover
+					int cut = rnd_.nextInt(10)  & Integer.MAX_VALUE;
+					int ind = firstGroup;
+					// create six children
+					for (int j = 0; j < cut; j++)
+					{
+
+							children[ind][j] = selectedParents.get(ind)[j];
+							children[ind+1][j] = selectedParents.get(ind+1)[j];
+							children[ind+2][j] = selectedParents.get(ind+2)[j];
+							// children[ind+3][j] = selectedParents.get(ind+1)[j];
+							// children[ind+4][j] = selectedParents.get(ind+2)[j];
+							// children[ind+5][j] = selectedParents.get(ind+2)[j];
+
+					}
+
+					for (int j = cut; j < 10; j++)
+					{
+
+						children[ind][j] = selectedParents.get(ind+1)[j];
+						children[ind+1][j] = selectedParents.get(ind+2)[j];
+						children[ind+2][j] = selectedParents.get(ind)[j];
+						// children[ind+3][j] = selectedParents.get(ind+2)[j];
+						// children[ind+4][j] = selectedParents.get(ind)[j];
+						// children[ind+5][j] = selectedParents.get(ind+1)[j];
+
+					}
+				}
+
+
 
 
 			// Apply mutation to each child.
@@ -151,16 +195,16 @@ public class player38 implements ContestSubmission
 				children[i][rnd_idx] = rnd_.nextDouble();
 			}
 
-			double[] childScores = new double[num_child];
+			double[] childScores = new double[numChild];
 
-	    for (int j = 0; j < num_child; j++)
+	    for (int j = 0; j < numChild; j++)
 	    {
 				childScores[j] = (double) evaluation_.evaluate(children[j]);
 				evals++;
 			}
 
-			double[][] oldPopulation = new double[100+num_child][10];
-			double[] allScores = new double[100+num_child];
+			double[][] oldPopulation = new double[100+numChild][10];
+			double[] allScores = new double[100+numChild];
 
 			//In deze loopjes bijhouden wat de hoogste waarde is en dan daarnaar schalen??
 			for (int i =0; i<100; i++)
@@ -168,7 +212,7 @@ public class player38 implements ContestSubmission
 				oldPopulation[i] = population[i];
 				allScores[i] = parentScores[i];
 		  }
-	    for (int i = 0; i<num_child; i++)
+	    for (int i = 0; i<numChild; i++)
 	    {
 				oldPopulation[100+i] = children[i];
 				allScores[100] = childScores[i];
@@ -177,7 +221,7 @@ public class player38 implements ContestSubmission
 			// TODO: Scale Probs. [nigel?]
 			double[] allProbs = allScores;
 
-		  // Elimininate num_child individuals
+		  // Elimininate numChild individuals
       int elim = 0;
     	int idx = 0;
 
@@ -186,7 +230,7 @@ public class player38 implements ContestSubmission
 			// Children have a lower prob to be eliminated since they are looped through last.
 			  if (idx<100)
 				{
-					if (elim < num_child-1)
+					if (elim < numChild-1)
 					{
 						if (rnd_.nextDouble() <= allProbs[i])
 						{
