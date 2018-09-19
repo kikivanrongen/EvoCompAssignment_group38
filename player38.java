@@ -60,66 +60,76 @@ public class player38 implements ContestSubmission
 
 	public void run()
 	{
-		// Run your algorithm here
 
 		int evals = 0;
+		int populationSize = 100;
+		int nrTraits = 10;
 
+		// initialize population with random values
+		double[][] population = new double[populationSize][nrTraits];
 
-		// init population DONE
-		double[][] population = new double[100][10];
-
-		for (int j = 0; j < 100; j++)
+		for (int j = 0; j < populationSize; j++)
 		{
-			for (int k = 0; k < 10; k++)
+			for (int k = 0; k < nrTraits; k++)
 			{
 				population[j][k] = rnd_.nextDouble();
 			}
 		 }
 
 		// calculate fitness
-		while(evals<evaluations_limit_-200)
+		while(evals < evaluations_limit_-200)
 		{
 
-			//Check of dit zo kan of dat init vereist is.
-			// Calculate fitness Potential parents
-				double[] parentScores = new double[100];
-				double lenParentProbs = 0.0;
+				// track parent evaluations
+				double[] parentProbs = new double[populationSize];
+				double[] parentScores = new double[populationSize];
+				double maxScore = 0;
+				double minScore = 1;
 
-
-				for (int j = 0; j < 100; j++)
+				// loop over all parents
+				for (int j = 0; j < populationSize; j++)
 				{
+					// calculate parent scores (not normalized)
 					parentScores[j] = (double) evaluation_.evaluate(population[j]);
+
+					// TODO: hoort dit binnen deze loop? [nigel]
 					evals++;
-					lenParentProbs += parentScores[j] * parentScores[j];
+
+					// save largest and smallest score for normalization
+					if (parentScores[j] > maxScore)
+					{
+						maxScore = parentScores[j];
+					} else if (parentScores[j] < minScore) {
+						minScore = parentScores[j];
+					}
 				}
 
-				// calc length of probabilities vector
-				lenParentProbs = Math.sqrt(lenParentProbs);
-				double[] parentProbs = new double[100];
+				// check first element, for completeness
+				if (parentScores[0] < minScore) {
+					minScore = parentScores[0];
+				}
 
-				// normalize probabilities TODO: Aanpassen zodat schaalt naar hoogste waarde. [nigel]
-				for (int i = 0; i < 100; i++)
+				// normalize probabilities
+				for (int i = 0; i < populationSize; i++)
 				{
-					parentProbs[i] = parentScores[i] / lenParentProbs;
+					parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
 				}
 
-
-		    // Select parents
+		    // select parents used in creating offspring and randomize
 		    ArrayList<double[]> selectedParents = new ArrayList<double[]>();
-
-		    for (int i = 0; i < 100; i++)
+		    for (int i = 0; i < populationSize; i++)
 		    {
-					if (rnd_.nextDouble() <= parentProbs[i]) // TODO: klopt de sign zo?
+					// TODO: check sign
+					if (rnd_.nextDouble() <= parentProbs[i])
 					{
 						selectedParents.add(population[i]);
 					}
 		    }
+				Collections.shuffle(selectedParents);
 
+				// define nr of children and variable to store children
 		    int numChild = selectedParents.size();
-
-		    Collections.shuffle(selectedParents);
-
-				double[][] children = new double[numChild][10];
+				double[][] children = new double[numChild][nrTraits];
 
 				int firstGroup = numChild;
 				boolean unevenParents = false;
@@ -132,120 +142,163 @@ public class player38 implements ContestSubmission
 					unevenParents = true;
         }
 
+				// loop over all couples (two parents)
 			 for (int ind = 0; ind < firstGroup; ind += 2)
 		 	 {
-		 		 // pick a position to crossover and make 2 children
-		 		 int cut = rnd_.nextInt(10)  & Integer.MAX_VALUE;
+					// pick a position to crossover and make 2 children
+					int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
 
-		 		 for (int j = 0; j < cut; j++)
-		 		 {
-		 				 children[ind][j] = selectedParents.get(ind)[j];
-		 				 children[ind+1][j] = selectedParents.get(ind+1)[j];
-		 		 }
-
-		 		 for (int j = cut; j < 10; j++)
-		 		 {
-		 				 children[ind][j] = selectedParents.get(ind+1)[j];
-		 				 children[ind+1][j] = selectedParents.get(ind)[j];
-		 		 }
-
-		 	}
-
-			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
-			if (unevenParents == true)
-				{
-
-					// pick a position to crossover
-					int cut = rnd_.nextInt(10)  & Integer.MAX_VALUE;
-					int ind = firstGroup;
-					// create six children
 					for (int j = 0; j < cut; j++)
 					{
-
-							children[ind][j] = selectedParents.get(ind)[j];
-							children[ind+1][j] = selectedParents.get(ind+1)[j];
-							children[ind+2][j] = selectedParents.get(ind+2)[j];
-							// children[ind+3][j] = selectedParents.get(ind+1)[j];
-							// children[ind+4][j] = selectedParents.get(ind+2)[j];
-							// children[ind+5][j] = selectedParents.get(ind+2)[j];
-
+						 children[ind][j] = selectedParents.get(ind)[j];
+						 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 					}
 
-					for (int j = cut; j < 10; j++)
+					for (int j = cut; j < nrTraits; j++)
 					{
-
-						children[ind][j] = selectedParents.get(ind+1)[j];
-						children[ind+1][j] = selectedParents.get(ind+2)[j];
-						children[ind+2][j] = selectedParents.get(ind)[j];
-						// children[ind+3][j] = selectedParents.get(ind+2)[j];
-						// children[ind+4][j] = selectedParents.get(ind)[j];
-						// children[ind+5][j] = selectedParents.get(ind+1)[j];
-
+						 children[ind][j] = selectedParents.get(ind + 1)[j];
+						 children[ind + 1][j] = selectedParents.get(ind)[j];
 					}
+		 		}
+
+			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
+			// perform crossover for threesome if present
+			if (unevenParents == true)
+			{
+
+				// pick a position to crossover
+				int cut = rnd_.nextInt(nrTraits)  & Integer.MAX_VALUE;
+				int ind = firstGroup;
+
+				// create six children
+				for (int j = 0; j < cut; j++)
+				{
+						// TODO: on some runs, an error is thrown here (line 177: java.lang.ArrayIndexOutOfBoundsException: -2)
+						children[ind][j] = selectedParents.get(ind)[j];
+						children[ind + 1][j] = selectedParents.get(ind + 1)[j];
+						children[ind + 2][j] = selectedParents.get(ind + 2)[j];
+						// children[ind + 3][j] = selectedParents.get(ind + 1)[j];
+						// children[ind + 4][j] = selectedParents.get(ind + 2)[j];
+						// children[ind + 5][j] = selectedParents.get(ind + 2)[j];
+
 				}
 
-
-
+				for (int j = cut; j < nrTraits; j++)
+				{
+					children[ind][j] = selectedParents.get(ind + 1)[j];
+					children[ind + 1][j] = selectedParents.get(ind + 2)[j];
+					children[ind + 2][j] = selectedParents.get(ind)[j];
+					// children[ind + 3][j] = selectedParents.get(ind + 2)[j];
+					// children[ind + 4][j] = selectedParents.get(ind)[j];
+					// children[ind + 5][j] = selectedParents.get(ind + 1)[j];
+				}
+			}
 
 			// Apply mutation to each child.
 			int rnd_idx = 0;
-			for(int i=0; i<children.length; i++)
+			for(int i=0; i < numChild; i++)
 			{
-				rnd_idx = rnd_.nextInt(10);
+				rnd_idx = rnd_.nextInt(nrTraits);
 				children[i][rnd_idx] = rnd_.nextDouble();
 			}
 
+			// evaluate scores of all children
 			double[] childScores = new double[numChild];
-
 	    for (int j = 0; j < numChild; j++)
 	    {
 				childScores[j] = (double) evaluation_.evaluate(children[j]);
+
+				// TODO: same af before, hoort dit binnen de loop? [nigel]
 				evals++;
+
+				// update largest and smallest score including children
+				if (childScores[j] > maxScore)
+				{
+					maxScore = parentScores[j];
+				} else if (parentScores[j] < minScore) {
+					minScore = parentScores[j];
+				}
 			}
 
-			double[][] oldPopulation = new double[100+numChild][10];
-			double[] allScores = new double[100+numChild];
+			// combine children and parents into full population
+			double[][] oldPopulation = new double[populationSize + numChild][nrTraits];
+			double[] allScores = new double[populationSize + numChild];
+			double[] allProbs = new double[populationSize + numChild];
 
-			//In deze loopjes bijhouden wat de hoogste waarde is en dan daarnaar schalen??
-			for (int i =0; i<100; i++)
+			// copy parents
+			for (int i = 0; i < populationSize; i++)
 		  {
 				oldPopulation[i] = population[i];
 				allScores[i] = parentScores[i];
 		  }
-	    for (int i = 0; i<numChild; i++)
+
+			// copy children
+	    for (int i = 0; i < numChild; i++)
 	    {
-				oldPopulation[100+i] = children[i];
-				allScores[100] = childScores[i];
+				oldPopulation[populationSize + i] = children[i];
+				allScores[populationSize] = childScores[i];
 	    }
 
-			// TODO: Scale Probs. [nigel?]
-			double[] allProbs = allScores;
+			// normalize probabilities
+			for (int i = 0; i < populationSize + numChild; i++)
+			{
+				allProbs[i] = (allScores[i] - minScore) / (maxScore - minScore);
+			}
 
-		  // Elimininate numChild individuals
+		  // elimininate numChild individuals
       int elim = 0;
     	int idx = 0;
+			int[] eliminated = new int[populationSize + numChild];
 
-			for (int i = 0; i<oldPopulation.length; i++)
+			// eliminate until old population size is reached
+			while (elim != numChild)
 			{
-			// Children have a lower prob to be eliminated since they are looped through last.
-			  if (idx<100)
+				// TODO: check sign
+				if (eliminated[idx] == 0 && rnd_.nextDouble() <= allProbs[idx])
 				{
-					if (elim < numChild-1)
-					{
-						if (rnd_.nextDouble() <= allProbs[i])
-						{
-							population[idx] = oldPopulation[i];
-							elim ++;
-							idx ++;
-						}
-					} else {
-						population[idx] = oldPopulation[i];
-						idx ++;
-					}
+					elim++;
+					eliminated[idx] = 1;
+				}
+
+				// update counter, reset if necessary
+				idx++;
+				if (idx == populationSize + numChild)
+				{
+					idx = 0;
+				}
+			}
+
+			// update population to all survivers
+			for (int i = 0, j = 0; i < populationSize + numChild; i++)
+			{
+				if (eliminated[i] == 0)
+				{
+					population[j] = oldPopulation[i];
 				}
 			}
 
 
-	    }
+			// In the code below, population size is not preserved and can diverge.
+
+			// for (int i = 0; i < oldPopulation.length; i++)
+			// {
+			// // Children have a lower prob to be eliminated since they are looped through last.
+			//   if (idx < populationSize)
+			// 	{
+			// 		if (elim < numChild-1)
+			// 		{
+			// 			if (rnd_.nextDouble() <= allProbs[i])
+			// 			{
+			// 				population[idx] = oldPopulation[i];
+			// 				elim ++;
+			// 				idx ++;
+			// 			}
+			// 		} else {
+			// 			population[idx] = oldPopulation[i];
+			// 			idx ++;
+			// 		}
+			// 	}
+			// }
+	  }
 	}
 }
