@@ -3,6 +3,9 @@ import org.vu.contest.ContestEvaluation;
 
 import java.util.Random;
 import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class player38 implements ContestSubmission
 {
@@ -51,11 +54,16 @@ public class player38 implements ContestSubmission
 		}
 	}
 
+
+
+
+
 	public void run()
 	{
 		// Run your algorithm here
 
 		int evals = 0;
+
 
 		// init population DONE
 		double[][] population = new double[100][10];
@@ -66,83 +74,178 @@ public class player38 implements ContestSubmission
 			{
 				population[j][k] = rnd_.nextDouble();
 			}
-		}
+		 }
 
 		// calculate fitness
-		while(evals<evaluations_limit_){
+		while(evals<evaluations_limit_-200)
+		{
 
-			// Select parents DONE
-			double[] parentProbs = new double[100];
+			//Check of dit zo kan of dat init vereist is.
+			// Calculate fitness Potential parents
+				double[] parentScores = new double[100];
+				double lenParentProbs = 0.0;
 
-			for (int j = 0; j < 100; j++)
-			{
-				parentProbs[j] = (double) evaluation_.evaluate(population[j]);
-			}
 
-			// TODO: Scale probs to contain no zeros and no ones, between 0 and 1.
-
-			// Select parents continued
-			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
-
-			for (int i = 0; i < 100; i++)
-			{
-				if (rnd_.nextDouble() >= parentProbs[i])
+				for (int j = 0; j < 100; j++)
 				{
-					selectedParents.add(population[i]);
-				}
-			}
-
-			int num_child = selectedParents.size();
-
-			// Apply crossover / mutation operators
-			// Shuffle parents to increase diversity
-			Collections.shuffle(selectedParents);
-			double[][] children = new double[num_child][10];
-			int idx = 0;
-
-			for (int i = 0; i < Math.floor(num_child/2); i++)
-			{
-				// pick a position to crossover and make 2 children
-				int cut = rnd_.nextInt()%10;
-
-				for (int j = 0; j < cut; j++)
-				{
-					children[idx][j] = population[idx][j];
-					children[idx+1][j] = population[idx+1][j];
+					parentScores[j] = (double) evaluation_.evaluate(population[j]);
+					evals++;
+					lenParentProbs += parentScores[j] * parentScores[j];
 				}
 
-				for (int j = cut; j < 10; j++)
+				// calc length of probabilities vector
+				lenParentProbs = Math.sqrt(lenParentProbs);
+				double[] parentProbs = new double[100];
+
+				// normalize probabilities TODO: Aanpassen zodat schaalt naar hoogste waarde. [nigel]
+				for (int i = 0; i < 100; i++)
 				{
-					children[idx][j] = population[idx+1][j];
-					children[idx+1][j] = population[idx][j];
+					parentProbs[i] = parentScores[i] / lenParentProbs;
 				}
 
-				idx = idx + 2;
-			}
 
-			// TODO: fix the lost parent in case of uneven number of parents?
+		    // Select parents
+		    ArrayList<double[]> selectedParents = new ArrayList<double[]>();
 
-			// Apply mutation to each child. Sanne:Willen we dit echt? increased randomness extreem!
-			for(int i=0; i<children.size(); i++)
+		    for (int i = 0; i < 100; i++)
+		    {
+					if (rnd_.nextDouble() <= parentProbs[i]) // TODO: klopt de sign zo?
+					{
+						selectedParents.add(population[i]);
+					}
+		    }
+
+		    int numChild = selectedParents.size();
+
+		    Collections.shuffle(selectedParents);
+
+				double[][] children = new double[numChild][10];
+
+				int firstGroup = numChild;
+				boolean unevenParents = false;
+
+        // check for uneven number of parents
+        if (numChild % 2 == 1)
+				{
+					// seperate last three parents for different crossover
+					firstGroup = numChild - 3;
+					unevenParents = true;
+        }
+
+			 for (int ind = 0; ind < firstGroup; ind += 2)
+		 	 {
+		 		 // pick a position to crossover and make 2 children
+		 		 int cut = rnd_.nextInt(10)  & Integer.MAX_VALUE;
+
+		 		 for (int j = 0; j < cut; j++)
+		 		 {
+		 				 children[ind][j] = selectedParents.get(ind)[j];
+		 				 children[ind+1][j] = selectedParents.get(ind+1)[j];
+		 		 }
+
+		 		 for (int j = cut; j < 10; j++)
+		 		 {
+		 				 children[ind][j] = selectedParents.get(ind+1)[j];
+		 				 children[ind+1][j] = selectedParents.get(ind)[j];
+		 		 }
+
+		 	}
+
+			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
+			if (unevenParents == true)
+				{
+
+					// pick a position to crossover
+					int cut = rnd_.nextInt(10)  & Integer.MAX_VALUE;
+					int ind = firstGroup;
+					// create six children
+					for (int j = 0; j < cut; j++)
+					{
+
+							children[ind][j] = selectedParents.get(ind)[j];
+							children[ind+1][j] = selectedParents.get(ind+1)[j];
+							children[ind+2][j] = selectedParents.get(ind+2)[j];
+							// children[ind+3][j] = selectedParents.get(ind+1)[j];
+							// children[ind+4][j] = selectedParents.get(ind+2)[j];
+							// children[ind+5][j] = selectedParents.get(ind+2)[j];
+
+					}
+
+					for (int j = cut; j < 10; j++)
+					{
+
+						children[ind][j] = selectedParents.get(ind+1)[j];
+						children[ind+1][j] = selectedParents.get(ind+2)[j];
+						children[ind+2][j] = selectedParents.get(ind)[j];
+						// children[ind+3][j] = selectedParents.get(ind+2)[j];
+						// children[ind+4][j] = selectedParents.get(ind)[j];
+						// children[ind+5][j] = selectedParents.get(ind+1)[j];
+
+					}
+				}
+
+
+
+
+			// Apply mutation to each child.
+			int rnd_idx = 0;
+			for(int i=0; i<children.length; i++)
 			{
-				rnd_idx = rnd_.nextInt()%10;
+				rnd_idx = rnd_.nextInt(10);
 				children[i][rnd_idx] = rnd_.nextDouble();
 			}
 
-			// Select survivors
-			double[] childProbs = new double[num_child];
+			double[] childScores = new double[numChild];
 
-			for (int j = 0; j < 100; j++)
-			{
-				childProbs[j] = (double) evaluation_.evaluate(population[j]);
+	    for (int j = 0; j < numChild; j++)
+	    {
+				childScores[j] = (double) evaluation_.evaluate(children[j]);
+				evals++;
 			}
 
-			// TODO: Scale probs combined with parentProbs
+			double[][] oldPopulation = new double[100+numChild][10];
+			double[] allScores = new double[100+numChild];
 
-			// TODO: Elimininate num_child individuals
+			//In deze loopjes bijhouden wat de hoogste waarde is en dan daarnaar schalen??
+			for (int i =0; i<100; i++)
+		  {
+				oldPopulation[i] = population[i];
+				allScores[i] = parentScores[i];
+		  }
+	    for (int i = 0; i<numChild; i++)
+	    {
+				oldPopulation[100+i] = children[i];
+				allScores[100] = childScores[i];
+	    }
 
-			evals++;
-		}
+			// TODO: Scale Probs. [nigel?]
+			double[] allProbs = allScores;
 
+		  // Elimininate numChild individuals
+      int elim = 0;
+    	int idx = 0;
+
+			for (int i = 0; i<oldPopulation.length; i++)
+			{
+			// Children have a lower prob to be eliminated since they are looped through last.
+			  if (idx<100)
+				{
+					if (elim < numChild-1)
+					{
+						if (rnd_.nextDouble() <= allProbs[i])
+						{
+							population[idx] = oldPopulation[i];
+							elim ++;
+							idx ++;
+						}
+					} else {
+						population[idx] = oldPopulation[i];
+						idx ++;
+					}
+				}
+			}
+
+
+	    }
 	}
 }
