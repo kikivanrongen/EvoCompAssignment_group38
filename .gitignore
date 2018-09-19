@@ -24,3 +24,7 @@ Thumbs.db
 .classpath
 .settings
 /player38.class
+
+# Java files
+.class
+.jar
