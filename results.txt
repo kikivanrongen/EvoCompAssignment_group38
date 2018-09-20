@@ -1,12 +1,12 @@
 Sphere Evaluation Function:
 Score: 10.0
-Runtime: 10ms
+Runtime: 8ms
 Bent Cigar Function: 
-Score: 2.5671347150645206E-10
-Runtime: 750ms
+Score: 2.56713471506453E-10
+Runtime: 38ms
 Schaffers Evaluation Function: 
-Score: 4.5095885843834485E-18
-Runtime: 2046ms
+Score: 4.509588584383641E-18
+Runtime: 359ms
 Katsuura Evaluation Function: 
-Score: 3.0690754463056966E-42
-Runtime: 66833ms
+Score: 3.069075446256456E-42
+Runtime: 13264ms
