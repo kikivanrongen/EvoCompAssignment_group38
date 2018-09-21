@@ -281,14 +281,14 @@ public class player38 implements ContestSubmission
 			// TEMPORARY
 			// calculate median probability - to select half of the population
 			Arrays.sort(allProbs);
-			double mid_value = allProbs[allProbs.length/2];
+			double threshold = allProbs[populationSize];
 
 			// eliminate until old population size is reached
 			while (elim < numChild)
 			{
 				// TODO: check sign
 				//if (eliminated[shuffleArray.get(idx)] == 0 && middle_value <= allProbs[shuffleArray.get(idx)])
-				if (eliminated[shuffleArray.get(idx)] == 0 && allProbs[shuffleArray.get(idx)] <= mid_value)
+				if (eliminated[shuffleArray.get(idx)] == 0 && allProbs[shuffleArray.get(idx)] <= threshold)
 				{
 					elim++;
 					eliminated[shuffleArray.get(idx)] = 1;
