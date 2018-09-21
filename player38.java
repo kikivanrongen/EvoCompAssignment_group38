@@ -86,8 +86,6 @@ public class player38 implements ContestSubmission
 			double maxScore = 0;
 			double minScore = 1;
 
-			//System.out.println(evaluation_.evaluate(data));
-
 			// Check and save fitness for all parents
 			for (int j = 0; j < populationSize; j++)
 			{
@@ -145,7 +143,6 @@ public class player38 implements ContestSubmission
 
 			// define nr of children and variable to store children
 			int numChild = selectedParents.size();
-			System.out.println(numChild + "kids");
 			double[][] children = new double[numChild][nrTraits];
 
 			int firstGroup = numChild;
@@ -196,7 +193,6 @@ public class player38 implements ContestSubmission
 						// children[ind + 3][j] = selectedParents.get(ind)[j];
 						// children[ind + 4][j] = selectedParents.get(ind + 1)[j];
 						// children[ind + 5][j] = selectedParents.get(ind + 2)[j];
-
 				}
 
 				for (int j = cut; j < nrTraits; j++)
@@ -282,13 +278,17 @@ public class player38 implements ContestSubmission
 			int[] eliminated = new int[populationSize + numChild];
 			Arrays.fill(eliminated, 0);
 
+			// TEMPORARY
+			// calculate median probability
+			Arrays.sort(allProbs);
+			double mid_value = allProbs[allProbs.length/2];
+
 			// eliminate until old population size is reached
 			while (elim < numChild)
 			{
-				//System.out.println("pppppppeminiiniinini");
-
 				// TODO: check sign
-				if (eliminated[shuffleArray.get(idx)] == 0 && rnd_.nextDouble() <= allProbs[shuffleArray.get(idx)])
+				//if (eliminated[shuffleArray.get(idx)] == 0 && middle_value <= allProbs[shuffleArray.get(idx)])
+				if (eliminated[shuffleArray.get(idx)] == 0 && allProbs[shuffleArray.get(idx)] <= mid_value)
 				{
 					elim++;
 					eliminated[shuffleArray.get(idx)] = 1;
@@ -307,7 +307,10 @@ public class player38 implements ContestSubmission
 			{
 				if (eliminated[shuffleArray.get(i)] == 0)
 				{
+					//System.out.println(population[j][0] + " old");
 					population[j] = oldPopulation[shuffleArray.get(i)];
+					//System.out.println(population[j][0] + " new");
+
 				}
 			}
 		}
