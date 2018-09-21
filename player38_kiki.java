@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Arrays;
+import java.lang.Math;
 
 public class player38_kiki implements ContestSubmission
 {
@@ -188,5 +190,44 @@ public class player38_kiki implements ContestSubmission
 	        evals++;
 
 	    }
+
+			/*
+			This function sorts the population based on normalized fitness values. All
+			individuals are assigned a probability to be selected as parent, according to
+			their rank. Probabilities are exponentially decaying and add up to 1.
+			*/
+
+			/* TODO: Hoe zorg ik ervoor dat het juiste individu geselecteerd wordt als
+			de volgorde niet meer klopt (doordat het nu gesorteerd is op prob.)
+			*/
+
+			public ArrayList<double> rankBasedSelection(int popSize, double[] parentProbabilities)
+			{
+
+				// create new array with sorted parent probabilities
+				double[] sortedParentProbs = new double[popSize];
+				sortedParentProbs = Arrays.sort(parentProbabilities);
+
+				double[] selectionProbs = new double[popSize];
+				double[] normSelectionProbs = new double[popSize];
+				double normFactor = 0;
+
+				// calculate parent selection probability according to rank
+				for (int i = 0; i < popSize; i++)
+				{
+					selectionProbs[i] = 1 - Math.exp(i);
+					normFactor += selectionProbs[i];
+				}
+
+				// normalize result for unity purposes
+				for (int j = 0; j < popSize; j++)
+				{
+					normSelectionProbs[j] = selectionProbs[j] / normFactor;
+					System.out.print(normSelectionProbs[j]);
+				}
+
+				return normSelectionProbs;
+
+			}
 	}
 }
