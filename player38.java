@@ -212,7 +212,7 @@ public class player38 implements ContestSubmission
 			{
 				rnd_idx = rnd_.nextInt(nrTraits);
 				double mutationFactor = rnd_.nextDouble() * 2.0 - 1.0;
-				children[i][rnd_idx] = children[i][rnd_idx] * mutationFactor;
+				children[i][rnd_idx] = children[i][rnd_idx] * mutationFactor; // Kim dit moet anders nog (nu)
 			}
 
 			// evaluate scores of all children
@@ -279,7 +279,7 @@ public class player38 implements ContestSubmission
 			Arrays.fill(eliminated, 0);
 
 			// TEMPORARY
-			// calculate median probability
+			// calculate median probability - to select half of the population
 			Arrays.sort(allProbs);
 			double mid_value = allProbs[allProbs.length/2];
 
@@ -302,15 +302,13 @@ public class player38 implements ContestSubmission
 				}
 			}
 
-			// update population to all survivers
+			// update population to all survivors
 			for (int i = 0, j = 0; i < populationSize + numChild; i++)
 			{
 				if (eliminated[shuffleArray.get(i)] == 0)
 				{
-					//System.out.println(population[j][0] + " old");
 					population[j] = oldPopulation[shuffleArray.get(i)];
-					//System.out.println(population[j][0] + " new");
-
+					j++;
 				}
 			}
 		}
