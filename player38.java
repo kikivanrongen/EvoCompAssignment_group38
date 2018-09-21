@@ -162,7 +162,6 @@ public class player38 implements ContestSubmission
 				}
 	 		}
 
-			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
 			// perform crossover for threesome if present
 			if (unevenParents == true)
 			{
@@ -171,7 +170,7 @@ public class player38 implements ContestSubmission
 				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
 				int ind = firstGroup;
 
-				// create three children
+				// select three children (among six possibilities, all parents have two children)
 				for (int j = 0; j < cut; j++)
 				{
 						// TODO: on some runs, an error is thrown here (line 177: java.lang.ArrayIndexOutOfBoundsException: -2)
@@ -247,7 +246,7 @@ public class player38 implements ContestSubmission
 			}
 
 			//shuffle population
-			Collections.shuffle(population);			
+			Collections.shuffle(population);
 
 			// elimininate numChild individuals
 			int elim = 0;

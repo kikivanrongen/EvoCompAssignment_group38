@@ -1,30 +1,18 @@
 Sphere Evaluation Function:
-<<<<<<< HEAD
-Score: 9.578282491696509
+Score: 9.608700541799289
+Runtime: 17ms
+Bent Cigar Function: 
+Your code has thrown an Exception/Error!
+This would halt execution (the best score achieved so far would be assigned)
+Score: 1.1838324593966417E-6
+Runtime: 31ms
+Schaffers Evaluation Function: 
+Your code has thrown an Exception/Error!
+This would halt execution (the best score achieved so far would be assigned)
+Score: 1.462201906704156E-10
+Runtime: 17ms
+Katsuura Evaluation Function: 
+Your code has thrown an Exception/Error!
+This would halt execution (the best score achieved so far would be assigned)
+Score: 2.3853950649196515E-10
 Runtime: 15ms
-Bent Cigar Function: 
-Score: 1.3962306857251903E-6
-Runtime: 578ms
-Schaffers Evaluation Function: 
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 1.4622019067039068E-10
-Runtime: 360ms
-Katsuura Evaluation Function: 
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 2.385395064891253E-10
-Runtime: 187ms
-=======
-Score: 10.0
-Runtime: 8ms
-Bent Cigar Function: 
-Score: 2.56713471506453E-10
-Runtime: 38ms
-Schaffers Evaluation Function: 
-Score: 4.509588584383641E-18
-Runtime: 359ms
-Katsuura Evaluation Function: 
-Score: 3.069075446256456E-42
-Runtime: 13264ms
->>>>>>> 71743b715e8810cfc9b43068a4e2144a08808dc4
