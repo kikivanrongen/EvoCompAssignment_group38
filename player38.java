@@ -57,7 +57,6 @@ public class player38 implements ContestSubmission
 
 
 
-
 	public void run()
 	{
 
@@ -65,49 +64,52 @@ public class player38 implements ContestSubmission
 		int populationSize = 100;
 		int nrTraits = 10;
 
-		// initialize population with random values
+		// INITIALIZE
+		// init population with random values between -5 and 5
 		double[][] population = new double[populationSize][nrTraits];
 
 		for (int j = 0; j < populationSize; j++)
 		{
 			for (int k = 0; k < nrTraits; k++)
 			{
-				population[j][k] = rnd_.nextDouble();
+				population[j][k] = (rnd_.nextDouble() * 10.0) - 5.0; // normalize to [-5, 5]
 			}
-		 }
+		}
 
 		// calculate fitness
 		while(evals < evaluations_limit_-200)
 		{
 
-			// track parent evaluations
+			// variables for tracking parent evaluations
 			double[] parentProbs = new double[populationSize];
 			double[] parentScores = new double[populationSize];
 			double maxScore = 0;
 			double minScore = 1;
 
-			// loop over all parents
+			//System.out.println(evaluation_.evaluate(data));
+
+			// Check and save fitness for all parents
 			for (int j = 0; j < populationSize; j++)
 			{
 				// calculate parent scores (not normalized)
 				parentScores[j] = (double) evaluation_.evaluate(population[j]);
-
-				// TODO: hoort dit binnen deze loop? [nigel]
 				evals++;
 
 				// save largest and smallest score for normalization
 				if (parentScores[j] > maxScore)
 				{
 					maxScore = parentScores[j];
-				} else if (parentScores[j] < minScore) {
+				}
+
+				if (parentScores[j] < minScore)
+				{
 					minScore = parentScores[j];
 				}
+
 			}
 
-			// check first element, for completeness
-			if (parentScores[0] < minScore) {
-				minScore = parentScores[0];
-			}
+			System.out.println("Minimum score obtained in this round: " + minScore);
+			System.out.println("Maximum score obtained in this round: " + maxScore);
 
 			// normalize probabilities
 			for (int i = 0; i < populationSize; i++)
@@ -115,16 +117,27 @@ public class player38 implements ContestSubmission
 				parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
 			}
 
-			// select parents used in creating offspring and randomize
+			// SELECT PARENTS used in creating offspring and randomize
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
+			Arrays.sort(parentProbs);
+			double middle_value = parentProbs[parentProbs.length/2];
 			for (int i = 0; i < populationSize; i++)
 			{
-				// TODO: check sign
-				if (rnd_.nextDouble() <= parentProbs[i])
+				if (parentProbs[i] > middle_value)
 				{
 					selectedParents.add(population[i]);
 				}
 			}
+			System.out.println("Number of parents selected: " + selectedParents.size());
+
+			// Uitgecomment omdat: bij een niet-normale verdeling van probabilities worden er niet genoeg (of zelfs geen!) parents geselecteerd, en crasht de boel.
+			// for (int i = 0; i < populationSize; i++)
+			// {
+			// 	if (rnd_.nextDouble() <= parentProbs[i])
+			// 	{
+			// 		selectedParents.add(population[i]);
+			// 	}
+			// }
 
 			Collections.shuffle(selectedParents);
 
@@ -133,14 +146,13 @@ public class player38 implements ContestSubmission
 			double[][] children = new double[numChild][nrTraits];
 
 			int firstGroup = numChild;
-			boolean unevenParents = false;
+			boolean unevenParents = (selectedParents.size() % 2) == 1;
 
 			// check for uneven number of parents
-			if (numChild % 2 == 1)
+			if (unevenParents)
 			{
 				// seperate last three parents for different crossover
 				firstGroup = numChild - 3;
-				unevenParents = true;
 			}
 
 			// loop over all couples (two parents)
@@ -199,7 +211,7 @@ public class player38 implements ContestSubmission
 			for(int i=0; i < numChild; i++)
 			{
 				rnd_idx = rnd_.nextInt(nrTraits);
-				children[i][rnd_idx] = rnd_.nextDouble();
+				children[i][rnd_idx] = children[i][rnd_idx] * rnd_.nextDouble();
 			}
 
 			// evaluate scores of all children
@@ -207,15 +219,16 @@ public class player38 implements ContestSubmission
 			for (int j = 0; j < numChild; j++)
 			{
 				childScores[j] = (double) evaluation_.evaluate(children[j]);
-
-				// hoort dit binnen de loop? [nigel] ja, count elke evaluation performed [sanne]
 				evals++;
 
 				// update largest and smallest score including children
 				if (childScores[j] > maxScore)
 				{
 					maxScore = parentScores[j];
-				} else if (parentScores[j] < minScore) {
+				}
+
+				if (parentScores[j] < minScore)
+				{
 					minScore = parentScores[j];
 				}
 			}
@@ -227,17 +240,17 @@ public class player38 implements ContestSubmission
 
 			// copy parents
 			for (int i = 0; i < populationSize; i++)
-		  	{
+			{
 				oldPopulation[i] = population[i];
 				allScores[i] = parentScores[i];
-		  	}
+			}
 
 			// copy children
 			for (int i = 0; i < numChild; i++)
 			{
 				oldPopulation[populationSize + i] = children[i];
-				allScores[populationSize] = childScores[i];
-	    		}
+				allScores[populationSize + i] = childScores[i];
+			}
 
 			// normalize probabilities
 			for (int i = 0; i < populationSize + numChild; i++)
@@ -246,7 +259,8 @@ public class player38 implements ContestSubmission
 			}
 
 			//shuffle population
-			Collections.shuffle(population);
+			Collections.shuffle(oldPopulation);
+
 
 			// elimininate numChild individuals
 			int elim = 0;
