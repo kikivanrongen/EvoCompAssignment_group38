@@ -145,6 +145,7 @@ public class player38 implements ContestSubmission
 
 			// define nr of children and variable to store children
 			int numChild = selectedParents.size();
+			System.out.println(numChild + "kids");
 			double[][] children = new double[numChild][nrTraits];
 
 			int firstGroup = numChild;
@@ -284,11 +285,14 @@ public class player38 implements ContestSubmission
 			// eliminate until old population size is reached
 			while (elim < numChild)
 			{
+				System.out.println("pppppppeminiiniinini");
+
 				// TODO: check sign
 				if (eliminated[shuffleArray.get(idx)] == 0 && rnd_.nextDouble() <= allProbs[shuffleArray.get(idx)])
 				{
 					elim++;
 					eliminated[shuffleArray.get(idx)] = 1;
+					System.out.println("eminiiniinini");
 				}
 
 				// update counter, reset if necessary

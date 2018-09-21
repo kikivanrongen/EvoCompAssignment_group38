@@ -145,6 +145,7 @@ public class player38 implements ContestSubmission
 
 			// define nr of children and variable to store children
 			int numChild = selectedParents.size();
+			System.out.println(numChild + "kids");
 			double[][] children = new double[numChild][nrTraits];
 
 			int firstGroup = numChild;
@@ -153,7 +154,7 @@ public class player38 implements ContestSubmission
 			// check for uneven number of parents
 			if (unevenParents)
 			{
-				// seperate last three parents for different crossover
+				// separate last three parents for different crossover
 				firstGroup = numChild - 3;
 			}
 
@@ -176,6 +177,7 @@ public class player38 implements ContestSubmission
 				}
 	 		}
 
+			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
 			// perform crossover for threesome if present
 			if (unevenParents == true)
 			{
@@ -184,7 +186,7 @@ public class player38 implements ContestSubmission
 				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
 				int ind = firstGroup;
 
-				// select three children (among six possibilities, all parents have two children)
+				// create three children
 				for (int j = 0; j < cut; j++)
 				{
 						// TODO: on some runs, an error is thrown here (line 177: java.lang.ArrayIndexOutOfBoundsException: -2)
@@ -283,6 +285,8 @@ public class player38 implements ContestSubmission
 			// eliminate until old population size is reached
 			while (elim < numChild)
 			{
+				//System.out.println("pppppppeminiiniinini");
+
 				// TODO: check sign
 				if (eliminated[shuffleArray.get(idx)] == 0 && rnd_.nextDouble() <= allProbs[shuffleArray.get(idx)])
 				{
@@ -301,9 +305,9 @@ public class player38 implements ContestSubmission
 			// update population to all survivers
 			for (int i = 0, j = 0; i < populationSize + numChild; i++)
 			{
-				if (eliminated[i] == 0)
+				if (eliminated[shuffleArray.get(i)] == 0)
 				{
-					population[j] = oldPopulation[i];
+					population[j] = oldPopulation[shuffleArray.get(i)];
 				}
 			}
 		}
