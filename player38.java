@@ -119,6 +119,8 @@ public class player38 implements ContestSubmission
 
 			// SELECT PARENTS used in creating offspring and randomize
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
+
+			// Shitty solution which selects half of the population with the highest scores. Implemented to get the algorithm to work at least (Kim)
 			Arrays.sort(parentProbs);
 			double middle_value = parentProbs[parentProbs.length/2];
 			for (int i = 0; i < populationSize; i++)
@@ -212,7 +214,8 @@ public class player38 implements ContestSubmission
 			for(int i=0; i < numChild; i++)
 			{
 				rnd_idx = rnd_.nextInt(nrTraits);
-				children[i][rnd_idx] = children[i][rnd_idx] * rnd_.nextDouble();
+				double mutationFactor = rnd_.nextDouble() * 2.0 - 1.0;
+				children[i][rnd_idx] = children[i][rnd_idx] * mutationFactor;
 			}
 
 			// evaluate scores of all children
@@ -225,16 +228,18 @@ public class player38 implements ContestSubmission
 				// update largest and smallest score including children
 				if (childScores[j] > maxScore)
 				{
-					maxScore = parentScores[j];
+					maxScore = childScores[j];
 				}
 
-				if (parentScores[j] < minScore)
+				if (childScores[j] < minScore)
 				{
-					minScore = parentScores[j];
+					minScore = childScores[j];
 				}
 			}
 
 			// combine children and parents into full population
+			//ArrayList<double[]> oldPopulation = new ArrayList<double[]>();
+
 			double[][] oldPopulation = new double[populationSize + numChild][nrTraits];
 			double[] allScores = new double[populationSize + numChild];
 			double[] allProbs = new double[populationSize + numChild];
@@ -260,22 +265,30 @@ public class player38 implements ContestSubmission
 			}
 
 			//shuffle population
-			Collections.shuffle(oldPopulation);
+			ArrayList<Integer> shuffleArray = new ArrayList<Integer>();
+
+			for (int i = 0; i < populationSize + numChild; i++)
+			{
+				shuffleArray.add(i);
+			}
+
+			Collections.shuffle(shuffleArray);
 
 
-			// elimininate numChild individuals
+			// ELIMINATE numChild individuals
 			int elim = 0;
 			int idx = 0;
 			int[] eliminated = new int[populationSize + numChild];
+			Arrays.fill(eliminated, 0);
 
 			// eliminate until old population size is reached
-			while (elim != numChild)
+			while (elim < numChild)
 			{
 				// TODO: check sign
-				if (eliminated[idx] == 0 && rnd_.nextDouble() <= allProbs[idx])
+				if (eliminated[shuffleArray.get(idx)] == 0 && rnd_.nextDouble() <= allProbs[shuffleArray.get(idx)])
 				{
 					elim++;
-					eliminated[idx] = 1;
+					eliminated[shuffleArray.get(idx)] = 1;
 				}
 
 				// update counter, reset if necessary
