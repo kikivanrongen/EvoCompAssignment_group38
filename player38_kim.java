@@ -4,6 +4,7 @@ import org.vu.contest.ContestEvaluation;
 import java.util.Random;
 import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class player38 implements ContestSubmission
@@ -65,7 +66,6 @@ public class player38 implements ContestSubmission
 		// init population DONE
 		double[][] population = new double[POPULATION_SIZE][10];
 
-
 		for (int j = 0; j < POPULATION_SIZE; j++)
 		{
 			for (int k = 0; k < 10; k++)
@@ -75,10 +75,12 @@ public class player38 implements ContestSubmission
 		}
 
 		// calculate fitness
-		while(evals<evaluations_limit_){
+		while(evals<evaluations_limit_-200){
 
 			// Select parents DONE
 			double[] parentProbs = new double[POPULATION_SIZE];
+			double lenParentProbs = 0.0;
+
 
 			for (int j = 0; j < POPULATION_SIZE; j++)
 			{

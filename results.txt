@@ -1,12 +1,16 @@
 Sphere Evaluation Function:
-Score: 10.0
-Runtime: 10ms
+Score: 9.578282491696509
+Runtime: 15ms
 Bent Cigar Function: 
-Score: 2.5671347150645206E-10
-Runtime: 750ms
+Score: 1.3962306857251903E-6
+Runtime: 578ms
 Schaffers Evaluation Function: 
-Score: 4.5095885843834485E-18
-Runtime: 2046ms
+Your code has thrown an Exception/Error!
+This would halt execution (the best score achieved so far would be assigned)
+Score: 1.4622019067039068E-10
+Runtime: 360ms
 Katsuura Evaluation Function: 
-Score: 3.0690754463056966E-42
-Runtime: 66833ms
+Your code has thrown an Exception/Error!
+This would halt execution (the best score achieved so far would be assigned)
+Score: 2.385395064891253E-10
+Runtime: 187ms
