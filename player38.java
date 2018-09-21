@@ -183,15 +183,15 @@ public class player38 implements ContestSubmission
 				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
 				int ind = firstGroup;
 
-				// create six children
+				// create three children
 				for (int j = 0; j < cut; j++)
 				{
 						// TODO: on some runs, an error is thrown here (line 177: java.lang.ArrayIndexOutOfBoundsException: -2)
 						children[ind][j] = selectedParents.get(ind)[j];
 						children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 						children[ind + 2][j] = selectedParents.get(ind + 2)[j];
-						// children[ind + 3][j] = selectedParents.get(ind + 1)[j];
-						// children[ind + 4][j] = selectedParents.get(ind + 2)[j];
+						// children[ind + 3][j] = selectedParents.get(ind)[j];
+						// children[ind + 4][j] = selectedParents.get(ind + 1)[j];
 						// children[ind + 5][j] = selectedParents.get(ind + 2)[j];
 
 				}
