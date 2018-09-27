@@ -92,6 +92,8 @@ public class player38 implements ContestSubmission
 				// calculate parent scores (not normalized)
 				parentScores[j] = (double) evaluation_.evaluate(population[j]);
 				evals++;
+				// System.out.println(population[j][0]);
+				// System.out.println(parentScores[j]);
 
 				// save largest and smallest score for normalization
 				if (parentScores[j] > maxScore)
@@ -112,27 +114,33 @@ public class player38 implements ContestSubmission
 			// normalize probabilities
 			for (int i = 0; i < populationSize; i++)
 			{
-				parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
+				// parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
+				parentProbs[i] = parentScores[i];
 			}
 
 
 			ParentSelection parentSelector = new ParentSelection("arena");
-			parentSelector.performSelection(parentProbs);
-
+			int[] parentsIndices = parentSelector.performSelection(parentProbs);
 
 			// SELECT PARENTS used in creating offspring and randomize
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
 
-			// Shitty solution which selects half of the population with the highest scores. Implemented to get the algorithm to work at least (Kim)
-			Arrays.sort(parentProbs);
-			double middle_value = parentProbs[parentProbs.length/2];
-			for (int i = 0; i < populationSize; i++)
+			// add parents selected by selection algorithm
+			for (int i = 0; i < parentsIndices.length; i++)
 			{
-				if (parentProbs[i] > middle_value)
-				{
-					selectedParents.add(population[i]);
-				}
+				selectedParents.add(population[parentsIndices[i]]);
 			}
+
+			// Shitty solution which selects half of the population with the highest scores. Implemented to get the algorithm to work at least (Kim)
+			// Arrays.sort(parentProbs);
+			// double middle_value = parentProbs[parentProbs.length/2];
+			// for (int i = 0; i < populationSize; i++)
+			// {
+			// 	if (parentProbs[i] > middle_value)
+			// 	{
+			// 		selectedParents.add(population[i]);
+			// 	}
+			// }
 			// System.out.println("Number of parents selected: " + selectedParents.size());
 
 			// Uitgecomment omdat: bij een niet-normale verdeling van probabilities worden er niet genoeg (of zelfs geen!) parents geselecteerd, en crasht de boel.

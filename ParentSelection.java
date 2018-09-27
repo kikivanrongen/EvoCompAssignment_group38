@@ -8,11 +8,14 @@ public class ParentSelection
 {
 
   String selectionAlg_;
+  Random rnd_;
 
   public ParentSelection(String algType)
   {
     // Initialize object with correct selection algorithm
     selectionAlg_ = algType;
+    rnd_ = new Random();
+    rnd_.setSeed(42);
   }
 
   public int[] performSelection(double[] parentProbs)
@@ -31,11 +34,42 @@ public class ParentSelection
 
   public int[] battleArenaSelection(double[] parentProbs)
   {
-    System.out.println(parentProbs[0]);
+    // System.out.println("BAS");
 
+    int nrSelected = 10;
+    int nrBattling = 10;
+    int[] selectedParents = new int[nrSelected];
+    double winnerProb;
+    int winner = 0;
 
-    int[] myList = new int[10];
-    return myList;
+    for (int i = 0; i < nrSelected; i++)
+    {
+
+      winnerProb = -100.0;
+
+      for (int j = 0; j < nrBattling; j++)
+      {
+        int battlingParent = rnd_.nextInt(parentProbs.length - 1);
+        // System.out.println(battlingParent);
+        // System.out.println(parentProbs[battlingParent]);
+
+        if (parentProbs[battlingParent] > winnerProb)
+        {
+          winner = battlingParent;
+          winnerProb = parentProbs[battlingParent];
+        }
+      }
+
+      selectedParents[i] = winner;
+
+    }
+
+    // for (int i = 0; i < nrSelected; i++)
+    // {
+    //   System.out.println(selectedParents[i]);//, parentProbs[i]);
+    // }
+
+    return selectedParents;
   }
 
 
