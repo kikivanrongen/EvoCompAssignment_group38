@@ -106,14 +106,19 @@ public class player38 implements ContestSubmission
 
 			}
 
-			System.out.println("Minimum score obtained in this round: " + minScore);
-			System.out.println("Maximum score obtained in this round: " + maxScore);
+			// System.out.println("Minimum score obtained in this round: " + minScore);
+			// System.out.println("Maximum score obtained in this round: " + maxScore);
 
 			// normalize probabilities
 			for (int i = 0; i < populationSize; i++)
 			{
 				parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
 			}
+
+
+			ParentSelection parentSelector = new ParentSelection("arena");
+			parentSelector.performSelection(parentProbs);
+
 
 			// SELECT PARENTS used in creating offspring and randomize
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
@@ -128,7 +133,7 @@ public class player38 implements ContestSubmission
 					selectedParents.add(population[i]);
 				}
 			}
-			System.out.println("Number of parents selected: " + selectedParents.size());
+			// System.out.println("Number of parents selected: " + selectedParents.size());
 
 			// Uitgecomment omdat: bij een niet-normale verdeling van probabilities worden er niet genoeg (of zelfs geen!) parents geselecteerd, en crasht de boel.
 			// for (int i = 0; i < populationSize; i++)
