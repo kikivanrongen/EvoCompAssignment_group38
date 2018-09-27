@@ -34,24 +34,23 @@ public class ParentSelection
 
   public int[] battleArenaSelection(double[] parentProbs)
   {
-    // System.out.println("BAS");
-
-    int nrSelected = 10;
-    int nrBattling = 10;
+    // Initialize selection parameters
+    int nrSelected = 50;
+    int nrBattling = 5;
     int[] selectedParents = new int[nrSelected];
     double winnerProb;
     int winner = 0;
 
+    // Perform as much battles as needed parents
     for (int i = 0; i < nrSelected; i++)
     {
-
+      // Reset highest probability
       winnerProb = -100.0;
 
+      // Find highest probability in participating individuals
       for (int j = 0; j < nrBattling; j++)
       {
         int battlingParent = rnd_.nextInt(parentProbs.length - 1);
-        // System.out.println(battlingParent);
-        // System.out.println(parentProbs[battlingParent]);
 
         if (parentProbs[battlingParent] > winnerProb)
         {
@@ -60,15 +59,12 @@ public class ParentSelection
         }
       }
 
+      // Store winner of battle
       selectedParents[i] = winner;
 
     }
 
-    // for (int i = 0; i < nrSelected; i++)
-    // {
-    //   System.out.println(selectedParents[i]);//, parentProbs[i]);
-    // }
-
+    // Return all winners
     return selectedParents;
   }
 

@@ -76,6 +76,9 @@ public class player38 implements ContestSubmission
 			}
 		}
 
+		// init parent selector object
+		ParentSelection parentSelector = new ParentSelection("arena");
+
 		// calculate fitness
 		while(evals < evaluations_limit_-200)
 		{
@@ -92,8 +95,6 @@ public class player38 implements ContestSubmission
 				// calculate parent scores (not normalized)
 				parentScores[j] = (double) evaluation_.evaluate(population[j]);
 				evals++;
-				// System.out.println(population[j][0]);
-				// System.out.println(parentScores[j]);
 
 				// save largest and smallest score for normalization
 				if (parentScores[j] > maxScore)
@@ -118,8 +119,7 @@ public class player38 implements ContestSubmission
 				parentProbs[i] = parentScores[i];
 			}
 
-
-			ParentSelection parentSelector = new ParentSelection("arena");
+			// select parents
 			int[] parentsIndices = parentSelector.performSelection(parentProbs);
 
 			// SELECT PARENTS used in creating offspring and randomize
@@ -130,27 +130,6 @@ public class player38 implements ContestSubmission
 			{
 				selectedParents.add(population[parentsIndices[i]]);
 			}
-
-			// Shitty solution which selects half of the population with the highest scores. Implemented to get the algorithm to work at least (Kim)
-			// Arrays.sort(parentProbs);
-			// double middle_value = parentProbs[parentProbs.length/2];
-			// for (int i = 0; i < populationSize; i++)
-			// {
-			// 	if (parentProbs[i] > middle_value)
-			// 	{
-			// 		selectedParents.add(population[i]);
-			// 	}
-			// }
-			// System.out.println("Number of parents selected: " + selectedParents.size());
-
-			// Uitgecomment omdat: bij een niet-normale verdeling van probabilities worden er niet genoeg (of zelfs geen!) parents geselecteerd, en crasht de boel.
-			// for (int i = 0; i < populationSize; i++)
-			// {
-			// 	if (rnd_.nextDouble() <= parentProbs[i])
-			// 	{
-			// 		selectedParents.add(population[i]);
-			// 	}
-			// }
 
 			Collections.shuffle(selectedParents);
 
