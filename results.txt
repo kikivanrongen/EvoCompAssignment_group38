@@ -1,18 +1,3 @@
 Sphere Evaluation Function:
-Score: 9.608700541799289
-Runtime: 17ms
-Bent Cigar Function: 
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 1.1838324593966417E-6
-Runtime: 31ms
-Schaffers Evaluation Function: 
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 1.462201906704156E-10
-Runtime: 17ms
-Katsuura Evaluation Function: 
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 2.3853950649196515E-10
-Runtime: 15ms
+Score: 9.999999999941727
+Runtime: 30ms

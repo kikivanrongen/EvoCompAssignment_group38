@@ -253,6 +253,8 @@ public class player38 implements ContestSubmission
 				allProbs[i] = (allScores[i] - minScore) / (maxScore - minScore);
 			}
 
+			// SURVIVOR SELECTION --> kiki: mee bezig
+
 			//shuffle population
 			ArrayList<Integer> shuffleArray = new ArrayList<Integer>();
 

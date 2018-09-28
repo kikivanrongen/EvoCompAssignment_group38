@@ -192,7 +192,7 @@ public class player38_kiki implements ContestSubmission
 	    }
 
 			/*
-			This function sorts the population based on normalized fitness values. All
+			This function sorts the population, based on normalized fitness values. All
 			individuals are assigned a probability to be selected as parent, according to
 			their rank. Probabilities are exponentially decaying and add up to 1.
 			*/
