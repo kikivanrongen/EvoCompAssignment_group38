@@ -13,6 +13,9 @@ public class player38 implements ContestSubmission
 	ContestEvaluation evaluation_;
 	private int evaluations_limit_;
 
+	public static int nrTraits = 10;
+
+
 	public player38()
 	{
 		rnd_ = new Random();
@@ -62,7 +65,7 @@ public class player38 implements ContestSubmission
 
 		int evals = 0;
 		int populationSize = 100;
-		int nrTraits = 10;
+		int nrTraits = player38.nrTraits;
 
 		// INITIALIZE
 		// init population with random values between -5 and 5
@@ -78,6 +81,7 @@ public class player38 implements ContestSubmission
 
 		// init parent selector object
 		ParentSelection parentSelector = new ParentSelection("arena");
+		Recombination recombinator = new Recombination("discrete");
 
 		// calculate fitness
 		while(evals < evaluations_limit_-200)
@@ -132,6 +136,8 @@ public class player38 implements ContestSubmission
 			}
 
 			Collections.shuffle(selectedParents);
+
+			recombinator.performRecombination(selectedParents);
 
 			// define nr of children and variable to store children
 			int numChild = selectedParents.size();
