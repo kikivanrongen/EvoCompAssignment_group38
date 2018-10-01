@@ -2,20 +2,4 @@ Sphere Evaluation Function:
 Your code has thrown an Exception/Error!
 This would halt execution (the best score achieved so far would be assigned)
 Score: 0.0
-Runtime: 10ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.0
-Runtime: 10ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.0
-Runtime: 25ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.0
-Runtime: 10ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.0
-Runtime: 10ms
+Runtime: 5ms
