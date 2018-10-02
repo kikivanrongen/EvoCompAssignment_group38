@@ -1,6 +1,6 @@
 #!/bin/bash
-javac -cp contest.jar player38.java ParentSelection.java Recombination.java
-jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class
+javac -cp contest.jar player38.java ParentSelection.java Recombination.java SurvivorSelection.java
+jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class SurvivorSelection.class
 
 echo "Start sphere evaluation"
 

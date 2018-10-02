@@ -264,6 +264,8 @@ public class player38 implements ContestSubmission
 					population[j] = oldPopulation[shuffleArray.get(i)];
 					j++;
 				}
+
+
 			}
 		}
 	}
