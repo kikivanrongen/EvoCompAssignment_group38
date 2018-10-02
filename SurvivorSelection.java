@@ -57,7 +57,7 @@ public class ParentSelection
     double[][] newPopulation = sortedPopulation.removeRange(0,numChild);
 
     // check for correct population size
-    if newPopulation.length != populationSize
+    if (newPopulation.length != populationSize)
     {
       double[][] errorList = new double[0][0];
       return errorList;
@@ -88,7 +88,7 @@ public class ParentSelection
       int randomInd = rnd_.nextInteger(length);
 
       // ensure that fittest individual is not eliminated
-      while randomInd == bestIndividual
+      while (randomInd == bestIndividual)
       {
         randomInd = rnd_.nextInteger(length);
       }
@@ -107,7 +107,7 @@ public class ParentSelection
     }
 
     // check for correct population size
-    if newPopulation.length != populationSize
+    if (newPopulation.length != populationSize)
     {
       double[][] errorList = new double[0][0];
       return errorList;
@@ -133,9 +133,10 @@ public class ParentSelection
     {
       int numWins = 0;
       int numOpponents = 0;
+      // parameter for q
 
       // choose opponents by score
-      while numOpponents < 10
+      while (numOpponents < 10)
       {
         int opp = rnd_.nextInteger(length);
 
@@ -175,7 +176,7 @@ public class ParentSelection
     double[][] newPopulation = sortedPopulation.removeRange(0,numChild);
 
     // check for correct population size
-    if newPopulation.length != populationSize
+    if (newPopulation.length != populationSize)
     {
       double[][] errorList = new double[0][0];
       return errorList;
