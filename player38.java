@@ -13,6 +13,9 @@ public class player38 implements ContestSubmission
 	ContestEvaluation evaluation_;
 	private int evaluations_limit_;
 
+	public static int nrTraits = 10;
+
+
 	public player38()
 	{
 		rnd_ = new Random();
@@ -62,9 +65,16 @@ public class player38 implements ContestSubmission
 
 		int evals = 0;
 		int populationSize = 100;
-		int nrTraits = 10;
+		int nrTraits = player38.nrTraits;
 
-		// INITIALIZE
+		// init objects for the algorithm
+		ParentSelection parentSelector = new ParentSelection("arena");
+		Recombination recombinator = new Recombination("discrete-pointwise");
+
+		/*
+		* INITIALIZATION
+		*/
+
 		// init population with random values between -5 and 5
 		double[][] population = new double[populationSize][nrTraits];
 
@@ -75,9 +85,6 @@ public class player38 implements ContestSubmission
 				population[j][k] = (rnd_.nextDouble() * 10.0) - 5.0; // normalize to [-5, 5]
 			}
 		}
-
-		// init parent selector object
-		ParentSelection parentSelector = new ParentSelection("arena");
 
 		// calculate fitness
 		while(evals < evaluations_limit_-200)
@@ -119,13 +126,15 @@ public class player38 implements ContestSubmission
 				parentProbs[i] = parentScores[i];
 			}
 
-			// select parents
+			/*
+			* PARENT SELECTION
+			*/
+
 			int[] parentsIndices = parentSelector.performSelection(parentProbs);
 
-			// SELECT PARENTS used in creating offspring and randomize
+			// store parents selected by selection algorithm
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
 
-			// add parents selected by selection algorithm
 			for (int i = 0; i < parentsIndices.length; i++)
 			{
 				selectedParents.add(population[parentsIndices[i]]);
@@ -133,70 +142,17 @@ public class player38 implements ContestSubmission
 
 			Collections.shuffle(selectedParents);
 
-			// define nr of children and variable to store children
-			int numChild = selectedParents.size();
-			double[][] children = new double[numChild][nrTraits];
+			/*
+			* RECOMBINATION
+			*/
 
-			int firstGroup = numChild;
-			boolean unevenParents = (selectedParents.size() % 2) == 1;
+			double[][] children = recombinator.performRecombination(selectedParents);
 
-			// check for uneven number of parents
-			if (unevenParents)
-			{
-				// separate last three parents for different crossover
-				firstGroup = numChild - 3;
-			}
+			/*
+			* MUTATION
+			*/
 
-			// loop over all couples (two parents)
-			for (int ind = 0; ind < firstGroup; ind += 2)
-		 	{
-				// pick a position to crossover and make 2 children
-				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
-
-				for (int j = 0; j < cut; j++)
-				{
-					 children[ind][j] = selectedParents.get(ind)[j];
-					 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
-				}
-
-				for (int j = cut; j < nrTraits; j++)
-				{
-					 children[ind][j] = selectedParents.get(ind + 1)[j];
-					 children[ind + 1][j] = selectedParents.get(ind)[j];
-				}
-	 		}
-
-			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
-			// perform crossover for threesome if present
-			if (unevenParents == true)
-			{
-
-				// pick a position to crossover
-				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
-				int ind = firstGroup;
-
-				// create three children
-				for (int j = 0; j < cut; j++)
-				{
-						// TODO: on some runs, an error is thrown here (line 177: java.lang.ArrayIndexOutOfBoundsException: -2)
-						children[ind][j] = selectedParents.get(ind)[j];
-						children[ind + 1][j] = selectedParents.get(ind + 1)[j];
-						children[ind + 2][j] = selectedParents.get(ind + 2)[j];
-						// children[ind + 3][j] = selectedParents.get(ind)[j];
-						// children[ind + 4][j] = selectedParents.get(ind + 1)[j];
-						// children[ind + 5][j] = selectedParents.get(ind + 2)[j];
-				}
-
-				for (int j = cut; j < nrTraits; j++)
-				{
-					children[ind][j] = selectedParents.get(ind + 1)[j];
-					children[ind + 1][j] = selectedParents.get(ind + 2)[j];
-					children[ind + 2][j] = selectedParents.get(ind)[j];
-					// children[ind + 3][j] = selectedParents.get(ind + 2)[j];
-					// children[ind + 4][j] = selectedParents.get(ind)[j];
-					// children[ind + 5][j] = selectedParents.get(ind + 1)[j];
-				}
-			}
+			int numChild = children.length;
 
 			// Apply mutation to each child.
 			int rnd_idx = 0;
@@ -207,7 +163,9 @@ public class player38 implements ContestSubmission
 				children[i][rnd_idx] = children[i][rnd_idx] * mutationFactor; // Kim dit moet anders nog (nu)
 			}
 
-			// evaluate scores of all children
+			/*
+			* EVAULATION
+			*/
 			double[] childScores = new double[numChild];
 			for (int j = 0; j < numChild; j++)
 			{
@@ -253,7 +211,9 @@ public class player38 implements ContestSubmission
 				allProbs[i] = (allScores[i] - minScore) / (maxScore - minScore);
 			}
 
-			// SURVIVOR SELECTION --> kiki: mee bezig
+			/*
+			* SURVIVOR SELECTION --> kiki: mee bezig
+			*/
 
 			//shuffle population
 			ArrayList<Integer> shuffleArray = new ArrayList<Integer>();
