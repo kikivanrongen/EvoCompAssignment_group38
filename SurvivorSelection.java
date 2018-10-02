@@ -56,6 +56,13 @@ public class ParentSelection
     // remove worst individuals
     double[][] newPopulation = sortedPopulation.removeRange(0,numChild);
 
+    // check for correct population size
+    if newPopulation.length != populationSize
+    {
+      double[][] errorList = new double[0][0];
+      return errorList;
+    }
+
     return newPopulation;
 
   }
@@ -97,6 +104,13 @@ public class ParentSelection
       {
         newPopulation[i] = oldPopulation[i];
       }
+    }
+
+    // check for correct population size
+    if newPopulation.length != populationSize
+    {
+      double[][] errorList = new double[0][0];
+      return errorList;
     }
 
     return newPopulation;
@@ -159,6 +173,13 @@ public class ParentSelection
 
     // remove individuals with fewest 'wins'
     double[][] newPopulation = sortedPopulation.removeRange(0,numChild);
+
+    // check for correct population size
+    if newPopulation.length != populationSize
+    {
+      double[][] errorList = new double[0][0];
+      return errorList;
+    }
 
     return newPopulation;
 
