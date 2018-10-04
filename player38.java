@@ -68,7 +68,8 @@ public class player38 implements ContestSubmission
 		int nrTraits = player38.nrTraits;
 
 		// init objects for the algorithm
-		ParentSelection parentSelector = new ParentSelection("arena");
+		// ParentSelection parentSelector = new ParentSelection("arena");
+		ParentSelection parentSelector = new ParentSelection("ranked-exp");
 		Recombination recombinator = new Recombination("discrete-pointwise");
 		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
 
@@ -131,7 +132,7 @@ public class player38 implements ContestSubmission
 			* PARENT SELECTION
 			*/
 
-			int[] parentsIndices = parentSelector.performSelection(parentProbs);
+			int[] parentsIndices = parentSelector.performSelection(parentProbs, 50);
 
 			// store parents selected by selection algorithm
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
