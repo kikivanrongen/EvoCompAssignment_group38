@@ -35,11 +35,11 @@ public class Mutation
         case "gauss_mutation":
         double sd = 0.5;
         return this.gaussMutation(population, sd);
-        // case "uncorrelated_onesize":
+        // case "uncorrelated_onestep":
         // //TODO: nadenken over hoe sigma lijsten terug te sturen.
         //double teta = 1/ Math.sqrt(population.length);
-        // return this.onestopMutation(population);
-        // case "uncorrelated_nsize":
+        // return this.onestepMutation(population);
+        // case "uncorrelated_nstep":
         // return this.nsizeMutation(population);
         // case "correlated_mutation":
         // return this.correlatedMutation(population);

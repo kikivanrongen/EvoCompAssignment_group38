@@ -66,26 +66,29 @@ public class player38 implements ContestSubmission
 		int evals = 0;
 		int populationSize = 100;
 		int nrTraits = player38.nrTraits;
+		mutationType = "uniform_mutation"
 
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");
 		ParentSelection parentSelector = new ParentSelection("ranked-exp");
 		Recombination recombinator = new Recombination("discrete-pointwise");
-		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
-
+		Mutation mutator = new Mutation(mutationType);
 		/*
 		* INITIALIZATION
 		*/
 
 		// init population with random values between -5 and 5
-		double[][] population = new double[populationSize][nrTraits];
+		ArrayList<Individual> population = new Arraylist<Individual>;
 
 		for (int j = 0; j < populationSize; j++)
 		{
+			Individual unit = new Individual(nrTraits,mutationType);
+			double[] values = new double[nrTraits];
 			for (int k = 0; k < nrTraits; k++)
 			{
-				population[j][k] = (rnd_.nextDouble() * 10.0) - 5.0; // normalize to [-5, 5]
+				values[k] = (rnd_.nextDouble() * 10.0) - 5.0; // normalize to [-5, 5]
 			}
+			unit.genome = values;
 		}
 
 		// calculate fitness
@@ -102,19 +105,19 @@ public class player38 implements ContestSubmission
 			for (int j = 0; j < populationSize; j++)
 			{
 				// calculate parent scores (not normalized)
-				parentScores[j] = (double) evaluation_.evaluate(population[j]);
+				population[i].score = (double) evaluation_.evaluate(population[i].genome);
 				evals++;
 
-				// save largest and smallest score for normalization
-				if (parentScores[j] > maxScore)
-				{
-					maxScore = parentScores[j];
-				}
-
-				if (parentScores[j] < minScore)
-				{
-					minScore = parentScores[j];
-				}
+				// // save largest and smallest score for normalization
+				// if (parentScores[j] > maxScore)
+				// {
+				// 	maxScore = parentScores[j];
+				// }
+				//
+				// if (parentScores[j] < minScore)
+				// {
+				// 	minScore = parentScores[j];
+				// }
 
 			}
 
@@ -122,17 +125,18 @@ public class player38 implements ContestSubmission
 			// System.out.println("Maximum score obtained in this round: " + maxScore);
 
 			// normalize probabilities
-			for (int i = 0; i < populationSize; i++)
-			{
-				// parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
-				parentProbs[i] = parentScores[i];
-			}
+			// for (int i = 0; i < populationSize; i++)
+			// {
+			// 	// parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
+			// 	parentProbs[i] = parentScores[i];
+			// }
 
 			/*
 			* PARENT SELECTION
 			*/
 
-			int[] parentsIndices = parentSelector.performSelection(parentProbs, 50);
+			//TODO: adapt parentSelection methods to ArrayList<Individual>
+			int[] parentsIndices = parentSelector.performSelection(population, 50);
 
 			// store parents selected by selection algorithm
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
@@ -166,7 +170,7 @@ public class player38 implements ContestSubmission
 			}
 
 			/*
-			* EVALUATION
+			* EVAULATION
 			*/
 			double[] childScores = new double[numChild];
 			for (int j = 0; j < numChild; j++)
@@ -186,9 +190,8 @@ public class player38 implements ContestSubmission
 				}
 			}
 
-			/*
-			* SURVIVOR SELECTION
-			*/
+			// combine children and parents into full population
+			//ArrayList<double[]> oldPopulation = new ArrayList<double[]>();
 
 			double[][] oldPopulation = new double[populationSize + numChild][nrTraits];
 			double[] allScores = new double[populationSize + numChild];
@@ -214,8 +217,62 @@ public class player38 implements ContestSubmission
 				allProbs[i] = (allScores[i] - minScore) / (maxScore - minScore);
 			}
 
-			double[][] newPopulation = survivorSelector.performSurvivorSelection(oldPopulation, allProbs, numChild);
+			/*
+			* SURVIVOR SELECTION --> kiki: mee bezig
+			*/
 
+			//shuffle population
+			ArrayList<Integer> shuffleArray = new ArrayList<Integer>();
+
+			for (int i = 0; i < populationSize + numChild; i++)
+			{
+				shuffleArray.add(i);
+			}
+
+			Collections.shuffle(shuffleArray);
+
+
+			// ELIMINATE numChild individuals
+			int elim = 0;
+			int idx = 0;
+			int[] eliminated = new int[populationSize + numChild];
+			Arrays.fill(eliminated, 0);
+
+			// TEMPORARY
+			// calculate median probability - to select half of the population
+			Arrays.sort(allProbs);
+			double threshold = allProbs[populationSize];
+
+			// eliminate until old population size is reached
+			while (elim < numChild)
+			{
+				// TODO: check sign
+				//if (eliminated[shuffleArray.get(idx)] == 0 && middle_value <= allProbs[shuffleArray.get(idx)])
+				if (eliminated[shuffleArray.get(idx)] == 0 && allProbs[shuffleArray.get(idx)] <= threshold)
+				{
+					elim++;
+					eliminated[shuffleArray.get(idx)] = 1;
+				}
+
+				// update counter, reset if necessary
+				idx++;
+				if (idx == populationSize + numChild)
+				{
+					idx = 0;
+				}
+			}
+
+			// update population to all survivors
+			for (int i = 0, j = 0; i < populationSize + numChild; i++)
+			{
+				if (eliminated[shuffleArray.get(i)] == 0)
+				{
+					population[j] = oldPopulation[shuffleArray.get(i)];
+					j++;
+				}
+
+
+			}
 		}
 	}
 }
