@@ -18,33 +18,51 @@ public class Recombination
 
 	public double[][] performRecombination(ArrayList<double[]> selectedParents)//with correct var
 	{
+
+		int nrTraits = player38.nrTraits;
+		double alpha;
+		int k;
+
 		switch(recombinationAlg_)
 		{
 			case "discrete-pointwise":
-				return discretePointwiseRecombination(selectedParents);
+				alpha = 0.5;
+				return discretePointwiseRecombination(selectedParents, alpha);
+
 			case "discrete-tailswap":
-				return discreteTailswapRecombination(selectedParents);
+				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+				return discreteTailswapRecombination(selectedParents, k);
+
 			case "arithmetic-whole":
-				return wholeArithmeticRecombination(selectedParents);
+				alpha = 0.5;
+				return wholeArithmeticRecombination(selectedParents, alpha);
+
 			case "arithmetic-simple":
-				return simpleArithmeticRecombination(selectedParents);
+				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+				alpha = 0.5;
+				return simpleArithmeticRecombination(selectedParents, k, alpha);
+
 			case "arithmetic-single":
-				return singleArithmeticRecombination(selectedParents);
+				alpha = 0.5;
+				return singleArithmeticRecombination(selectedParents, alpha);
+
 			case "blendcrossover":
-				return blendCrossoverRecombination(selectedParents);
+				alpha = 0.5;
+				return blendCrossoverRecombination(selectedParents, alpha);
 		}
 
 		double[][] errorList = new double[0][0];
 		return errorList;
 	}
 
-	public double[][] discretePointwiseRecombination(ArrayList<double[]> selectedParents)
+	public double[][] discretePointwiseRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 
 		/*
 		* Considers each allele separately, and randomly chooses a value
-		* from parent x or y (with equal probability) for child 1. The other
+		* from parent x or y (with probability alpha) for child 1. The other
 		* value goes to child 2.
+		* Parameters: alpha
 		*/
 
 		int nrTraits = player38.nrTraits;
@@ -61,7 +79,7 @@ public class Recombination
 				double rndVal = Math.random();
 
 				// selecting a parent with equal probability for each allele
-				if (rndVal > 0.5) {
+				if (rndVal > alpha) {
 					children[ind][j] = selectedParents.get(ind)[j];
 					children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 				} else {
@@ -78,11 +96,12 @@ public class Recombination
 
 
 
-	public double[][] discreteTailswapRecombination(ArrayList<double[]> selectedParents)
+	public double[][] discreteTailswapRecombination(ArrayList<double[]> selectedParents, int k)
 	{
 		/*
 		* Two parents are recombined by switching their heads/tails
-		* at a random point.
+		* at a point k.
+		* Parameters: k
 		*/
 		int nrTraits = player38.nrTraits;
 
@@ -93,16 +112,13 @@ public class Recombination
 		for (int ind = 0; ind < numChild; ind +=2)
 		{
 
-			// pick a position to crossover and make 2 children
-			int cut = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
-
-			for (int j = 0; j < cut; j++)
+			for (int j = 0; j < k; j++)
 			{
 				 children[ind][j] = selectedParents.get(ind)[j];
 				 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 			}
 
-			for (int j = cut; j < nrTraits; j++)
+			for (int j = k; j < nrTraits; j++)
 			{
 				 children[ind][j] = selectedParents.get(ind + 1)[j];
 				 children[ind + 1][j] = selectedParents.get(ind)[j];
@@ -115,12 +131,13 @@ public class Recombination
 
 
 
-	public double[][] wholeArithmeticRecombination(ArrayList<double[]> selectedParents)
+	public double[][] wholeArithmeticRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 		/*
 		* The weighted average of the two parent alleles is taken to create
-		* a new vector that lies 'in between' its parents.
+		* a new vector that lies 'in between' its parents, weighed by alpha.
 		* Weighing happens using alpha.
+		* Parameters: alpha
 		*/
 
 		int nrTraits = player38.nrTraits;
@@ -132,7 +149,6 @@ public class Recombination
 		// weight given to first parent (other parent gets 1-alpha)
 		// 0.5 most common according to book. We could also try other values,
 		// or randomize on every run.
-		double alpha = 0.5;
 
 		for (int ind = 0; ind < numChild; ind +=2)
 		{
@@ -148,12 +164,13 @@ public class Recombination
 
 
 
-	public double[][] simpleArithmeticRecombination(ArrayList<double[]> selectedParents)
+	public double[][] simpleArithmeticRecombination(ArrayList<double[]> selectedParents, int k, double alpha)
 	{
 		/*
 		* Up to a recombination point k, allele values come from a single parent.
 		* After this recombination point, the values are a weighted average
 		* of the two parents (weighed by factor alpha).
+		* Parameters: k, alpha
 		*/
 
 		int nrTraits = player38.nrTraits;
@@ -163,11 +180,9 @@ public class Recombination
 		double[][] children = new double[numChild][nrTraits];
 
 		// recombination point k now randomized for every parent pair
-		int k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
 
 		// weighing factors now set to 0.5 (most common according to book)
 		// we could use a different value or randomize between 0 and 1
-		double alpha = 0.5;
 
 		for (int ind = 0; ind < numChild; ind +=2)
 		{
@@ -190,13 +205,14 @@ public class Recombination
 
 
 
-	public double[][] singleArithmeticRecombination(ArrayList<double[]> selectedParents)
+	public double[][] singleArithmeticRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 		/*
 		* In each parent, a single point becomes the weighted average
 		* of its two parents; the other points within the two parents are not changed.
 		* Weighing happens using alpha. Which  allele is combined is randomly
 		* determined for each pair of parents.
+		* Parameters: alpha
 		*/
 
 		int nrTraits = player38.nrTraits;
@@ -208,7 +224,6 @@ public class Recombination
 		// weight given to first parent (other parent gets 1-alpha)
 		// 0.5 most common according to book. We could also try other values,
 		// or randomize on every run.
-		double alpha = 0.5;
 
 		for (int ind = 0; ind < numChild; ind +=2)
 		{
@@ -232,11 +247,12 @@ public class Recombination
 
 
 
-	public double[][] blendCrossoverRecombination(ArrayList<double[]> selectedParents)
+	public double[][] blendCrossoverRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 		/*
 		* Offspring can lie outside parents. Offspring point in a range around
-		* the parent points.
+		* the parent points.; range is determined by alpha
+		* Parameters: alpha
 		*/
 
 		int nrTraits = player38.nrTraits;
@@ -246,7 +262,6 @@ public class Recombination
 		double[][] children = new double[numChild][nrTraits];
 
 		// 0.5 reportedly leads to the best results, but we could change this
-		double alpha = 0.5;
 
 		for (int ind = 0; ind < numChild; ind +=2)
 		{
