@@ -1,5 +1,69 @@
 Sphere Evaluation Function:
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.0
-Runtime: 5ms
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+100
+Score: 2.933205867397037
+Runtime: 42ms
