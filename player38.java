@@ -97,7 +97,7 @@ public class player38 implements ContestSubmission
 
 			// variables for tracking parent evaluations
 			double[] parentProbs = new double[populationSize];
-			double[] parentScores = new double[populationSize];
+			//double[] parentScores = new double[populationSize];
 			double maxScore = 0;
 			double minScore = 1;
 
@@ -105,19 +105,19 @@ public class player38 implements ContestSubmission
 			for (int j = 0; j < populationSize; j++)
 			{
 				// calculate parent scores (not normalized)
-				population[i].score = (double) evaluation_.evaluate(population[i].genome);
+				population[j].score = (double) evaluation_.evaluate(population[i].genome);
 				evals++;
 
-				// // save largest and smallest score for normalization
-				// if (parentScores[j] > maxScore)
-				// {
-				// 	maxScore = parentScores[j];
-				// }
-				//
-				// if (parentScores[j] < minScore)
-				// {
-				// 	minScore = parentScores[j];
-				// }
+				// save largest and smallest score for normalization
+				if (population[j].score > maxScore)
+				{
+					maxScore = population[j].score;
+				}
+
+				if (population[j].score < minScore)
+				{
+					minScore = population[j].score;
+				}
 
 			}
 
@@ -139,6 +139,7 @@ public class player38 implements ContestSubmission
 			int[] parentsIndices = parentSelector.performSelection(population, 50);
 
 			// store parents selected by selection algorithm
+			//TODO: Make this ArrayList<Individual> en dan alle individual overkopieren
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
 
 			for (int i = 0; i < parentsIndices.length; i++)

@@ -9,7 +9,7 @@ public class Individual
   public double score;
   //private double prob;
 
-public Individual(int nrTraits, String utationType) {
+public Individual(int nrTraits, String mutationType) {
   genome = new double[nrTraits];
   //TODO: based on mutation type either initialize sigma, sigmalist or neither.
   if (mutationType.contains("onestep") {
@@ -23,7 +23,6 @@ public Individual(int nrTraits, String utationType) {
   }
 }
 
-publi
 
 
 
