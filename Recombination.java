@@ -16,9 +16,8 @@ public class Recombination
 		recombinationAlg_ = algType;
 	}
 
-	public double[][] performRecombination(ArrayList<double[]> selectedParents)//with correct var
+	public double[][] performRecombination(ArrayList<Individual> selectedParents)//with correct var
 	{
-
 		int nrTraits = player38.nrTraits;
 		double alpha;
 		int k;
@@ -49,13 +48,15 @@ public class Recombination
 			case "blendcrossover":
 				alpha = 0.5;
 				return blendCrossoverRecombination(selectedParents, alpha);
+			default:
+				System.out.println("No valid method chosen");
+					alpha = 0.5;
+					return discretePointwiseRecombination(selectedParents, alpha);
 		}
 
-		double[][] errorList = new double[0][0];
-		return errorList;
 	}
 
-	public double[][] discretePointwiseRecombination(ArrayList<double[]> selectedParents, double alpha)
+	public double[][] discretePointwiseRecombination(ArrayList<Individual> selectedParents, double alpha)
 	{
 
 		/*
@@ -80,11 +81,11 @@ public class Recombination
 
 				// selecting a parent with equal probability for each allele
 				if (rndVal > alpha) {
-					children[ind][j] = selectedParents.get(ind)[j];
-					children[ind + 1][j] = selectedParents.get(ind + 1)[j];
+					children[ind][j] = selectedParents.get(ind).genome[j];
+					children[ind + 1][j] = selectedParents.get(ind + 1).genome[j];
 				} else {
-					children[ind][j] = selectedParents.get(ind + 1)[j];
-					children[ind + 1][j] = selectedParents.get(ind)[j];
+					children[ind][j] = selectedParents.get(ind + 1).genome[j];
+					children[ind + 1][j] = selectedParents.get(ind).genome[j];
 				}
 
 			}

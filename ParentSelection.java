@@ -18,7 +18,7 @@ public class ParentSelection
     rnd_.setSeed(42);
   }
 
-  public int[] performSelection(double[] parentProbs, int nrParents)
+  public ArrayList<Individual> performSelection(ArrayList<Individual> population, int nrParents)
   {
     double[] rankedProbs;
 
@@ -26,31 +26,29 @@ public class ParentSelection
     switch (selectionAlg_)
     {
       case "arena" :
-        return battleArenaSelection(parentProbs, nrParents);
+        return battleArenaSelection(population, nrParents);
       case "ranked-lin" :
-        rankedProbs = linearRanking(parentProbs);
+        rankedProbs = linearRanking(population);
         return stochasticUniversalSampling(rankedProbs, nrParents);
       case "ranked-exp" :
-        rankedProbs = exponentialRanking(parentProbs);
+        rankedProbs = exponentialRanking(population);
         return stochasticUniversalSampling(rankedProbs, nrParents);
+      default:
+        System.out.println("warning no valid parent selection method");
+        return battleArenaSelection(population, nrParents);
     }
-
-    // Return empty list if no case has been used
-    int[] errorList = new int[0];
-    return errorList;
   }
 
-  public int[] stochasticUniversalSampling(double[] parentProbs, int nrSelected)
+  public ArrayList<Individual> stochasticUniversalSampling(ArrayList<Individual> parentProbs, int nrSelected)
   {
-    int mu = parentProbs.length;
-    int[] selectedParents = new int[nrSelected];
+    int mu = parentProbs.size();
 
     // Calculate cumulative sum of probabilities
     double[] cumSumProbs = new double[mu];
-    cumSumProbs[0] = parentProbs[0];
+    cumSumProbs[0] = population.get(0).probs;
     for (int i = 1; i < mu; i++)
     {
-      cumSumProbs[i] = cumSumProbs[i-1] + parentProbs[i];
+      cumSumProbs[i] = cumSumProbs[i-1] + population.get(i).probs;
     }
 
     // Initialize counters and radius
@@ -63,7 +61,8 @@ public class ParentSelection
     {
       while (r <= cumSumProbs[i])
       {
-        selectedParents[currentParents] = i;
+        //TODO: Nigel klopt dit nog???
+        selectedParents.add(oldPopulation.get(i);
         r += (1.0 / nrSelected);
         currentParents += 1;
       }
@@ -74,12 +73,12 @@ public class ParentSelection
     return selectedParents;
   }
 
-  public double[] linearRanking(double[] parentProbs)
+  public ArrayList<Individual> linearRanking(ArrayList<Individual> parentProbs)
   {
 
     // Define parameters and array to store new probabilities
-    double s = 1.5;
-    int mu = parentProbs.length;
+    double s = 1.5; //Komt deze uit literatuur? anders veranderen TODO
+    int mu = parentProbs.size();
     double[] rankedProbs = new double[mu];
 
     // Loop over full population
@@ -91,25 +90,24 @@ public class ParentSelection
       for (int j = 0; j < mu; j++)
       {
         // Count how many individuals score worse
-        if (parentProbs[j] < parentProbs[i])
+        if (parentProbs.get(j).probs < parentProbs.get(i).probs)
         {
           rank++;
         }
       }
 
       // Calculate probability according to ranking
-      rankedProbs[i] = ((2 - s) / mu) + ((2 * rank * (s - 1)) / (mu * (mu - 1)));
+      rankedProbs.get(i).probs = ((2 - s) / mu) + ((2 * rank * (s - 1)) / (mu * (mu - 1)));
     }
 
     // Return probabilities
     return rankedProbs;
   }
 
-  public double[] exponentialRanking(double[] parentProbs)
+  public ArrayList<Individual> exponentialRanking(ArrayList<Individual> parentProbs)
   {
-
     // Define parameters and array to store new probabilities
-    int mu = parentProbs.length;
+    int mu = parentProbs.size(); //TODO is dit niet /2?
     double[] rankedProbs = new double[mu];
     double norm_factor = 0.0;
 
@@ -122,27 +120,25 @@ public class ParentSelection
       for (int j = 0; j < mu; j++)
       {
         // Count how many individuals score worse
-        if (parentProbs[j] < parentProbs[i])
+        if (parentProbs.get(j).probs < parentProbs.get(i).probs)
         {
           rank++;
         }
       }
 
       // Calculate probability according to ranking
-      rankedProbs[i] = 1 - Math.exp(-rank);
-      norm_factor += rankedProbs[i];
+      rankedProbs.get(i).probs = 1 - Math.exp(-rank);
+      norm_factor += rankedProbs.get(i).probs;
     }
 
     // double total = 0.0;
     // Normalize probabilities
     for (int i = 0; i < mu; i++)
     {
-      rankedProbs[i] /= norm_factor;
+      rankedProbs.get(i).probs /= norm_factor;
       // total += rankedProbs[i];
     }
-    // System.out.println(String.valueOf(total));
-
-    // Return probabilities
+    // TODO: waarschijnlijk kan t void zijn
     return rankedProbs;
   }
 

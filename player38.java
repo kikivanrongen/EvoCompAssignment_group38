@@ -79,7 +79,7 @@ public class player38 implements ContestSubmission
 		*/
 
 		// init population with random values between -5 and 5
-		ArrayList<Individual> population = new Arraylist<Individual>;
+		ArrayList<Individual> population = new Arraylist<Individual>();
 
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -90,6 +90,7 @@ public class player38 implements ContestSubmission
 				values[k] = (rnd_.nextDouble() * 10.0) - 5.0; // normalize to [-5, 5]
 			}
 			unit.genome = values;
+			population.add(unit);
 		}
 
 		// calculate fitness
@@ -117,12 +118,20 @@ public class player38 implements ContestSubmission
 			Collections.shuffle(selectedParents);
 
 			// Recombinate parents into children
-			//TODO: adapt recombination
-			ArrayList<Individual> children = recombinator.performRecombination(selectedParents);
-			int numChild = children.size();
+			//TODO: adapt recombination naast discrete pointwise
+			double[][] genomes = recombinator.performRecombination(selectedParents);
+			int numChild = genomes.length;
+
+			ArrayList<Individual> children = new Arraylist<Individual>();
+			for (int j = 0; j < numChild; j++)
+			{
+				Individual unit = new Individual(nrTraits,mutationType);
+				unit.genome = genomes[j];
+				children.add(unit);
+			}
 
 			// Apply mutation to each child.
-			children = mutator.performMutation();
+			children = mutator.performMutation(children);
 
 			// Evaluate children
 			for (int j = 0; j < numChild; j++) {
