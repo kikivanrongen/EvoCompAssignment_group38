@@ -68,11 +68,16 @@ public class player38 implements ContestSubmission
 		int nrParents = populationSize / 2;
 		int nrTraits = player38.nrTraits;
 
+		// List that contains all options
+		String[] options_mutation = {"uniform_mutation","gauss_mutation"};
+
 		// init objects for the algorithm
 		ParentSelection parentSelector = new ParentSelection("arena");
 		// ParentSelection parentSelector = new ParentSelection("ranked-lin");
+		// ParentSelection parentSelector = new ParentSelection("ranked-exp");
 		Recombination recombinator = new Recombination("discrete-pointwise");
 		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
+		Mutation mutator = new Mutation("gauss_mutation");
 
 		/*
 		* INITIALIZATION
@@ -157,14 +162,7 @@ public class player38 implements ContestSubmission
 
 			int numChild = children.length;
 
-			// Apply mutation to each child.
-			int rnd_idx = 0;
-			for(int i=0; i < numChild; i++)
-			{
-				rnd_idx = rnd_.nextInt(nrTraits);
-				double mutationFactor = rnd_.nextDouble() * 2.0 - 1.0;
-				children[i][rnd_idx] = children[i][rnd_idx] * mutationFactor; // Kim dit moet anders nog (nu)
-			}
+			children = mutator.performMutation(children);
 
 			/*
 			* EVALUATION
