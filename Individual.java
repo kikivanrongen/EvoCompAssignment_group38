@@ -7,6 +7,7 @@ public class Individual
   public double sigma;
   public double[] sigmaList;
   public double score;
+  public double prob;
   //private double prob;
 
 public Individual(int nrTraits, String mutationType) {

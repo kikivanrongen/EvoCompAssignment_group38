@@ -1,14 +1,5 @@
 /*
 Mutation options
-4. uncorrelated mutations with n step sizes: Elke trait heeft eigen stepsize (is goed voor die bent cigar??)
-sigma is dus een array van length nrTraits.
-Je moet dus een avriable step size maken: double[populationSize][nrTraits]
-At each allele, bereken je zowel de nieuwe sigma als de nieuwe x
-sigma_i' = sigma_i* e ^(gausswaarde * t + gausswaarde * t')
-waar t = 1/(sqrt(2scrt(n))) en t' = 1/ sqrt(2n) waar t'is common base (dus die kan je doen over hele unit)
-Voor elke sigma is een boundary rule van toepassing.
-
-
 5. Correlated mutations: come complicated maths...
 */
 
@@ -39,6 +30,9 @@ public class Mutation
         //double teta = 1/ Math.sqrt(population.length);
         // return this.onestepMutation(population);
         // case "uncorrelated_nstep":
+        double teta = new double[2];
+        teta[0] = 1/ Math.sqrt(population.length);
+        teta[1] = ;
         // return this.nsizeMutation(population);
         // case "correlated_mutation":
         // return this.correlatedMutation(population);
@@ -52,7 +46,6 @@ public class Mutation
   /*  1. uniform mutation: Dit is wat jij oorspronkelijk deed.
     Je moet dat eerst kiezen voor welke je flipt. (positionwise mutation probability)
     En dan kies je gewoon ene random getal binnen de grenzen. */
-    int count = 0;
     int nrTraits = population.get(0).genome.length;
       for (int i =0; i<population.size(); i++) {
         //for each individual
@@ -60,12 +53,10 @@ public class Mutation
           //For each allele determine whether to flip it.
           if (rnd_.nextDouble() < threshold) {
             //And flip it
-            count += 1;
             population.get(i).genome[j] = rnd_.nextDouble() *10.0 -5.0;
           }
         }
       }
-      System.out.println(count);
       return population;
   }
 
@@ -83,7 +74,6 @@ distribution.
           } else if ( population.get(i).score[j] > 5) {
             population.get(i).genome[j] = 5;
           }
-          System.out.println(population.get(i).score[j]) ;
         }
       }
 
@@ -127,22 +117,36 @@ distribution.
   }
 
 
-  private ArrayList<Individual> nstepMutation(ArrayList<Individual> population, double param) {
+  private ArrayList<Individual> nstepMutation(ArrayList<Individual> population, double[] teta) {
+  /*  4. uncorrelated mutations with n step sizes: Elke trait heeft eigen stepsize (is goed voor die bent cigar??)
+    sigma is dus een array van length nrTraits.
+    sigma_i' = sigma_i* e ^(gausswaarde * t + gausswaarde * t')
+    waar t = 1/(sqrt(2scrt(n))) en t' = 1/ sqrt(2n) waar t'is common base (dus die kan je doen over hele unit)
+    Voor elke sigma is een boundary rule van toepassing. */
+
     for (int i =0; i<population.length; i++) {
-      sigma = population.get(i).sigma;
+      sigm = population.get(i).sigma;
       for (int j=0; j<player38.nrTraits; j++) {
         //For every individual for every gene in his genotype do:
-        sigma[j];
-
-        population.get(i).score[j] += this.rnd_.nextGaussian() * sd;
-        //Make sure individual stays within bounds
-        if( population.get(i).score[j] < -5) {
-          population.get(i).score[j] = -5;
-        } else if ( population.get(i).score[j] > 5) {
-          population.get(i).score[j] = 5;
+        sd = sigm[j];
+        if (sd < 0.001) {
+          sd = 0.001;
         }
-        System.out.println(population.get(i).score[j]) ;
+
+        double[] gamma = {rnd_.nextGaussian() * teta[0], rnd_.nextGaussian() * teta[1]};
+        sd = sigm[j]*exp(gamma[0]+gamma[1]);
+        sigm[j] = sd;
+
+        population.get(i).genome[j] += this.rnd_.nextGaussian() * sd;
+        //Make sure individual stays within bounds
+        if( population.get(i).genome[j] < -5) {
+          population.get(i).genome[j] = -5;
+        } else if ( population.get(i).genome[j] > 5) {
+          population.get(i).genome[j] = 5;
+        }
+        System.out.println(population.get(i).genome[j]) ;
       }
+      population.get(i).sigma = sigm
     }
   }
 

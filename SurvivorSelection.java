@@ -21,107 +21,68 @@ public class SurvivorSelection
     rnd_.setSeed(42);
   }
 
-  public double[][] performSurvivorSelection(double[][] oldPopulation, double[] allProbs, int numChild)
+  public ArrayList<Individual> performSurvivorSelection(ArrayList<Individual> oldPopulation, int numChild)
   {
     // Perform selection using correct algorithm
     switch (survivorAlg_)
     {
       case "worst" :
-        return replaceWorst(oldPopulation, allProbs, numChild);
+        return replaceWorst(oldPopulation, numChild);
       case "elitism" :
-        return elitism(oldPopulation, allProbs, numChild);
+        return elitism(oldPopulation, numChild);
       case "roundRobin":
-        return roundRobin(oldPopulation, allProbs, numChild);
+        int q = 10;
+        return roundRobin(oldPopulation, q, numchild);
+      default:
+      return roundRobin(oldPopulation, numchild);
     }
-
-    // Return empty list if no case has been used
-    double[][] errorList = new double[0][0];
     return errorList;
   }
 
   /*
   individuals with worst fitness scores are eliminated
   */
-  public double[][] replaceWorst(double[][] oldPopulation, double[] allProbs, int numChild)
+  public ArrayList<Individual> replaceWorst(ArrayList<Individual> oldPopulation, int numChild)
   {
-
     // set parameters
-    int populationSize = 100;
-    int nrTraits = 10;
+    int populationSize = oldPopulation.size()-numChild;
+    int nrTraits = player38.nrTraits;
 
-    // sort scores and the population accordingly
-    double[] sortedProbs = new double[allProbs.length];
-
-    // make copy first
-    for (int i = 0; i < allProbs.length; i++)
-    {
-      sortedProbs[i] = allProbs[i];
-    }
-
-    Arrays.sort(sortedProbs);
-
-    List<double[]> newPopulationList = new ArrayList<double[]>();
-
-    // convert population array to list in order to remove elements
-    for (int m = 0; m < oldPopulation.length; m++)
-    {
-      double[] genes = new double[nrTraits];
-
-      for (int n = 0; n < nrTraits; n++)
-      {
-        genes[n] = oldPopulation[m][n];
+    Collections.sort(oldPopulation, new Comparator<Individual>() {
+      @Override
+      public int compare(Individual p1, Individual p2) {
+          return Double.compare(p1.score, p2.score;
       }
-
-      newPopulationList.addAll(Arrays.asList(genes));
-    }
-
-    // convert probability array to list, in order to use get()
-    List<Double> allProbList = new ArrayList<>();
-    for (int l = 0; l < allProbs.length; l++)
-    {
-      allProbList.add(allProbs[l]);
-    }
+    });
 
     // remove individuals
     for (int j = 0; j < numChild; j++)
     {
-      // set index value to null
-      int idx = allProbList.indexOf(sortedProbs[j]);
-      newPopulationList.set(idx,null);
-    }
-
-    // remove null elements
-    while (newPopulationList.remove(null));
-
-    // convert newPopulationList to array
-    double[][] newPopulation = new double[populationSize][nrTraits];
-    for (int k = 0; k < populationSize; k++)
-    {
-      newPopulation[k] = newPopulationList.get(k);
+      oldPopulation.remove(0); //0 because index shifts
     }
 
     // check for correct population size
-    if (newPopulation.length != populationSize)
+    if (newPopulation.size() != populationSize)
     {
-      double[][] errorList = new double[0][0];
-      return errorList;
+      System.out.println("Something went wrong in SurvivorSelection' s population size");
+      return -1;
     }
 
-    return newPopulation;
+    return oldPopulation;
 
   }
 
   /*
   keep the individual with the best fitness value
   */
-  public double[][] elitism(double[][] oldPopulation, double[] allProbs, int numChild)
+  public ArrayList<Individual> elitism(ArrayList<Individual> oldPopulation, int numChild)
   {
-    int populationSize = 100;
-    int nrTraits = 10;
-    double[][] newPopulation = new double[populationSize][nrTraits];
+    // set parameters
+    int populationSize = oldPopulation.size()-numChild;
+    int nrTraits = player38.nrTraits;
 
     // determine number of parents plus children
-    int length = oldPopulation.length;
+    int length = oldPopulation.size();
 
     // find maximum fitness value and corresponding index in population
     double bestScore = Arrays.stream(allProbs).max().getAsDouble();
@@ -170,14 +131,14 @@ public class SurvivorSelection
   /*
   evaluate each individual against others and choose new population accordingly
   */
-  public double[][] roundRobin(double[][] oldPopulation, double[] allProbs, int numChild)
+  public ArrayList<Individual> roundRobin(ArrayList<Individual> oldPopulation, int q, int numChild)
   {
-    int populationSize = 100;
-    int nrTraits = 10;
-    double[][] newPopulation = new double[populationSize][nrTraits];
+    // set parameters
+    int populationSize = oldPopulation.size()-numChild;
+    int nrTraits = player38.nrTraits;
 
     // determine number of parents plus children
-    int length = oldPopulation.length;
+    int length = oldPopulation.size();
 
     // store number of wins of each individual
     int[] wins = new int[length];
@@ -189,7 +150,7 @@ public class SurvivorSelection
       // parameter for q
 
       // choose opponents by score
-      while (numOpponents < 10)
+      while (numOpponents < q)
       {
         int opp = rnd_.nextInt(length);
 
@@ -200,13 +161,12 @@ public class SurvivorSelection
         }
 
         // determine win or no win
-        if (allProbs[i] > allProbs[opp])
+        if (oldPopulation.get(i).score > oldPopulation.get(opp).score)
         {
           numWins += 1;
         }
-
-        // select next opponent
         numOpponents += 1;
+       // select next opponent
       }
 
       // store number of 'wins' in list
@@ -214,17 +174,10 @@ public class SurvivorSelection
     }
 
     // sort scores and the population accordingly
-    int[] sortedWins = new int[wins.length];
-
-    // make copy first
-    for (int j = 0; j < wins.length; j++)
-    {
-      sortedWins[j] = wins[j];
-    }
+    int[] sortedWins = wins;
 
     Arrays.sort(sortedWins);
-    int middle = length/2;
-    int medianWins = sortedWins[middle];
+    int medianWins = sortedWins[wins.length/2];
 
     List<Integer> elimIndividuals = new ArrayList<>();
 
@@ -242,27 +195,18 @@ public class SurvivorSelection
     int surplus = elimIndividuals.size() - numChild;
     elimIndividuals.subList(0,surplus).clear();
 
-    int ind = 0;
-
     // remove eliminated individuals
-    for (int l = 0; l < length; l++)
+    for (int l = 0; l < elimIndividuals.size(); l++)
     {
-      // add individual to new population, if not in eliminated list
-      if (!elimIndividuals.contains(l))
-      {
-        newPopulation[ind] = oldPopulation[l];
-        ind++;
-      }
-    }  
-
-    // check for correct population size
-    if (newPopulation.length != populationSize)
-    {
-      double[][] errorList = new double[0][0];
-      return errorList;
+      oldPopulation.remove(l)
     }
 
-    return newPopulation;
-
+    // check for correct population size
+    if (oldPopulation.size() != populationSize)
+    {
+      System.out.println("Something went wrong in SurvivorSelection' s population size");
+      return -1;
+    }
+    return oldPopulation;
   }
 }
