@@ -65,6 +65,7 @@ public class player38 implements ContestSubmission
 
 		int evals = 0;
 		int populationSize = 100;
+		int nrParents = 40;
 		int nrTraits = player38.nrTraits;
 
 		// init objects for the algorithm
@@ -132,7 +133,7 @@ public class player38 implements ContestSubmission
 			* PARENT SELECTION
 			*/
 
-			int[] parentsIndices = parentSelector.performSelection(parentProbs, 50);
+			int[] parentsIndices = parentSelector.performSelection(parentProbs, nrParents);
 
 			// store parents selected by selection algorithm
 			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
