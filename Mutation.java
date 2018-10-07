@@ -53,7 +53,6 @@ public class Mutation
   /*  1. uniform mutation: Dit is wat jij oorspronkelijk deed.
     Je moet dat eerst kiezen voor welke je flipt. (positionwise mutation probability)
     En dan kies je gewoon ene random getal binnen de grenzen. */
-    int count = 0;
     int nrTraits = population[0].length;
       for (int i =0; i<population.length; i++) {
         //for each individual
@@ -61,12 +60,10 @@ public class Mutation
           //For each allele determine whether to flip it.
           if (rnd_.nextDouble() < threshold) {
             //And flip it
-            count += 1;
             population[i][j] = rnd_.nextDouble() *10.0 -5.0;
           }
         }
       }
-      System.out.println(count);
       return population;
   }
 
@@ -84,7 +81,6 @@ distribution.
           } else if (population[i][j] > 5) {
             population[i][j] = 5;
           }
-          System.out.println(population[i][j]) ;
         }
       }
 

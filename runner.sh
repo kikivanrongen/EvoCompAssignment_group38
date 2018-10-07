@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Compile files" > results.txt
-javac -cp contest.jar player38.java ParentSelection.java Recombination.java #SurvivorSelection.java
-jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class #SurvivorSelection.class
+javac -cp contest.jar player38.java ParentSelection.java Recombination.java Mutation.java SurvivorSelection.java
+jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class Mutation.class SurvivorSelection.class
 
 # echo "Start sphere evaluation"
 # echo "Sphere Evaluation Function:" >> results.txt
