@@ -65,12 +65,12 @@ public class player38 implements ContestSubmission
 
 		int evals = 0;
 		int populationSize = 100;
-		int nrParents = 40;
+		int nrParents = populationSize / 2;
 		int nrTraits = player38.nrTraits;
 
 		// init objects for the algorithm
-		// ParentSelection parentSelector = new ParentSelection("arena");
-		ParentSelection parentSelector = new ParentSelection("ranked-exp");
+		ParentSelection parentSelector = new ParentSelection("arena");
+		// ParentSelection parentSelector = new ParentSelection("ranked-lin");
 		Recombination recombinator = new Recombination("discrete-pointwise");
 		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
 
@@ -216,6 +216,7 @@ public class player38 implements ContestSubmission
 			}
 
 			double[][] newPopulation = survivorSelector.performSurvivorSelection(oldPopulation, allProbs, numChild);
+			population = newPopulation;
 
 		}
 	}
