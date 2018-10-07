@@ -17,10 +17,12 @@ import java.util.Random;
 public class Mutation
 {
   private String mutation_type;
+  private double arg;
   Random rnd_;
 
-  public Mutation(String mutation_type)
+  public Mutation(String mutation_type, double arg)
   {
+    this.arg=arg;
     this.mutation_type = mutation_type;
     rnd_ = new Random();
     // TODO: for some mutation types initialize a global step size array
@@ -30,10 +32,10 @@ public class Mutation
     // First determine mutation type and run the corresponding function.
     switch(this.mutation_type) {
       case "uniform_mutation":
-        double threshold = .1;
+        double threshold = this.arg;
         return this.uniformMutation(population, threshold);
         case "gauss_mutation":
-        double sd = 0.5;
+        double sd = this.arg;
         return this.gaussMutation(population, sd);
         // case "uncorrelated_onesize":
         // //TODO: nadenken over hoe sigma lijsten terug te sturen.
@@ -58,6 +60,7 @@ public class Mutation
         //for each individual
         for (int j=0; j<nrTraits; j++) {
           //For each allele determine whether to flip it.
+          //TODO: code geeft error in survival selection als threshold hier te laag is
           if (rnd_.nextDouble() < threshold) {
             //And flip it
             population[i][j] = rnd_.nextDouble() *10.0 -5.0;
