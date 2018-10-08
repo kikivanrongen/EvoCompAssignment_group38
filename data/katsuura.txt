@@ -1,250 +1,201 @@
-Score: 0.0326609348977472
-Runtime: 11613ms
-Score: 0.7079525986735953
-Runtime: 11611ms
-Score: 0.0618739060399618
-Runtime: 11616ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.1758794414856486
-Runtime: 7488ms
-Score: 0.03233602224214526
-Runtime: 11617ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.2883426131622319
-Runtime: 5033ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.019323476778068144
-Runtime: 4334ms
-Score: 0.18525031441490258
-Runtime: 11668ms
-Score: 0.025220346766778035
-Runtime: 11737ms
-Score: 0.013671504238779317
-Runtime: 11574ms
-Score: 0.4968711865811712
-Runtime: 11628ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.03616244084913774
-Runtime: 11286ms
-Score: 0.006645088408285734
-Runtime: 11638ms
-Score: 0.6719322984511166
-Runtime: 11905ms
-Score: 7.965910338510456E-4
-Runtime: 12279ms
-Score: 0.6380284559841854
-Runtime: 12051ms
-Score: 0.317637419171777
-Runtime: 11636ms
-Score: 0.0034195198334359776
-Runtime: 11638ms
-Score: 0.4075853643508521
-Runtime: 11623ms
-Score: 0.07476030059534038
-Runtime: 11646ms
-Score: 0.3799856076949303
-Runtime: 11644ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.47413036022463484
-Runtime: 9344ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.1728301714421856
-Runtime: 1792ms
-Score: 0.002546597467480384
-Runtime: 11641ms
-Score: 0.10965110988986104
-Runtime: 11675ms
-Score: 0.1278167923892662
-Runtime: 11653ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 1.2796813168708558
-Runtime: 10239ms
-Score: 0.25656565733895476
-Runtime: 11597ms
-Score: 0.13852029390328596
-Runtime: 11640ms
-Score: 0.010356464731037157
-Runtime: 11633ms
-Score: 0.007171473251522327
-Runtime: 11634ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 1.5079896079646873
-Runtime: 5939ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.001595106831004801
-Runtime: 10890ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 1.7194940648520024E-7
-Runtime: 41ms
-Score: 0.18947662494473433
-Runtime: 11610ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.7575219723139897
-Runtime: 5202ms
-Score: 0.058938750075148455
-Runtime: 11709ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.06980640785893556
-Runtime: 5272ms
-Score: 0.025390639097208935
-Runtime: 12047ms
-Score: 0.0707549105516112
+Score: 0.293004954668997
+Runtime: 11896ms
+Score: 0.31422332050568763
+Runtime: 11835ms
+Score: 0.4736502522818448
+Runtime: 11744ms
+Score: 0.26499719437790104
+Runtime: 11754ms
+Score: 0.23317283599577063
+Runtime: 11819ms
+Score: 0.3862471836539219
+Runtime: 11915ms
+Score: 1.1262893876602373
+Runtime: 11801ms
+Score: 1.0539241795986714
+Runtime: 11872ms
+Score: 0.7085191170489689
+Runtime: 12145ms
+Score: 0.05336214734180524
+Runtime: 12200ms
+Score: 0.7474072515304377
+Runtime: 12008ms
+Score: 0.06406059464884457
+Runtime: 11760ms
+Score: 0.018312861661442355
+Runtime: 11726ms
+Score: 0.09965087097343332
 Runtime: 11763ms
-Score: 0.8711448445219745
-Runtime: 11938ms
-Score: 0.13140057031958313
-Runtime: 11650ms
-Score: 0.5716945241940249
-Runtime: 11644ms
-Score: 5.394664191816883
-Runtime: 11636ms
-Score: 1.7478063116129117
-Runtime: 11650ms
-Score: 0.28588564732792465
-Runtime: 11816ms
-Score: 0.036183400767258636
-Runtime: 11646ms
-Score: 0.06982030144305648
-Runtime: 11628ms
-Score: 0.41107854475366834
-Runtime: 11649ms
-Score: 0.0079521584553898
-Runtime: 12017ms
-Score: 0.028184396448062265
-Runtime: 12392ms
-Score: 0.006566329948352758
-Runtime: 12331ms
-Score: 0.015845788612689322
-Runtime: 12191ms
-Score: 0.006112157408882791
-Runtime: 11968ms
-Score: 0.46173950253458723
-Runtime: 11885ms
-Score: 0.017465850857385654
-Runtime: 11800ms
-Score: 0.040605132184941495
-Runtime: 11732ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.5070030761628828
-Runtime: 10257ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.1506971910028786
-Runtime: 1803ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.2661164258859493
-Runtime: 2133ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.23513526660024095
-Runtime: 5484ms
-Score: 0.0023056263320910568
-Runtime: 11792ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.030941355493781655
-Runtime: 3099ms
-Score: 1.3778962684499565
-Runtime: 11886ms
-Score: 0.017662041803535488
-Runtime: 11936ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.03591750845538286
-Runtime: 7221ms
-Score: 0.0012733765018768412
-Runtime: 11719ms
-Score: 0.7135398101191683
-Runtime: 11843ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.0306406406561611
-Runtime: 9385ms
-Score: 0.083703144170566
-Runtime: 11817ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.003541038217559552
-Runtime: 6731ms
-Score: 0.97306616162462
-Runtime: 11777ms
-Score: 0.22030070311050212
-Runtime: 11886ms
-Score: 0.3410993779116775
-Runtime: 11940ms
-Score: 0.3063929896359292
+Score: 0.11925642327197324
+Runtime: 11761ms
+Score: 1.639566394792603
+Runtime: 11853ms
+Score: 1.0727487837500091
+Runtime: 12043ms
+Score: 1.4593857337556748
+Runtime: 12049ms
+Score: 0.9196419405749676
+Runtime: 11774ms
+Score: 1.8260889258688655
 Runtime: 11834ms
-Score: 0.0144119847997451
-Runtime: 12375ms
-Score: 0.007432768862117981
-Runtime: 12170ms
-Score: 0.8450304483940468
-Runtime: 11970ms
-Score: 0.08986525901274496
-Runtime: 11735ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.3524583664969491
-Runtime: 9213ms
-Score: 0.023528740429316554
-Runtime: 11780ms
-Score: 0.4893007256890444
-Runtime: 11757ms
-Score: 0.7996419834838153
+Score: 0.9136676475532557
+Runtime: 11759ms
+Score: 0.32296033858060336
+Runtime: 11782ms
+Score: 2.196472021393409
+Runtime: 11893ms
+Score: 0.09987978613826533
+Runtime: 11936ms
+Score: 0.11242555094227176
+Runtime: 11756ms
+Score: 0.40904745105745477
+Runtime: 11725ms
+Score: 0.16806397065676024
+Runtime: 11734ms
+Score: 0.11120015393622198
+Runtime: 11842ms
+Score: 0.05395060491937386
+Runtime: 11791ms
+Score: 0.48253928999065565
+Runtime: 11759ms
+Score: 0.9967999529092968
+Runtime: 11787ms
+Score: 1.3604626706984368
+Runtime: 11831ms
+Score: 0.2527611311836552
 Runtime: 11779ms
-Score: 0.009331943630869893
-Runtime: 11870ms
-Score: 0.03691372480945548
-Runtime: 11955ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.013110243781617032
-Runtime: 6676ms
-Score: 0.010361862002778055
-Runtime: 11773ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.43946763577455145
-Runtime: 10363ms
-Score: 0.02019937687293326
-Runtime: 11807ms
-Score: 0.0601462186918794
+Score: 0.8355115559571203
+Runtime: 11762ms
+Score: 0.08265779501978696
+Runtime: 11775ms
+Score: 0.7340405665915386
+Runtime: 12183ms
+Score: 0.006077296683134615
+Runtime: 11897ms
+Score: 0.9497935332803403
+Runtime: 11976ms
+Score: 0.040515322221534304
+Runtime: 11772ms
+Score: 0.11707851476145761
 Runtime: 11809ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.03663761761667268
-Runtime: 7402ms
-Score: 0.27313937802482713
-Runtime: 11805ms
-Score: 0.04056253538533576
-Runtime: 11870ms
-Score: 0.1447247685980149
-Runtime: 11952ms
-Score: 0.09434446924768301
-Runtime: 11947ms
-Your code has thrown an Exception/Error!
-This would halt execution (the best score achieved so far would be assigned)
-Score: 0.018600146638184677
-Runtime: 3021ms
-Score: 0.07566973337007264
+Score: 1.0427467339410035
+Runtime: 11794ms
+Score: 0.09382357565296164
+Runtime: 12007ms
+Score: 1.6205516647738907
+Runtime: 11874ms
+Score: 0.3594736503192675
+Runtime: 11706ms
+Score: 0.22092940600699268
+Runtime: 11738ms
+Score: 0.37729382170185505
+Runtime: 11733ms
+Score: 0.15748140391672816
+Runtime: 11761ms
+Score: 0.4795393841050467
+Runtime: 11840ms
+Score: 0.00814509037174601
+Runtime: 11976ms
+Score: 0.07122234197844092
+Runtime: 11868ms
+Score: 0.1591627651348102
+Runtime: 11775ms
+Score: 0.17522870384880335
+Runtime: 11761ms
+Score: 0.17499916608171567
+Runtime: 11760ms
+Score: 0.041253704110333175
+Runtime: 11896ms
+Score: 0.7536759915708422
+Runtime: 11775ms
+Score: 0.06366970729392066
+Runtime: 11768ms
+Score: 0.32477766418351695
+Runtime: 11791ms
+Score: 0.04488806918731908
+Runtime: 11831ms
+Score: 3.2028203251595126
+Runtime: 11994ms
+Score: 1.8647619518436573
+Runtime: 11761ms
+Score: 0.27977345875186943
+Runtime: 11748ms
+Score: 0.3614315693937987
+Runtime: 11806ms
+Score: 0.1896817280451083
+Runtime: 12058ms
+Score: 0.045923907834792076
+Runtime: 11851ms
+Score: 0.10496535457973111
+Runtime: 11830ms
+Score: 0.4179222627947085
+Runtime: 11784ms
+Score: 0.29013170622084467
+Runtime: 11780ms
+Score: 0.5690695663967009
+Runtime: 12065ms
+Score: 0.5541154798296036
+Runtime: 11950ms
+Score: 0.3275719100154389
+Runtime: 11950ms
+Score: 0.42257088455737607
+Runtime: 11796ms
+Score: 0.331465933285457
+Runtime: 11758ms
+Score: 0.3693426534677658
+Runtime: 12421ms
+Score: 0.30770092534352317
+Runtime: 12572ms
+Score: 1.1941437791648692
+Runtime: 11974ms
+Score: 0.059608645529429176
+Runtime: 11981ms
+Score: 1.1443233533971706
 Runtime: 11918ms
-Score: 0.07924659494729785
-Runtime: 11916ms
-Score: 0.009380334881563727
-Runtime: 11869ms
-Score: 0.002395770294776822
-Runtime: 11811ms
+Score: 0.036894867081265485
+Runtime: 11777ms
+Score: 2.4722463059870052
+Runtime: 11768ms
+Score: 0.1511539639491513
+Runtime: 11801ms
+Score: 0.17800885732393618
+Runtime: 12141ms
+Score: 0.29081133908146506
+Runtime: 11949ms
+Score: 0.24542955814228243
+Runtime: 11961ms
+Score: 0.29409551558677005
+Runtime: 12043ms
+Score: 0.07561040345733272
+Runtime: 11805ms
+Score: 0.12230017841284599
+Runtime: 11809ms
+Score: 0.6914231040596097
+Runtime: 11730ms
+Score: 0.5287499612651325
+Runtime: 11732ms
+Score: 0.024382779993328618
+Runtime: 11744ms
+Score: 0.04821129369712383
+Runtime: 11754ms
+Score: 1.2743296220272233
+Runtime: 11746ms
+Score: 1.54339301779022
+Runtime: 11736ms
+Score: 0.021119218475664163
+Runtime: 11857ms
+Score: 0.3354593068007199
+Runtime: 11822ms
+Score: 0.0476320661413807
+Runtime: 11832ms
+Score: 0.18558684672424514
+Runtime: 11965ms
+Score: 0.09057660635593334
+Runtime: 11827ms
+Score: 5.428807957893483
+Runtime: 11767ms
+Score: 0.53611549728873
+Runtime: 11991ms
+Score: 0.06573145282176598
+Runtime: 11753ms
+mean: 0.5601367346858379 || std: 0.7658643116660735
