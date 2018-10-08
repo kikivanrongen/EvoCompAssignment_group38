@@ -66,7 +66,7 @@ public class player38 implements ContestSubmission
 		int evals = 0;
 		int populationSize = 100;
 		int nrTraits = player38.nrTraits;
-		mutationType = "uniform_mutation"
+		String mutationType = "uniform_mutation";
 
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");
@@ -79,7 +79,7 @@ public class player38 implements ContestSubmission
 		*/
 
 		// init population with random values between -5 and 5
-		ArrayList<Individual> population = new Arraylist<Individual>();
+		ArrayList<Individual> population = new ArrayList<Individual>();
 
 		for (int j = 0; j < populationSize; j++)
 		{
@@ -104,12 +104,12 @@ public class player38 implements ContestSubmission
 			// Check and save fitness for all individuals
 			for (int j = 0; j < populationSize; j++)
 			{
-				population[j].score = (double) evaluation_.evaluate(population[i].genome);
+				population.get(j).score = (double) evaluation_.evaluate(population.get(j).genome);
 				evals++;
 
 				// save largest and smallest score for normalization
-				if (population[j].score > maxScore){maxScore = population[j].score;}
-				if (population[j].score < minScore)	{minScore = population[j].score;}
+				if (population.get(j).score > maxScore){maxScore = population.get(j).score;}
+				if (population.get(j).score < minScore)	{minScore = population.get(j).score;}
 			}
 
 			// Select parents from population
@@ -122,7 +122,7 @@ public class player38 implements ContestSubmission
 			double[][] genomes = recombinator.performRecombination(selectedParents);
 			int numChild = genomes.length;
 
-			ArrayList<Individual> children = new Arraylist<Individual>();
+			ArrayList<Individual> children = new ArrayList<Individual>();
 			for (int j = 0; j < numChild; j++)
 			{
 				Individual unit = new Individual(nrTraits,mutationType);
@@ -135,7 +135,7 @@ public class player38 implements ContestSubmission
 
 			// Evaluate children
 			for (int j = 0; j < numChild; j++) {
-				children.get(j).score = (double) evaluation_.evaluate(children[j]);
+				children.get(j).score = (double) evaluation_.evaluate(children.get(j).genome);
 				evals++; }
 
 			// Combine children and parents into new population

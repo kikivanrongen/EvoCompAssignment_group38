@@ -28,26 +28,26 @@ public class Recombination
 				alpha = 0.5;
 				return discretePointwiseRecombination(selectedParents, alpha);
 
-			case "discrete-tailswap":
-				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
-				return discreteTailswapRecombination(selectedParents, k);
-
-			case "arithmetic-whole":
-				alpha = 0.5;
-				return wholeArithmeticRecombination(selectedParents, alpha);
-
-			case "arithmetic-simple":
-				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
-				alpha = 0.5;
-				return simpleArithmeticRecombination(selectedParents, k, alpha);
-
-			case "arithmetic-single":
-				alpha = 0.5;
-				return singleArithmeticRecombination(selectedParents, alpha);
-
-			case "blendcrossover":
-				alpha = 0.5;
-				return blendCrossoverRecombination(selectedParents, alpha);
+			// case "discrete-tailswap":
+			// 	k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+			// 	return discreteTailswapRecombination(selectedParents, k);
+			//
+			// case "arithmetic-whole":
+			// 	alpha = 0.5;
+			// 	return wholeArithmeticRecombination(selectedParents, alpha);
+			//
+			// case "arithmetic-simple":
+			// 	k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+			// 	alpha = 0.5;
+			// 	return simpleArithmeticRecombination(selectedParents, k, alpha);
+			//
+			// case "arithmetic-single":
+			// 	alpha = 0.5;
+			// 	return singleArithmeticRecombination(selectedParents, alpha);
+			//
+			// case "blendcrossover":
+			// 	alpha = 0.5;
+			// 	return blendCrossoverRecombination(selectedParents, alpha);
 			default:
 				System.out.println("No valid method chosen");
 					alpha = 0.5;

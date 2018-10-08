@@ -4,6 +4,9 @@ Mutation options
 */
 
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Mutation
 {
@@ -20,25 +23,25 @@ public class Mutation
     // First determine mutation type and run the corresponding function.
     switch(this.mutation_type) {
       case "uniform_mutation":
-        double threshold = .1;
-        return this.uniformMutation(population, threshold);
+          double threshold = .1;
+          return this.uniformMutation(population, threshold);
         case "gauss_mutation":
-        double sd = 0.5;
-        return this.gaussMutation(population, sd);
-        // case "uncorrelated_onestep":
-        // //TODO: nadenken over hoe sigma lijsten terug te sturen.
-        //double teta = 1/ Math.sqrt(population.length);
-        // return this.onestepMutation(population);
-        // case "uncorrelated_nstep":
-        double teta = new double[2];
-        teta[0] = 1/ Math.sqrt(population.length);
-        teta[1] = ;
-        // return this.nsizeMutation(population);
+          double sd = 0.5;
+          return this.gaussMutation(population, sd);
+        case "uncorrelated_onestep":
+          //TODO: nadenken over hoe sigma lijsten terug te sturen.
+          double teta = 1/ Math.sqrt(population.size());
+          return this.onestepMutation(population, teta);
+        case "uncorrelated_nstep":
+          double[] tetas = new double[2];
+          tetas[0] = 1/ Math.sqrt(2*Math.sqrt(population.size()));
+          tetas[1] = 1/ Math.sqrt(2*population.size());
+          return this.nstepMutation(population, tetas);
         // case "correlated_mutation":
-        // return this.correlatedMutation(population);
+          //return this.correlatedMutation(population);
         default:
-        System.out.println("WARNING: no valid mutation method was provided");
-        return this.deprecatedMutation(population);
+          System.out.println("WARNING: no valid mutation method was provided");
+          return this.deprecatedMutation(population);
     }
   }
 
@@ -64,14 +67,14 @@ public class Mutation
 distribution.
 */
   private ArrayList<Individual> gaussMutation(ArrayList<Individual> population, double sd) {
-      for (int i =0; i<population.length; i++) {
+      for (int i =0; i<population.size(); i++) {
         for (int j=0; j<player38.nrTraits; j++) {
           //For every individual for every gene in his genotype do:
           population.get(i).genome[j] += this.rnd_.nextGaussian() * sd;
           //Make sure individual stays within bounds
           if( population.get(i).genome[j] < -5) {
             population.get(i).genome[j] = -5;
-          } else if ( population.get(i).score[j] > 5) {
+          } else if ( population.get(i).genome[j] > 5) {
             population.get(i).genome[j] = 5;
           }
         }
@@ -90,10 +93,10 @@ distribution.
     NOTE: sigma niet kleiner dan threshold,als wel dan is set je sigma to threshold
     NOTE: teta is vaak 1/wortel populationSize */
 
-    for (int i =0; i<population.length; i++) {
-      sigma = population.get(i).sigma;
+    for (int i =0; i<population.size(); i++) {
+      double sigm = population.get(i).sigma;
       double gamma = rnd_.nextGaussian() * teta;
-      sd = sigma * exp(gamma);
+      double sd = sigm * Math.exp(gamma);
       if (sd < 0.001) {
         sd = 0.001;
       }
@@ -124,17 +127,17 @@ distribution.
     waar t = 1/(sqrt(2scrt(n))) en t' = 1/ sqrt(2n) waar t'is common base (dus die kan je doen over hele unit)
     Voor elke sigma is een boundary rule van toepassing. */
 
-    for (int i =0; i<population.length; i++) {
-      sigm = population.get(i).sigma;
+    for (int i =0; i<population.size(); i++) {
+      double sigm[] = population.get(i).sigmaList;
       for (int j=0; j<player38.nrTraits; j++) {
         //For every individual for every gene in his genotype do:
-        sd = sigm[j];
+        double sd = sigm[j];
         if (sd < 0.001) {
           sd = 0.001;
         }
 
         double[] gamma = {rnd_.nextGaussian() * teta[0], rnd_.nextGaussian() * teta[1]};
-        sd = sigm[j]*exp(gamma[0]+gamma[1]);
+        sd = sigm[j]*Math.exp(gamma[0]+gamma[1]);
         sigm[j] = sd;
 
         population.get(i).genome[j] += this.rnd_.nextGaussian() * sd;
@@ -146,13 +149,14 @@ distribution.
         }
         System.out.println(population.get(i).genome[j]) ;
       }
-      population.get(i).sigma = sigm
+      population.get(i).sigmaList = sigm;
     }
+    return population;
   }
 
   private ArrayList<Individual> deprecatedMutation (ArrayList<Individual> population) {
     int n = population.size();
-    int nrTraits = population.get(0).score.length;
+    int nrTraits = population.get(0).genome.length;
 
     // Apply mutation to each child.
     int rnd_idx = 0;
@@ -160,7 +164,7 @@ distribution.
     {
       rnd_idx = rnd_.nextInt(nrTraits);
       double mutationFactor = rnd_.nextDouble() * 2.0 - 1.0;
-      population.get(i).score[rnd_idx] = population.get(i).score[rnd_idx] * mutationFactor; // Kim dit moet anders nog (nu)
+      population.get(i).genome[rnd_idx] = population.get(i).genome[rnd_idx] * mutationFactor; // Kim dit moet anders nog (nu)
     }
     return population;
   }

@@ -28,15 +28,15 @@ public class SurvivorSelection
     {
       case "worst" :
         return replaceWorst(oldPopulation, numChild);
-      case "elitism" :
-        return elitism(oldPopulation, numChild);
+      // case "elitism" :
+      //   return elitism(oldPopulation, numChild);
       case "roundRobin":
         int q = 10;
-        return roundRobin(oldPopulation, q, numchild);
+        return roundRobin(oldPopulation, q, numChild);
       default:
-      return roundRobin(oldPopulation, numchild);
+        int q2 = 10;
+      return roundRobin(oldPopulation,q2, numChild);
     }
-    return errorList;
   }
 
   /*
@@ -48,10 +48,11 @@ public class SurvivorSelection
     int populationSize = oldPopulation.size()-numChild;
     int nrTraits = player38.nrTraits;
 
+    //TODO: dit geeft error bij runnen...
     Collections.sort(oldPopulation, new Comparator<Individual>() {
       @Override
       public int compare(Individual p1, Individual p2) {
-          return Double.compare(p1.score, p2.score;
+          return Double.compare(p1.score, p2.score);
       }
     });
 
@@ -62,10 +63,10 @@ public class SurvivorSelection
     }
 
     // check for correct population size
-    if (newPopulation.size() != populationSize)
+    if (oldPopulation.size() != populationSize)
     {
       System.out.println("Something went wrong in SurvivorSelection' s population size");
-      return -1;
+      return oldPopulation;
     }
 
     return oldPopulation;
@@ -75,58 +76,58 @@ public class SurvivorSelection
   /*
   keep the individual with the best fitness value
   */
-  public ArrayList<Individual> elitism(ArrayList<Individual> oldPopulation, int numChild)
-  {
-    // set parameters
-    int populationSize = oldPopulation.size()-numChild;
-    int nrTraits = player38.nrTraits;
+  // public ArrayList<Individual> elitism(ArrayList<Individual> oldPopulation, int numChild)
+  // {
+  //   // set parameters
+  //   int populationSize = oldPopulation.size()-numChild;
+  //   int nrTraits = player38.nrTraits;
+  //
+  //   // determine number of parents plus children
+  //   int length = oldPopulation.size();
+  //
+  //   // find maximum fitness value and corresponding index in population
+  //   double bestScore = Arrays.stream(allProbs).max().getAsDouble();
+  //   int bestIndividual = Arrays.asList(allProbs).indexOf(bestScore);
+  //
+  //   // TODO: Algorithm for survivor selection: MAKE SURE NO INDIVIDUALS ARE TWICE SELECTED
+  //   List<Integer> elimIndividuals = new ArrayList<Integer>();
+  //   for (int i = 0; i < numChild; i++)
+  //   {
+  //     // select random individual
+  //     int randomInd = rnd_.nextInt(length);
+  //
+  //     // ensure that fittest individual is not eliminated
+  //     while (randomInd == bestIndividual && elimIndividuals.contains(randomInd))
+  //     {
+  //       randomInd = rnd_.nextInt(length);
+  //     }
+  //     // select random individual to be eliminated
+  //     elimIndividuals.add(randomInd);
+  //   }
+  //
+  //   int ind = 0;
+  //
+  //   // remove eliminated individuals
+  //   for (int j = 0; j < length; j++)
+  //   {
+  //     // add individual to new population, if not in eliminated list
+  //     if (!(elimIndividuals.contains(j)))
+  //     {
+  //       newPopulation[ind] = oldPopulation[j];
+  //       ind++;
+  //     }
+  //   }
+  //
+  //   // check for correct population size
+  //   if (newPopulation.length != populationSize)
+  //   {
+  //     double[][] errorList = new double[0][0];
+  //     return errorList;
+  //   }
+  //
+  //   return newPopulation;
 
-    // determine number of parents plus children
-    int length = oldPopulation.size();
-
-    // find maximum fitness value and corresponding index in population
-    double bestScore = Arrays.stream(allProbs).max().getAsDouble();
-    int bestIndividual = Arrays.asList(allProbs).indexOf(bestScore);
-
-    // TODO: Algorithm for survivor selection: MAKE SURE NO INDIVIDUALS ARE TWICE SELECTED
-    List<Integer> elimIndividuals = new ArrayList<Integer>();
-    for (int i = 0; i < numChild; i++)
-    {
-      // select random individual
-      int randomInd = rnd_.nextInt(length);
-
-      // ensure that fittest individual is not eliminated
-      while (randomInd == bestIndividual && elimIndividuals.contains(randomInd))
-      {
-        randomInd = rnd_.nextInt(length);
-      }
-      // select random individual to be eliminated
-      elimIndividuals.add(randomInd);
-    }
-
-    int ind = 0;
-
-    // remove eliminated individuals
-    for (int j = 0; j < length; j++)
-    {
-      // add individual to new population, if not in eliminated list
-      if (!(elimIndividuals.contains(j)))
-      {
-        newPopulation[ind] = oldPopulation[j];
-        ind++;
-      }
-    }
-
-    // check for correct population size
-    if (newPopulation.length != populationSize)
-    {
-      double[][] errorList = new double[0][0];
-      return errorList;
-    }
-
-    return newPopulation;
-
-  }
+  // }
 
   /*
   evaluate each individual against others and choose new population accordingly
@@ -196,16 +197,16 @@ public class SurvivorSelection
     elimIndividuals.subList(0,surplus).clear();
 
     // remove eliminated individuals
-    for (int l = 0; l < elimIndividuals.size(); l++)
+    for (int l = 0; l <= elimIndividuals.size(); l++)
     {
-      oldPopulation.remove(l)
+      oldPopulation.remove(l);
     }
 
     // check for correct population size
     if (oldPopulation.size() != populationSize)
     {
       System.out.println("Something went wrong in SurvivorSelection' s population size");
-      return -1;
+      return new ArrayList<Individual>();
     }
     return oldPopulation;
   }
