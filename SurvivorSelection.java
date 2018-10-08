@@ -230,7 +230,7 @@ public class SurvivorSelection
 
     for (int k = 0; k < length; k++)
     {
-      if (wins[k] < medianWins)
+      if (wins[k] <= medianWins)
       {
         // put individual k in possible elimination list
         elimIndividuals.add(k);
@@ -241,6 +241,8 @@ public class SurvivorSelection
     Collections.shuffle(elimIndividuals);
     int surplus = elimIndividuals.size() - numChild;
     elimIndividuals.subList(0,surplus).clear();
+
+
 
     int ind = 0;
 
@@ -253,7 +255,7 @@ public class SurvivorSelection
         newPopulation[ind] = oldPopulation[l];
         ind++;
       }
-    }  
+    }
 
     // check for correct population size
     if (newPopulation.length != populationSize)
