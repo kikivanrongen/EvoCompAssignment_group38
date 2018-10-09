@@ -111,7 +111,6 @@ distribution.
         } else if ( population.get(i).genome[j] > 5) {
           population.get(i).genome[j] = 5;
         }
-        System.out.println(population.get(i).genome[j]) ;
       }
     }
 
@@ -147,7 +146,6 @@ distribution.
         } else if ( population.get(i).genome[j] > 5) {
           population.get(i).genome[j] = 5;
         }
-        System.out.println(population.get(i).genome[j]) ;
       }
       population.get(i).sigmaList = sigm;
     }

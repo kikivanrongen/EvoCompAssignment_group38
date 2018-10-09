@@ -66,7 +66,7 @@ public class player38 implements ContestSubmission
 		int evals = 0;
 		int populationSize = 100;
 		int nrTraits = player38.nrTraits;
-		String mutationType = "uniform_mutation";
+		String mutationType = "uncorrelated_nstep";
 
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");

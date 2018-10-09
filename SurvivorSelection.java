@@ -49,28 +49,57 @@ public class SurvivorSelection
     int nrTraits = player38.nrTraits;
 
     //TODO: dit geeft error bij runnen...
-    Collections.sort(oldPopulation, new Comparator<Individual>() {
-      @Override
-      public int compare(Individual p1, Individual p2) {
-          return Double.compare(p1.score, p2.score);
-      }
-    });
+    ArrayList<Individual> sortedPop = sortPopulation(oldPopulation);
+    // Collections.sort(oldPopulation, new Comparator<Individual>() {
+    //   @Override
+    //   public int compare(Individual p1, Individual p2) {
+    //       return Double.compare(p1.score, p2.score);
+    //   }
+    // });
 
     // remove individuals
     for (int j = 0; j < numChild; j++)
     {
-      oldPopulation.remove(0); //0 because index shifts
+      sortedPop.remove(0); //0 because index shifts
     }
 
     // check for correct population size
-    if (oldPopulation.size() != populationSize)
+    if (sortedPop.size() != populationSize)
     {
       System.out.println("Something went wrong in SurvivorSelection' s population size");
-      return oldPopulation;
+      return sortedPop;
     }
 
-    return oldPopulation;
+    return sortedPop;
 
+  }
+
+  //Function that loops through population until worst score is 0 and best score is -1
+  //TODO: iemand dit checken
+  public ArrayList<Individual> sortPopulation(ArrayList<Individual> pop) {
+    int[] corInd = new int[pop.size()];
+    for (int i=0; i < corInd.length; i++) {
+      corInd[i] = i;
+    }
+    int swaps = 10;
+    while (swaps != 0) {
+      swaps=0;
+      for (int i=0; i < corInd.length-1; i++) {
+        if (pop.get(corInd[i]).score > pop.get(corInd[i+1]).score) {
+          // if neighbours are ordered wrong, swap them.
+          int temp = corInd[i];
+          corInd[i] = corInd[i+1];
+          corInd[i+1] = temp;
+          swaps += 1;
+        }
+      }
+    }
+    //Fill arraylist in correct order
+    ArrayList<Individual> sorted = new ArrayList<Individual>();
+    for (int i=0; i<pop.size(); i++) {
+      sorted.add(pop.get(corInd[i]));
+    }
+    return sorted;
   }
 
   /*
@@ -180,7 +209,7 @@ public class SurvivorSelection
     Arrays.sort(sortedWins);
     int medianWins = sortedWins[wins.length/2];
 
-    List<Integer> elimIndividuals = new ArrayList<>();
+    ArrayList<Integer> elimIndividuals = new ArrayList<Integer>();
 
     for (int k = 0; k < length; k++)
     {
