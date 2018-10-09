@@ -19,7 +19,7 @@ public class Individual
       this.sigmaList = new double[nrTraits];
       for (int i=0; i<nrTraits; i++) {
         //fill sigma
-        sigmaList[i] = 0.2;
+        sigmaList[i] = .2;
       }
     }
   }

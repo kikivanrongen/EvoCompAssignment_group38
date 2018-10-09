@@ -62,21 +62,25 @@ public class player38 implements ContestSubmission
 
 	public void run()
 	{
+		String[] mutopts = {"uniform", "gauss", "uncorrelated-onestep", "uncorrelated-nstep"};
+		String[] recopts = {"discrete-pointwise", "discrete-tailswap", "arithmetic-whole", "arithmetic-simple", "arithmetic-single", "blendcrossover"};
+		String[] parselopts = {"arena", "ranked-lin", "ranked-exp"};
+		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
 		int evals = 0;
 		int populationSize = 100;
 		int nrTraits = player38.nrTraits;
-		String mutationType = "uncorrelated_nstep";
+		String mutationType = mutopts[2];
 
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");
-		ParentSelection parentSelector = new ParentSelection("arena");
-		Recombination recombinator = new Recombination("discrete-pointwise");
+		ParentSelection parentSelector = new ParentSelection(parselopts[0]);
+		Recombination recombinator = new Recombination(recopts[3]);
 		Mutation mutator = new Mutation(mutationType);
-		SurvivorSelection survivorSelector = new SurvivorSelection("worst");
-		/*
-		* INITIALIZATION
-		*/
+		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[0]);
+
+		//TODO: Errors in Blendcrossover; StochastifUniversalSampling; populationsize of roundrobin en in elitism.
+
 
 		// init population with random values between -5 and 5
 		ArrayList<Individual> population = new ArrayList<Individual>();
@@ -104,6 +108,7 @@ public class player38 implements ContestSubmission
 			// Check and save fitness for all individuals
 			for (int j = 0; j < populationSize; j++)
 			{
+				//TODO: rounsRobin geeft hier error
 				population.get(j).score = (double) evaluation_.evaluate(population.get(j).genome);
 				evals++;
 
@@ -113,12 +118,10 @@ public class player38 implements ContestSubmission
 			}
 
 			// Select parents from population
-			//TODO: adapt parentSelection methods to ArrayList<Individual>
 			ArrayList<Individual> selectedParents = parentSelector.performSelection(population, 50);
 			Collections.shuffle(selectedParents);
 
 			// Recombinate parents into children
-			//TODO: adapt recombination naast discrete pointwise
 			double[][] genomes = recombinator.performRecombination(selectedParents);
 			int numChild = genomes.length;
 

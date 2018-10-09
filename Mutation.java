@@ -22,17 +22,17 @@ public class Mutation
   public ArrayList<Individual> performMutation(ArrayList<Individual> population) {
     // First determine mutation type and run the corresponding function.
     switch(this.mutation_type) {
-      case "uniform_mutation":
+      case "uniform":
           double threshold = .1;
           return this.uniformMutation(population, threshold);
-        case "gauss_mutation":
+        case "gauss":
           double sd = 0.5;
           return this.gaussMutation(population, sd);
-        case "uncorrelated_onestep":
+        case "uncorrelated-onestep":
           //TODO: nadenken over hoe sigma lijsten terug te sturen.
           double teta = 1/ Math.sqrt(population.size());
           return this.onestepMutation(population, teta);
-        case "uncorrelated_nstep":
+        case "uncorrelated-nstep":
           double[] tetas = new double[2];
           tetas[0] = 1/ Math.sqrt(2*Math.sqrt(population.size()));
           tetas[1] = 1/ Math.sqrt(2*population.size());
