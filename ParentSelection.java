@@ -139,7 +139,7 @@ public class ParentSelection
   public ArrayList<Individual> battleArenaSelection(ArrayList<Individual> population, int nrSelected)
   {
     // Initialize selection parameters
-    int nrBattling = 5;
+    int nrBattling = 10;
     ArrayList<Individual> selectedParents = new ArrayList<Individual>();
     double winnerProb;
     int winner = 0;

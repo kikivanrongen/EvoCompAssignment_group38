@@ -31,7 +31,7 @@ public class SurvivorSelection
       // case "elitism" :
       //   return elitism(oldPopulation, numChild);
       case "roundRobin":
-        int q = 10;
+        int q = 20;
         return roundRobin(oldPopulation, q, numChild);
       default:
         int q2 = 10;

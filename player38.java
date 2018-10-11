@@ -67,17 +67,46 @@ public class player38 implements ContestSubmission
 		String[] parselopts = {"arena", "ranked-lin", "ranked-exp"};
 		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
+		int[][] funcIndex = new int[][]{
+																	// {0, 0, 0, 2},
+																	// {0, 1, 0, 2},
+																	// {0, 2, 0, 2},
+																	// {0, 3, 0, 2},
+																	// {0, 4, 0, 2},
+																	// {0, 5, 0, 2},
+																	// {0, 0, 1, 2},
+																	// {0, 1, 1, 2},
+																	// {0, 2, 1, 2},
+																	// {0, 3, 1, 2},
+																	// {0, 4, 1, 2},
+																	// {0, 5, 1, 2},
+																	// {0, 0, 2, 2},
+																	// {0, 1, 2, 2},
+																	// {0, 2, 2, 2},
+																	// {0, 3, 2, 2},
+																	// {0, 4, 2, 2},
+																	// {0, 5, 2, 2},
+																	// {0, 0, 3, 2},
+																	{0, 1, 3, 2},
+																	{0, 2, 3, 2},
+																	{0, 3, 3, 2},
+																	{0, 4, 3, 2},
+																	{0, 5, 3, 2}
+															};
+
+		int[] funcs = funcIndex[0];
+
 		int evals = 0;
 		int populationSize = 100;
 		int nrTraits = player38.nrTraits;
-		String mutationType = mutopts[3];
+		String mutationType = mutopts[funcs[2]];
 
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");
-		ParentSelection parentSelector = new ParentSelection(parselopts[0]);
-		Recombination recombinator = new Recombination(recopts[5]);
+		ParentSelection parentSelector = new ParentSelection(parselopts[funcs[0]]);
+		Recombination recombinator = new Recombination(recopts[funcs[1]]);
 		Mutation mutator = new Mutation(mutationType);
-		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[2]);
+		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[funcs[3]]);
 
 		//TODO: Errors in Blendcrossover; StochastifUniversalSampling; populationsize of roundrobin en in elitism.
 

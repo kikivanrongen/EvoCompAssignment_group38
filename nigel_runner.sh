@@ -1,31 +1,56 @@
 #!/bin/bash
 echo "Compiling"
-javac -cp contest.jar player38.java ParentSelection.java Recombination.java Mutation.java SurvivorSelection.java
-jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class Mutation.class SurvivorSelection.class
+javac -cp contest.jar player38.java ParentSelection.java Recombination.java Mutation.java SurvivorSelection.java Individual.java
+jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class Mutation.class SurvivorSelection.class Individual.class
 
-# echo "Evaluate Bent Cigar"
-# > data/cigar.txt
-# for i in {1..100}
-# do
-#   echo $i
-#   java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> data/cigar.txt
-# done
-# python data/score.py data/cigar.txt >> data/cigar.txt
+# start=`date +%s`
+
+echo "Evaluate Bent Cigar"
+> data/cigar_0132.txt
+for i in {1..500}
+do
+  if (($i % 10 == 0))
+  then
+    echo $i
+  fi
+  java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> data/cigar_0132.txt
+done
+# python data/score.py data/cigar_0132.txt >> data/cigar_0132.txt
+
+# end=`date +%s`
+# runtime=$((end-start))
+# echo Finished, time: $runtime
+# start=`date +%s`
 
 echo "Evaluate Schaffers"
-> data/schaffers.txt
-for i in {1..100}
+> data/schaffers_0132.txt
+for i in {1..500}
 do
-  echo $i
-  java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> data/schaffers.txt
+  if (($i % 10 == 0))
+  then
+    echo $i
+  fi
+  java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> data/schaffers_0132.txt
 done
-python data/score.py data/schaffers.txt >> data/schaffers.txt
+# python data/score.py data/schaffers_0132.txt >> data/schaffers_0132.txt
+
+# end=`date +%s`
+# runtime=$((end-start))
+# echo Finished, time: $runtime
+# start=`date +%s`
 
 # echo "Evaluate Katsuura"
-# > data/katsuura.txt
-# for i in {1..100}
+# > data/katsuura_0132.txt
+# for i in {1..10}
 # do
-#   echo $i
-#   java -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> data/katsuura.txt
+#   if (($i % 10 == 0))
+#   then
+#     echo $i
+#   fi
+#   java -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> data/katsuura_0132.txt
 # done
-# python data/score.py data/katsuura.txt >> data/katsuura.txt
+# python data/score.py data/katsuura_0132.txt >> data/katsuura_0132.txt
+
+# end=`date +%s`
+# runtime=$((end-start))
+# echo Finished, time: $runtime
