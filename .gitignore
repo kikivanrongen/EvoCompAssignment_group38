@@ -26,5 +26,5 @@ Thumbs.db
 /player38.class
 
 # Java files
-.class
+*.class
 .jar

@@ -63,14 +63,14 @@ public class player38 implements ContestSubmission
 	public void run()
 	{
 		String[] mutopts = {"uniform", "gauss", "uncorrelated-onestep", "uncorrelated-nstep"};
-		String[] recopts = {"discrete-pointwise", "discrete-tailswap", "arithmetic-whole", "arithmetic-simple", "arithmetic-single", "blendcrossover"};
+		String[] recopts = {"discrete-pointwise", "discrete-tailswap", "arithmetic-whole", "arithmetic-simple", "arithmetic-single", "blendcrossover", "none"};
 		String[] parselopts = {"arena", "ranked-lin", "ranked-exp"};
 		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
 		int evals = 0;
 		int populationSize = 100;
 		int nrTraits = player38.nrTraits;
-		String mutationType = mutopts[2];
+		String mutationType = mutopts[3];
 
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");
