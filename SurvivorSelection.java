@@ -213,7 +213,7 @@ public class SurvivorSelection
 
     for (int k = 0; k < length; k++)
     {
-      if (wins[k] < medianWins)
+      if (wins[k] <= medianWins)
       {
         // put individual k in possible elimination list
         elimIndividuals.add(k);
