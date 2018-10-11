@@ -75,9 +75,9 @@ public class player38 implements ContestSubmission
 		// init objects for the algorithm
 		// ParentSelection parentSelector = new ParentSelection("arena");
 		ParentSelection parentSelector = new ParentSelection(parselopts[0]);
-		Recombination recombinator = new Recombination(recopts[3]);
+		Recombination recombinator = new Recombination(recopts[5]);
 		Mutation mutator = new Mutation(mutationType);
-		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[0]);
+		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[2]);
 
 		//TODO: Errors in Blendcrossover; StochastifUniversalSampling; populationsize of roundrobin en in elitism.
 
