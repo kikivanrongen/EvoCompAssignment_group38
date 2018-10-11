@@ -1,316 +1,306 @@
-import org.vu.contest.ContestSubmission;
-import org.vu.contest.ContestEvaluation;
-
 import java.util.Random;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class player38 implements ContestSubmission
+public class Recombination
 {
 	Random rnd_;
-	ContestEvaluation evaluation_;
-	private int evaluations_limit_;
+	String recombinationAlg_;
 
-	public player38()
+	public Recombination(String algType)
 	{
-		rnd_ = new Random();
+		// Initialize object with correct selection algorithm
+		recombinationAlg_ = algType;
 	}
 
-	//public ArrayList generateRandomInitialSample
-
-	public static void main(String[] args) {
-		System.out.println("Test");
-		//run();
-	}
-
-	public void setSeed(long seed)
-	{
-		// Set seed of algortihms random process
-		rnd_.setSeed(seed);
-	}
-
-	public void setEvaluation(ContestEvaluation evaluation)
-	{
-		// Set evaluation problem used in the run
-		evaluation_ = evaluation;
-
-		// Get evaluation properties
-		Properties props = evaluation.getProperties();
-		// Get evaluation limit
-		evaluations_limit_ = Integer.parseInt(props.getProperty("Evaluations"));
-		// Property keys depend on specific evaluation
-		// E.g. double param = Double.parseDouble(props.getProperty("property_name"));
-		boolean isMultimodal = Boolean.parseBoolean(props.getProperty("Multimodal"));
-		boolean hasStructure = Boolean.parseBoolean(props.getProperty("Regular"));
-		boolean isSeparable = Boolean.parseBoolean(props.getProperty("Separable"));
-
-		// Do sth with property values, e.g. specify relevant settings of your algorithm
-		if(isMultimodal){
-				// Do sth
-		}else{
-				// Do sth else
-		}
-	}
-
-
-
-
-	public void run()
+	public double[][] performRecombination(ArrayList<double[]> selectedParents)//with correct var
 	{
 
-		int evals = 0;
-		int populationSize = 100;
-		int nrTraits = 10;
+		int nrTraits = player38.nrTraits;
+		double alpha;
+		int k;
 
-		// INITIALIZE
-		// init population with random values between -5 and 5
-		double[][] population = new double[populationSize][nrTraits];
-
-		for (int j = 0; j < populationSize; j++)
+		switch(recombinationAlg_)
 		{
-			for (int k = 0; k < nrTraits; k++)
-			{
-				population[j][k] = (rnd_.nextDouble() * 10.0) - 5.0; // normalize to [-5, 5]
-			}
+			case "discrete-pointwise":
+				alpha = 0.5;
+				return discretePointwiseRecombination(selectedParents, alpha);
+
+			case "discrete-tailswap":
+				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+				return discreteTailswapRecombination(selectedParents, k);
+
+			case "arithmetic-whole":
+				alpha = 0.5;
+				return wholeArithmeticRecombination(selectedParents, alpha);
+
+			case "arithmetic-simple":
+				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+				alpha = 0.5;
+				return simpleArithmeticRecombination(selectedParents, k, alpha);
+
+			case "arithmetic-single":
+				alpha = 0.5;
+				return singleArithmeticRecombination(selectedParents, alpha);
+
+			case "blendcrossover":
+				alpha = 0.5;
+				return blendCrossoverRecombination(selectedParents, alpha);
 		}
 
-		// calculate fitness
-		while(evals < evaluations_limit_-200)
+		double[][] errorList = new double[0][0];
+		return errorList;
+	}
+
+	public double[][] discretePointwiseRecombination(ArrayList<double[]> selectedParents, double alpha)
+	{
+
+		/*
+		* Considers each allele separately, and randomly chooses a value
+		* from parent x or y (with probability alpha) for child 1. The other
+		* value goes to child 2.
+		* Parameters: alpha
+		*/
+
+		int nrTraits = player38.nrTraits;
+
+		// only working with an even number of parents
+		int numChild = selectedParents.size() - selectedParents.size() % 2;
+		double[][] children = new double[numChild][nrTraits];
+
+		for (int ind = 0; ind < numChild; ind +=2)
 		{
-
-			// variables for tracking parent evaluations
-			double[] parentProbs = new double[populationSize];
-			double[] parentScores = new double[populationSize];
-			double maxScore = 0;
-			double minScore = 1;
-
-			//System.out.println(evaluation_.evaluate(data));
-
-			// Check and save fitness for all parents
-			for (int j = 0; j < populationSize; j++)
+			for (int j = 0; j < nrTraits; j++)
 			{
-				// calculate parent scores (not normalized)
-				parentScores[j] = (double) evaluation_.evaluate(population[j]);
-				evals++;
+				// select random number
+				double rndVal = Math.random();
 
-				// save largest and smallest score for normalization
-				if (parentScores[j] > maxScore)
-				{
-					maxScore = parentScores[j];
-				}
-
-				if (parentScores[j] < minScore)
-				{
-					minScore = parentScores[j];
-				}
-
-			}
-
-			System.out.println("Minimum score obtained in this round: " + minScore);
-			System.out.println("Maximum score obtained in this round: " + maxScore);
-
-			// normalize probabilities
-			for (int i = 0; i < populationSize; i++)
-			{
-				parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
-			}
-
-			// SELECT PARENTS used in creating offspring and randomize
-			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
-
-			// Shitty solution which selects half of the population with the highest scores. Implemented to get the algorithm to work at least (Kim)
-			Arrays.sort(parentProbs);
-			double middle_value = parentProbs[parentProbs.length/2];
-			for (int i = 0; i < populationSize; i++)
-			{
-				if (parentProbs[i] > middle_value)
-				{
-					selectedParents.add(population[i]);
-				}
-			}
-			System.out.println("Number of parents selected: " + selectedParents.size());
-
-			// Uitgecomment omdat: bij een niet-normale verdeling van probabilities worden er niet genoeg (of zelfs geen!) parents geselecteerd, en crasht de boel.
-			// for (int i = 0; i < populationSize; i++)
-			// {
-			// 	if (rnd_.nextDouble() <= parentProbs[i])
-			// 	{
-			// 		selectedParents.add(population[i]);
-			// 	}
-			// }
-
-			Collections.shuffle(selectedParents);
-
-			// define nr of children and variable to store children
-			int numChild = selectedParents.size();
-			System.out.println(numChild + "kids");
-			double[][] children = new double[numChild][nrTraits];
-
-			int firstGroup = numChild;
-			boolean unevenParents = (selectedParents.size() % 2) == 1;
-
-			// check for uneven number of parents
-			if (unevenParents)
-			{
-				// seperate last three parents for different crossover
-				firstGroup = numChild - 3;
-			}
-
-			// loop over all couples (two parents)
-			for (int ind = 0; ind < firstGroup; ind += 2)
-		 	{
-				// pick a position to crossover and make 2 children
-				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
-
-				for (int j = 0; j < cut; j++)
-				{
-					 children[ind][j] = selectedParents.get(ind)[j];
-					 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
-				}
-
-				for (int j = cut; j < nrTraits; j++)
-				{
-					 children[ind][j] = selectedParents.get(ind + 1)[j];
-					 children[ind + 1][j] = selectedParents.get(ind)[j];
-				}
-	 		}
-
-			// TODO: Kiki maakte 6 kinderen, maar mijn code verwachtte er maar 3 aangezien er 3 ouders zijn.  checken of dit zo nog klopt
-			// perform crossover for threesome if present
-			if (unevenParents == true)
-			{
-
-				// pick a position to crossover
-				int cut = rnd_.nextInt(nrTraits) & Integer.MAX_VALUE;
-				int ind = firstGroup;
-
-				// create three children
-				for (int j = 0; j < cut; j++)
-				{
-						// TODO: on some runs, an error is thrown here (line 177: java.lang.ArrayIndexOutOfBoundsException: -2)
-						children[ind][j] = selectedParents.get(ind)[j];
-						children[ind + 1][j] = selectedParents.get(ind + 1)[j];
-						children[ind + 2][j] = selectedParents.get(ind + 2)[j];
-						// children[ind + 3][j] = selectedParents.get(ind)[j];
-						// children[ind + 4][j] = selectedParents.get(ind + 1)[j];
-						// children[ind + 5][j] = selectedParents.get(ind + 2)[j];
-
-				}
-
-				for (int j = cut; j < nrTraits; j++)
-				{
+				// selecting a parent with equal probability for each allele
+				if (rndVal > alpha) {
+					children[ind][j] = selectedParents.get(ind)[j];
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j];
+				} else {
 					children[ind][j] = selectedParents.get(ind + 1)[j];
-					children[ind + 1][j] = selectedParents.get(ind + 2)[j];
-					children[ind + 2][j] = selectedParents.get(ind)[j];
-					// children[ind + 3][j] = selectedParents.get(ind + 2)[j];
-					// children[ind + 4][j] = selectedParents.get(ind)[j];
-					// children[ind + 5][j] = selectedParents.get(ind + 1)[j];
+					children[ind + 1][j] = selectedParents.get(ind)[j];
 				}
+
 			}
 
-			// Apply mutation to each child.
-			int rnd_idx = 0;
-			for(int i=0; i < numChild; i++)
+		}
+
+		return children;
+	}
+
+
+
+	public double[][] discreteTailswapRecombination(ArrayList<double[]> selectedParents, int k)
+	{
+		/*
+		* Two parents are recombined by switching their heads/tails
+		* at a point k.
+		* Parameters: k
+		*/
+		int nrTraits = player38.nrTraits;
+
+		// only working with an even number of parents
+		int numChild = selectedParents.size() - selectedParents.size() % 2;
+		double[][] children = new double[numChild][nrTraits];
+
+		for (int ind = 0; ind < numChild; ind +=2)
+		{
+
+			for (int j = 0; j < k; j++)
 			{
-				rnd_idx = rnd_.nextInt(nrTraits);
-				double mutationFactor = rnd_.nextDouble() * 2.0 - 1.0;
-				children[i][rnd_idx] = children[i][rnd_idx] * mutationFactor;
+				 children[ind][j] = selectedParents.get(ind)[j];
+				 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 			}
 
-			// evaluate scores of all children
-			double[] childScores = new double[numChild];
-			for (int j = 0; j < numChild; j++)
+			for (int j = k; j < nrTraits; j++)
 			{
-				childScores[j] = (double) evaluation_.evaluate(children[j]);
-				evals++;
+				 children[ind][j] = selectedParents.get(ind + 1)[j];
+				 children[ind + 1][j] = selectedParents.get(ind)[j];
+			}
 
-				// update largest and smallest score including children
-				if (childScores[j] > maxScore)
+		}
+
+		return children;
+	}
+
+
+
+	public double[][] wholeArithmeticRecombination(ArrayList<double[]> selectedParents, double alpha)
+	{
+		/*
+		* The weighted average of the two parent alleles is taken to create
+		* a new vector that lies 'in between' its parents, weighed by alpha.
+		* Weighing happens using alpha.
+		* Parameters: alpha
+		*/
+
+		int nrTraits = player38.nrTraits;
+
+		// only working with an even number of parents
+		int numChild = selectedParents.size() - selectedParents.size() % 2;
+		double[][] children = new double[numChild][nrTraits];
+
+		// weight given to first parent (other parent gets 1-alpha)
+		// 0.5 most common according to book. We could also try other values,
+		// or randomize on every run.
+
+		for (int ind = 0; ind < numChild; ind +=2)
+		{
+				for (int j = 0; j < nrTraits; j++)
 				{
-					maxScore = childScores[j];
+					children[ind][j] = selectedParents.get(ind)[j] * alpha + selectedParents.get(ind + 1)[j] * (1-alpha);
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j] * alpha + selectedParents.get(ind)[j] * (1-alpha);
+				}
+		}
+
+		return children;
+	}
+
+
+
+	public double[][] simpleArithmeticRecombination(ArrayList<double[]> selectedParents, int k, double alpha)
+	{
+		/*
+		* Up to a recombination point k, allele values come from a single parent.
+		* After this recombination point, the values are a weighted average
+		* of the two parents (weighed by factor alpha).
+		* Parameters: k, alpha
+		*/
+
+		int nrTraits = player38.nrTraits;
+
+		// only working with an even number of parents
+		int numChild = selectedParents.size() - selectedParents.size() % 2;
+		double[][] children = new double[numChild][nrTraits];
+
+		// recombination point k now randomized for every parent pair
+
+		// weighing factors now set to 0.5 (most common according to book)
+		// we could use a different value or randomize between 0 and 1
+
+		for (int ind = 0; ind < numChild; ind +=2)
+		{
+			for (int j = 0; j < k; j++)
+			{
+				 children[ind][j] = selectedParents.get(ind)[j];
+				 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
+			}
+
+			for (int j = k; j < nrTraits; j++)
+			{
+				 children[ind][j] = selectedParents.get(ind + 1)[j] * alpha + selectedParents.get(ind)[j] * (1-alpha);
+				 children[ind + 1][j] = selectedParents.get(ind + 1)[j] * (1-alpha) + selectedParents.get(ind)[j] * alpha;
+			}
+
+		}
+
+		return children;
+	}
+
+
+
+	public double[][] singleArithmeticRecombination(ArrayList<double[]> selectedParents, double alpha)
+	{
+		/*
+		* In each parent, a single point becomes the weighted average
+		* of its two parents; the other points within the two parents are not changed.
+		* Weighing happens using alpha. Which  allele is combined is randomly
+		* determined for each pair of parents.
+		* Parameters: alpha
+		*/
+
+		int nrTraits = player38.nrTraits;
+
+		// only working with an even number of parents
+		int numChild = selectedParents.size() - selectedParents.size() % 2;
+		double[][] children = new double[numChild][nrTraits];
+
+		// weight given to first parent (other parent gets 1-alpha)
+		// 0.5 most common according to book. We could also try other values,
+		// or randomize on every run.
+
+		for (int ind = 0; ind < numChild; ind +=2)
+		{
+			int k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
+
+			for (int j = 0; j < nrTraits; j++)
+			{
+				if (j == k) {
+					children[ind][j] = selectedParents.get(ind)[j] * alpha + selectedParents.get(ind + 1)[j] * (1-alpha);
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j] * alpha + selectedParents.get(ind)[j] * (1-alpha);
+				} else {
+					children[ind][j] = selectedParents.get(ind)[j];
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 				}
 
-				if (childScores[j] < minScore)
-				{
-					minScore = childScores[j];
-				}
-			}
-
-			// combine children and parents into full population
-			//ArrayList<double[]> oldPopulation = new ArrayList<double[]>();
-
-			double[][] oldPopulation = new double[populationSize + numChild][nrTraits];
-			double[] allScores = new double[populationSize + numChild];
-			double[] allProbs = new double[populationSize + numChild];
-
-			// copy parents
-			for (int i = 0; i < populationSize; i++)
-			{
-				oldPopulation[i] = population[i];
-				allScores[i] = parentScores[i];
-			}
-
-			// copy children
-			for (int i = 0; i < numChild; i++)
-			{
-				oldPopulation[populationSize + i] = children[i];
-				allScores[populationSize + i] = childScores[i];
-			}
-
-			// normalize probabilities
-			for (int i = 0; i < populationSize + numChild; i++)
-			{
-				allProbs[i] = (allScores[i] - minScore) / (maxScore - minScore);
-			}
-
-			//shuffle population
-			ArrayList<Integer> shuffleArray = new ArrayList<Integer>();
-
-			for (int i = 0; i < populationSize + numChild; i++)
-			{
-				shuffleArray.add(i);
-			}
-
-			Collections.shuffle(shuffleArray);
-
-
-			// ELIMINATE numChild individuals
-			int elim = 0;
-			int idx = 0;
-			int[] eliminated = new int[populationSize + numChild];
-			Arrays.fill(eliminated, 0);
-
-			// eliminate until old population size is reached
-			while (elim < numChild)
-			{
-				System.out.println("pppppppeminiiniinini");
-
-				// TODO: check sign
-				if (eliminated[shuffleArray.get(idx)] == 0 && rnd_.nextDouble() <= allProbs[shuffleArray.get(idx)])
-				{
-					elim++;
-					eliminated[shuffleArray.get(idx)] = 1;
-					System.out.println("eminiiniinini");
-				}
-
-				// update counter, reset if necessary
-				idx++;
-				if (idx == populationSize + numChild)
-				{
-					idx = 0;
-				}
-			}
-
-			// update population to all survivers
-			for (int i = 0, j = 0; i < populationSize + numChild; i++)
-			{
-				if (eliminated[i] == 0)
-				{
-					population[j] = oldPopulation[i];
-				}
 			}
 		}
+
+		return children;
 	}
+
+
+
+	public double[][] blendCrossoverRecombination(ArrayList<double[]> selectedParents, double alpha)
+	{
+		/*
+		* Offspring can lie outside parents. Offspring point in a range around
+		* the parent points.; range is determined by alpha
+		* Parameters: alpha
+		*/
+
+		int nrTraits = player38.nrTraits;
+
+		// only working with an even number of parents
+		int numChild = selectedParents.size() - selectedParents.size() % 2;
+		double[][] children = new double[numChild][nrTraits];
+
+		// 0.5 reportedly leads to the best results, but we could change this
+
+		for (int ind = 0; ind < numChild; ind +=2)
+		{
+			for (int j = 0; j < nrTraits; j++)
+			{
+				double distance = Math.abs(selectedParents.get(ind)[j] - selectedParents.get(ind+1)[j]);
+
+				if (distance > 0.0) {
+					double lowerVal = (selectedParents.get(ind)[j] < selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
+					double higherVal = (selectedParents.get(ind)[j] > selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
+
+					double min = lowerVal - alpha * distance;
+					double max = higherVal + alpha * distance;
+
+					double new_value1 = -10.0;
+					while (new_value1 < -5.0 || new_value1 > 5.0) {
+						new_value1 = ThreadLocalRandom.current().nextDouble(min, max);
+					}
+
+					double new_value2 = -10.0;
+					while (new_value2 < -5.0 || new_value2 > 5.0) {
+						new_value2 = ThreadLocalRandom.current().nextDouble(min, max);
+					}
+
+					children[ind][j] = new_value1;
+					children[ind + 1][j] = new_value2;
+
+				} else {
+					children[ind][j] = selectedParents.get(ind)[j];
+					children[ind + 1][j] = selectedParents.get(ind+1)[j];
+				}
+
+			}
+		}
+
+		return children;
+
+	}
+
+
+
 }
