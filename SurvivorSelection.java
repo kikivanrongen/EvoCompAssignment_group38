@@ -226,7 +226,7 @@ public class SurvivorSelection
     elimIndividuals.subList(0,surplus).clear();
 
     // remove eliminated individuals
-    for (int l = 0; l <= elimIndividuals.size(); l++)
+    for (int l = 0; l < elimIndividuals.size(); l++)
     {
       oldPopulation.remove(l);
     }
