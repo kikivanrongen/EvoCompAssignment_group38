@@ -50,8 +50,11 @@ public class Recombination
 				return blendCrossoverRecombination(selectedParents, alpha);
 			default:
 				System.out.println("No valid method chosen");
-					alpha = 0.5;
-					return discretePointwiseRecombination(selectedParents, alpha);
+				double[][] genomes = new double[selectedParents.size()][nrTraits];
+					for (int i=0; i<selectedParents.size(); i++) {
+						genomes[i] = selectedParents.get(i).genome;
+					}
+					return genomes;
 		}
 
 	}
