@@ -294,9 +294,6 @@ public class Recombination
 					children[ind + 1][j] = selectedParents.get(ind+1)[j];
 				}
 
-
-
-
 			}
 		}
 
