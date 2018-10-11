@@ -204,8 +204,8 @@ public class SurvivorSelection
     }
 
     // sort scores and the population accordingly
-    int[] sortedWins = wins;
-
+    int[] sortedWins = new int[wins.length];
+    System.arraycopy(wins, 0, sortedWins, 0, wins.length);
     Arrays.sort(sortedWins);
     int medianWins = sortedWins[wins.length/2];
 
@@ -219,17 +219,19 @@ public class SurvivorSelection
         elimIndividuals.add(k);
       }
     }
+    int surplus = elimIndividuals.size() - numChild;
 
     // determine surplus and remove
     Collections.shuffle(elimIndividuals);
-    int surplus = elimIndividuals.size() - numChild;
     elimIndividuals.subList(0,surplus).clear();
 
-    // remove eliminated individuals
-    for (int l = 0; l < elimIndividuals.size(); l++)
+    // sort (reversed) and eliminate from population
+    Collections.sort(elimIndividuals, Collections.reverseOrder());
+    for (int i = 0; i < elimIndividuals.size(); i++)
     {
-      oldPopulation.remove(l);
+      oldPopulation.remove(elimIndividuals.get(i).intValue());
     }
+
 
     // check for correct population size
     if (oldPopulation.size() != populationSize)
