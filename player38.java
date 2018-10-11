@@ -71,7 +71,7 @@ public class player38 implements ContestSubmission
 		// ParentSelection parentSelector = new ParentSelection("arena");
 		ParentSelection parentSelector = new ParentSelection("ranked-exp");
 		Recombination recombinator = new Recombination("discrete-pointwise");
-		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
+		SurvivorSelection survivorSelector = new SurvivorSelection("elitism");
 
 		/*
 		* INITIALIZATION
