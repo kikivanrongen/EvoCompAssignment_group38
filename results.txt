@@ -1,9 +1,15 @@
+Compile files
 Sphere Evaluation Function:
-Score: 0.0
-Runtime: 200ms
-Bent Cigar Function: 
-Score: 0.00720862165097499
-Runtime: 220ms
-Schaffers Evaluation Function: 
-Score: 0.08936755227753607
-Runtime: 814ms
+Score: 9.905726935151009
+Runtime: 140ms
+Bent Cigar Function:
+Score: 9.381924550803449
+Runtime: 135ms
+Schaffers Evaluation Function:
+Score: 1.9393343171808142
+Runtime: 1017ms
+Katsuura Evaluation Function:
+Your code has thrown an Exception/Error!
+This would halt execution (the best score achieved so far would be assigned)
+Score: 0.13461638969548806
+Runtime: 4065ms
