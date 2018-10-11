@@ -10,7 +10,7 @@ do
   echo $i
   java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> data/cigar.txt
 done
-python data/score.py data/cigar.txt >> data/cigar.txt
+python3 data/score.py data/cigar.txt >> data/cigar.txt
 
 echo "Evaluate Schaffers"
 > data/schaffers.txt
@@ -19,7 +19,7 @@ do
   echo $i
   java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> data/schaffers.txt
 done
-python data/score.py data/schaffers.txt >> data/schaffers.txt
+python3 data/score.py data/schaffers.txt >> data/schaffers.txt
 
 echo "Evaluate Katsuura"
 > data/katsuura.txt
@@ -28,4 +28,4 @@ do
   echo $i
   java -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> data/katsuura.txt
 done
-python data/score.py data/katsuura.txt >> data/katsuura.txt
+python3 data/score.py data/katsuura.txt >> data/katsuura.txt
