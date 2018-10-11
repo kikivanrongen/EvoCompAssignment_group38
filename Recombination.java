@@ -271,6 +271,8 @@ public class Recombination
 		{
 			for (int j = 0; j < nrTraits; j++)
 			{
+				double distance = Math.abs(selectedParents.get(ind)[j] - selectedParents.get(ind+1)[j]);
+
 				if (distance > 0.0) {
 					double lowerVal = (selectedParents.get(ind)[j] < selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
 					double higherVal = (selectedParents.get(ind)[j] > selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
