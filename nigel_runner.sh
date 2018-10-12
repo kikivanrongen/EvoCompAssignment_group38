@@ -4,7 +4,6 @@ javac -cp contest.jar player38.java ParentSelection.java Recombination.java Muta
 jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class Mutation.class SurvivorSelection.class Individual.class
 
 # start=`date +%s`
-
 echo "Evaluate Bent Cigar"
 for i in {0..863}
 do
