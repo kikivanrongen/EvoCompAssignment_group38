@@ -16,7 +16,7 @@ public class Recombination
 		recombinationAlg_ = algType;
 	}
 
-	public double[][] performRecombination(ArrayList<Individual> selectedParents)//with correct var
+	public double[][] performRecombination(ArrayList<Individual> selectedParents, double alphaIter)//with correct var
 	{
 		int nrTraits = player38.nrTraits;
 		double alpha;
@@ -25,29 +25,29 @@ public class Recombination
 		switch(recombinationAlg_)
 		{
 			case "discrete-pointwise":
-				alpha = 0.5;
-				return discretePointwiseRecombination(selectedParents, alpha);
+				// alpha = 0.5;
+				return discretePointwiseRecombination(selectedParents, alphaIter);
 
 			case "discrete-tailswap":
 				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
 				return discreteTailswapRecombination(selectedParents, k);
 
 			case "arithmetic-whole":
-				alpha = 0.5;
-				return wholeArithmeticRecombination(selectedParents, alpha);
+				// alpha = 0.5;
+				return wholeArithmeticRecombination(selectedParents, alphaIter);
 
 			case "arithmetic-simple":
 				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
-				alpha = 0.5;
-				return simpleArithmeticRecombination(selectedParents, k, alpha);
+				// alpha = 0.5;
+				return simpleArithmeticRecombination(selectedParents, k, alphaIter);
 
 			case "arithmetic-single":
-				alpha = 0.5;
-				return singleArithmeticRecombination(selectedParents, alpha);
+				// alpha = 0.5;
+				return singleArithmeticRecombination(selectedParents, alphaIter);
 
 			case "blendcrossover":
-				alpha = 0.5;
-				return blendCrossoverRecombination(selectedParents, alpha);
+				// alpha = 0.5;
+				return blendCrossoverRecombination(selectedParents, alphaIter);
 			default:
 				System.out.println("No valid method chosen");
 				double[][] genomes = new double[selectedParents.size()][nrTraits];

@@ -19,14 +19,14 @@ public class Mutation
     rnd_ = new Random();
   }
 
-  public ArrayList<Individual> performMutation(ArrayList<Individual> population) {
+  public ArrayList<Individual> performMutation(ArrayList<Individual> population, double sd) {
     // First determine mutation type and run the corresponding function.
     switch(this.mutation_type) {
       case "uniform":
           double threshold = .1;
           return this.uniformMutation(population, threshold);
         case "gauss":
-          double sd = 0.5;
+          // double sd = 0.5;
           return this.gaussMutation(population, sd);
         case "uncorrelated-onestep":
           //TODO: nadenken over hoe sigma lijsten terug te sturen.

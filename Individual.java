@@ -10,16 +10,16 @@ public class Individual
   public double prob;
   //private double prob;
 
-  public Individual(int nrTraits, String mutationType) {
+  public Individual(int nrTraits, String mutationType, double sigma) {
     genome = new double[nrTraits];
     //TODO: based on mutation type either initialize sigma, sigmalist or neither.
     if (mutationType.contains("onestep")) {
-      this.sigma = .2;
+      this.sigma = sigma;
     } else if(mutationType.contains("nstep")) {
       this.sigmaList = new double[nrTraits];
       for (int i=0; i<nrTraits; i++) {
         //fill sigma
-        sigmaList[i] = .2;
+        sigmaList[i] = sigma;
       }
     }
   }
