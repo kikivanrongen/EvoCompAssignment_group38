@@ -6,16 +6,16 @@ jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recomb
 # start=`date +%s`
 
 echo "Evaluate Bent Cigar"
-> data/cigar_0132.txt
+> data/cigar_0502.txt
 for i in {1..500}
 do
   if (($i % 10 == 0))
   then
     echo $i
   fi
-  java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> data/cigar_0132.txt
+  java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> data/cigar_0502.txt
 done
-# python data/score.py data/cigar_0132.txt >> data/cigar_0132.txt
+# python data/score.py data/cigar_0502.txt >> data/cigar_0502.txt
 
 # end=`date +%s`
 # runtime=$((end-start))
@@ -23,16 +23,16 @@ done
 # start=`date +%s`
 
 echo "Evaluate Schaffers"
-> data/schaffers_0132.txt
+> data/schaffers_0502.txt
 for i in {1..500}
 do
   if (($i % 10 == 0))
   then
     echo $i
   fi
-  java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> data/schaffers_0132.txt
+  java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> data/schaffers_0502.txt
 done
-# python data/score.py data/schaffers_0132.txt >> data/schaffers_0132.txt
+# python data/score.py data/schaffers_0502.txt >> data/schaffers_0502.txt
 
 # end=`date +%s`
 # runtime=$((end-start))
@@ -40,16 +40,16 @@ done
 # start=`date +%s`
 
 # echo "Evaluate Katsuura"
-# > data/katsuura_0132.txt
+# > data/katsuura_0502.txt
 # for i in {1..10}
 # do
 #   if (($i % 10 == 0))
 #   then
 #     echo $i
 #   fi
-#   java -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> data/katsuura_0132.txt
+#   java -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> data/katsuura_0502.txt
 # done
-# python data/score.py data/katsuura_0132.txt >> data/katsuura_0132.txt
+# python data/score.py data/katsuura_0502.txt >> data/katsuura_0502.txt
 
 # end=`date +%s`
 # runtime=$((end-start))
