@@ -20,11 +20,8 @@ y = np.linspace(0, len(x) - 1, len(x), dtype=int).tolist()
 filenames_cigar = []
 filenames_schaffers = []
 for i, item in enumerate(y):
-    # print(item)
-    # strings = [str(z) for z in item]/
-    # run = ''.join(strings)
     filenames_cigar.append('cigar_' + str(item) + '.txt')
-    # filenames_schaffers.append('schaffers_' + run + '.txt')
+    # filenames_schaffers.append('schaffers_' + str(item) + '.txt')
 # print(filenames)
 
 # Define variable data will be stored in (mean/std, recombination, mutation)
@@ -43,12 +40,6 @@ for i, item in enumerate(filenames_cigar):
                 score.append(float(row[0][7::]))
 
         score = np.array(score)
-        # print(x[i])
-        # print(x[i, 0], x[i, 1], x[i, 2])
-
-        # print(item)
-        # print('mean:', np.mean(score), '|| std:', np.std(score))
-        # data_cigar[1, int(item[7]), int(item[8])] = np.std(score)
         data_cigar[0, x[i,0], x[i, 1], x[i, 2]] = np.mean(score)
         data_cigar[1, x[i,0], x[i, 1], x[i, 2]] = np.std(score)
 
@@ -74,27 +65,9 @@ for i, item in enumerate(filenames_cigar):
 #
 #     except:
 #         continue
+
 data = data_cigar.reshape(2, 24, -1)
-# print(data.shape)
 
 f, axes = plt.subplots(1, 1, figsize=(24, 12))
 sns.heatmap(data[0], vmin=0, vmax=10, ax=axes, annot=True)
-
-# print(data_cigar.reshape(2, 24, -1))
-# x_labels = ["uniform", "gauss", "onestep", "nstep"]
-# y_labels = ["discrete pointwise", "discrete tailswap", "arithmetic whole", "arithmetic simple", "arithmetic single", "blend crossover"]
-# f, axes = plt.subplots(2, 2, figsize=(12, 12), sharex=True, sharey=True)
-#
-# sns.heatmap(data_cigar[0], annot=True, vmin=0, vmax=10, ax=axes[0,0], xticklabels=x_labels, yticklabels=y_labels)
-# sns.heatmap(data_cigar[1], annot=True, vmin=0, vmax=1, ax=axes[1,0], xticklabels=x_labels, yticklabels=y_labels)
-# sns.heatmap(data_schaffers[0], annot=True, vmin=0, vmax=10, ax=axes[0,1], xticklabels=x_labels, yticklabels=y_labels)
-# sns.heatmap(data_schaffers[1], annot=True, vmin=0, vmax=1, ax=axes[1,1], xticklabels=x_labels, yticklabels=y_labels)
-#
-# axes[0,0].set(title="Bent Cigar - score")
-# axes[0,1].set(title="Schaffers - score")
-# axes[1,0].set(title="Bent Cigar - std")
-# axes[1,1].set(title="Schaffers - std")
-#
-# # f, ax = plt.subplots(figsize=(12, 6))
-# # sns.heatmap(data_cigar[0], annot=True, vmin=0, vmax=10, ax=ax, xticklabels=x_labels, yticklabels=y_labels)
 plt.show()
