@@ -105,11 +105,11 @@ public class player38 implements ContestSubmission
 
 		int iter = Integer.parseInt(System.getProperty("iter"));
 		// System.out.println(String.valueOf(iter));
-		int[] setup = setups[iter];
+		//int[] setup = setups[iter];
 		// System.out.println(Arrays.toString(setup));
-		int[] funcs = funcIndex[setup[0]];
-		double alpha = alphas[setup[1]];
-		double std = stds[setup[2]];
+		int[] funcs = funcIndex[iter];
+		double alpha = 0.5;
+		double std = 0.01;
 
 		int evals = 0;
 		int populationSize = 100;
