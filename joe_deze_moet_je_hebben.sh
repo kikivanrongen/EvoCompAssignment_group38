@@ -4,7 +4,7 @@ javac -cp contest.jar player38.java ParentSelection.java Recombination.java Muta
 jar cmf MainClass.txt submission.jar player38.class ParentSelection.class Recombination.class Mutation.class SurvivorSelection.class Individual.class
 export LD_LIBRARY_PATH=~/Documents/EvoCompAssignment_group38
 
-start=`date +%s`
+start=`date`
 echo $start
 
 echo "Evaluate Katsuura"
@@ -15,7 +15,7 @@ do
     echo $i
   fi
   > sanne/katsuura_$i.txt
-  for j in {1..2}
+  for j in {1..100}
   do
     java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> sanne/katsuura_$i.txt
   done
@@ -23,5 +23,5 @@ done
 # python data/score.py data/katsuura_0502.txt >> data/katsuura_0502.txt
 
 
-end=`date +%s`
+end=`date`
 echo $end
