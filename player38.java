@@ -123,6 +123,10 @@ public class player38 implements ContestSubmission
 		Mutation mutator = new Mutation(mutationType);
 		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[funcs[3]]);
 
+
+		// Diversity
+		//System.out.println(recopts[funcs[1]]);
+		//System.out.println(mutationType);
 		//TODO: Errors in Blendcrossover; StochastifUniversalSampling; populationsize of roundrobin en in elitism.
 
 		// Array for storing values for diversity
@@ -153,24 +157,24 @@ public class player38 implements ContestSubmission
 			// niet weggooien plzzzz
 			// Diversity is measured per generation, as the total Manhattan distance between all points
 
-			// generations +=1;
-			// double diversity = 0;
-			//
-			// for (int j = 0; j < populationSize; j++)
-			// {
-			// 	for (int k = 0; k < populationSize; k++)
-			// 	{
-			// 		double[] individual1 = population.get(j).genome;
-			// 		double[] individual2 = population.get(k).genome;
-			//
-			// 		for (int l = 0; l < individual1.length; l++)
-			// 		{
-			// 			diversity += Math.abs(individual1[l] - individual2[l]);
-			// 		}
-			// 	}
-			// }
-			// diversityArray.add(diversity);
+			generations +=1;
+			double diversity = 0;
 
+			for (int j = 0; j < populationSize; j++)
+			{
+				for (int k = 0; k < populationSize; k++)
+				{
+					double[] individual1 = population.get(j).genome;
+					double[] individual2 = population.get(k).genome;
+
+					for (int l = 0; l < individual1.length; l++)
+					{
+						diversity += Math.abs(individual1[l] - individual2[l]);
+					}
+				}
+			}
+			diversityArray.add(diversity);
+			System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
