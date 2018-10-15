@@ -38,6 +38,7 @@ for i in range(24):
         highest_mean_param = options[i]
 
 data = sorted(data.items(), key=operator.itemgetter(1))
+print(data)
 sorted_funcs = []
 for function in data:
     sorted_funcs.append(function[0])

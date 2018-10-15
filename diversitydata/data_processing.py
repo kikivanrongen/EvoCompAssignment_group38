@@ -25,11 +25,11 @@ bestworst = ["dt_un", "bl_un"] # worst and best for schaffers
 
 colors = ["#e41a1c", "#8ea6c1"]
 
-function = "schaffers"
+function = "katsuura"
 
 
-generations = 665 #65 for BC, 665 for SCH,
-generationHelper = 668 # 68 for BC, 668 for SCH
+generations = 13333 #65 for BC, 665 for SCH, 13333 for KAT
+generationHelper = 13336 # 68 for BC, 668 for SCH, 13336 for KAT
 
 dataFrame = pd.DataFrame(columns=options, index=range(0,generations+1))
 dataFrame = dataFrame.fillna(0)
@@ -53,8 +53,13 @@ for i in range(24):
 
 if function == "schaffers":
     dataFrame = pd.DataFrame(np.log(dataFrame))
-print(dataFrame.head())
 dataFrame = dataFrame.reset_index()
+if function == "katsuura":
+    dataFrame = pd.DataFrame(np.log(dataFrame))
+
+print(dataFrame.head())
+
+
 
 # For coloring
 
@@ -99,13 +104,15 @@ for n, plot in enumerate(plotoptions):
     sbs.pointplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, scale=scale)
 
 
-ax.set(xlabel="Generation", ylabel="Total Manhattan distance (log)", title="Schaffers")
+ax.set(xlabel="Generation", ylabel="Total Manhattan distance (log)", title="Katsuura")
 #ax.legend(handles=ax.lines[::len(dataFrame)+1], labels=plotoptions)
 #ax.set_xticklabels([t.get_text().split("T")[0] for t in ax.get_xticklabels()])
 if function == "cigar":
     plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
-else:
+elif function == "schaffers":
     plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
+elif function == "katsuura":
+    plt.ticks([0, np.log(2000), np.log(4000), np.log(6000), np.log(8000), np.log(10000), np.log(12000)], labels=[0, 2000, 4000, 6000, 8000, 10000, 12000])
 
 
 plt.show()
