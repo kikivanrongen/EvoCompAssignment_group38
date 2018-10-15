@@ -105,11 +105,11 @@ public class player38 implements ContestSubmission
 
 		int iter = Integer.parseInt(System.getProperty("iter"));
 		// System.out.println(String.valueOf(iter));
-		int[] setup = setups[iter];
+		//int[] setup = setups[iter];
 		// System.out.println(Arrays.toString(setup));
-		int[] funcs = funcIndex[setup[0]];
-		double alpha = alphas[setup[1]];
-		double std = stds[setup[2]];
+		int[] funcs = funcIndex[iter];
+		double alpha = 0.5;
+		double std = 0.2;
 
 		int evals = 0;
 		int populationSize = 100;
@@ -123,8 +123,14 @@ public class player38 implements ContestSubmission
 		Mutation mutator = new Mutation(mutationType);
 		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[funcs[3]]);
 
+
+		// Diversity
+		//System.out.println(recopts[funcs[1]]);
+		//System.out.println(mutationType);
 		//TODO: Errors in Blendcrossover; StochastifUniversalSampling; populationsize of roundrobin en in elitism.
 
+		// Array for storing values for diversity
+		ArrayList<Double> diversityArray = new ArrayList<Double>();
 
 		// init population with random values between -5 and 5
 		ArrayList<Individual> population = new ArrayList<Individual>();
@@ -141,9 +147,34 @@ public class player38 implements ContestSubmission
 			population.add(unit);
 		}
 
+		int generations = -1;
+
 		// calculate fitness
 		while(evals < evaluations_limit_-200)
 		{
+
+			// CALCULATING DIVERSITY
+			// niet weggooien plzzzz
+			// Diversity is measured per generation, as the total Manhattan distance between all points
+
+			generations +=1;
+			double diversity = 0;
+
+			for (int j = 0; j < populationSize; j++)
+			{
+				for (int k = 0; k < populationSize; k++)
+				{
+					double[] individual1 = population.get(j).genome;
+					double[] individual2 = population.get(k).genome;
+
+					for (int l = 0; l < individual1.length; l++)
+					{
+						diversity += Math.abs(individual1[l] - individual2[l]);
+					}
+				}
+			}
+			diversityArray.add(diversity);
+			System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
