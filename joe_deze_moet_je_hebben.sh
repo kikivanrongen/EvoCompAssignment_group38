@@ -7,19 +7,34 @@ export LD_LIBRARY_PATH=~/Documents/EvoCompAssignment_group38
 start=`date`
 echo $start
 
-echo "Evaluate Katsuura"
-for i in {0..23}
+echo "Evaluate Cigar"
+for i in {0..15}
 do
   if (($i % 10 == 0))
   then
     echo $i
   fi
-  > sanne/katsuura_$i.txt
+  > parameter_search/cigar_$i.txt
   for j in {1..100}
   do
-    java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> sanne/katsuura_$i.txt
+    java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> parameter_search/cigar_$i.txt
   done
 done
+
+
+# echo "Evaluate Katsuura"
+# for i in {0..15}
+# do
+#   if (($i % 10 == 0))
+#   then
+#     echo $i
+#   fi
+#   > parameter_search/katsuura_$i.txt
+#   for j in {1..100}
+#   do
+#     java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> parameter_search/katsuura_$i.txt
+#   done
+# done
 # python data/score.py data/katsuura_0502.txt >> data/katsuura_0502.txt
 
 
