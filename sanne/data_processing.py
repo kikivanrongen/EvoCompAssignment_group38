@@ -14,6 +14,9 @@ options = ["dp_un", "dt_un", "aw_un", "as_un", "a1_un", "bl_un", "dp_ga", "dt_ga
 data = {}
 means = []
 stds = []
+lowest_mean = 10.0
+highest_mean = 0.0
+
 for i in range(24):
     filename = "katsuura_" + str(i) + ".txt"
     f = open(filename,'r')
@@ -25,6 +28,15 @@ for i in range(24):
     means.append(mean)
     stds.append(std)
     data[options[i]] = [mean,std]
+    if mean < lowest_mean:
+        lowest_mean = mean
+        lowest_mean_param = options[i]
+    if mean > highest_mean:
+        highest_mean = mean
+        highest_mean_param = options[i]
+
+print("Lowest mean " + str(lowest_mean) + " for " + lowest_mean_param)
+print("Highest mean " + str(highest_mean) + " for " + highest_mean_param)
 
 
 _,ax = plt.subplots()

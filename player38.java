@@ -109,7 +109,7 @@ public class player38 implements ContestSubmission
 		// System.out.println(Arrays.toString(setup));
 		int[] funcs = funcIndex[iter];
 		double alpha = 0.5;
-		double std = 0.01;
+		double std = 0.2;
 
 		int evals = 0;
 		int populationSize = 100;
