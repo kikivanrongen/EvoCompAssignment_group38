@@ -3,7 +3,6 @@ import numpy as np
 # matplotlib.use("agg")
 from tkinter import *
 import matplotlib.pyplot as plt
-import operator
 
 
 #Mutopts en recopts can be used to print the full names below
@@ -18,8 +17,8 @@ stds = []
 lowest_mean = 10.0
 highest_mean = 0.0
 
-for i in range(24):
-    filename = "katsuura_" + str(i) + ".txt"
+for i in range(15):
+    filename = "cigar_" + str(i) + ".txt"
     f = open(filename,'r')
     lines = f.readlines()
     values = [line.split()[1] for line in lines if "Score" in line]
@@ -28,8 +27,7 @@ for i in range(24):
     std = np.std(values)
     means.append(mean)
     stds.append(std)
-    data[options[i]] = mean#,std]
-
+    data[options[i]] = [mean,std]
     if mean < lowest_mean:
         lowest_mean = mean
         lowest_mean_param = options[i]
@@ -37,13 +35,6 @@ for i in range(24):
         highest_mean = mean
         highest_mean_param = options[i]
 
-data = sorted(data.items(), key=operator.itemgetter(1))
-print(data)
-sorted_funcs = []
-for function in data:
-    sorted_funcs.append(function[0])
-
-print(sorted_funcs)
 print("Lowest mean " + str(lowest_mean) + " for " + lowest_mean_param)
 print("Highest mean " + str(highest_mean) + " for " + highest_mean_param)
 
