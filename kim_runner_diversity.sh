@@ -17,27 +17,27 @@ echo $start
 #   done
 # done
 #
-echo "Evaluate Schaffers for diversity"
-for i in {0..14}
-do
-  echo $i
-  > diversitydata_parametertesting/schaffers_bl_un_$i.txt
-  for j in {1..30}
-  do
-    java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> diversitydata_parametertesting/schaffers_bl_un_$i.txt
-  done
-done
-#
-# echo "Evaluate Katsuura for diversity"
+# echo "Evaluate Schaffers for diversity"
 # for i in {0..14}
 # do
 #   echo $i
-#   > diversitydata_parametertesting/katsuura_$i.txt
+#   > diversitydata_parametertesting/schaffers_bl_un_$i.txt
 #   for j in {1..30}
 #   do
-#     java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> diversitydata_parametertesting/katsuura_aw_1_$i.txt
+#     java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> diversitydata_parametertesting/schaffers_bl_un_$i.txt
 #   done
 # done
+# #
+echo "Evaluate Katsuura for diversity"
+for i in {0..14}
+do
+  echo $i
+  > diversitydata_parametertesting/katsuura_a1_ga$i.txt
+  for j in {1..30}
+  do
+    java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=KatsuuraEvaluation -seed=1 >> diversitydata_parametertesting/katsuura_a1_ga_$i.txt
+  done
+done
 
 end=`date +%s`
 echo $end
