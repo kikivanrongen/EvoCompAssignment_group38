@@ -70,7 +70,7 @@ public class player38 implements ContestSubmission
 		int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
 		//int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
 
-		//
+
 		// int[] funcs = new int[]{0,3,1,2}; // cigar as_ga
 		// int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
 
@@ -138,24 +138,24 @@ public class player38 implements ContestSubmission
 			// niet weggooien plzzzz
 			// Diversity is measured per generation, as the total Manhattan distance between all points
 
-			generations +=1;
-			double diversity = 0;
-
-			for (int j = 0; j < populationSize; j++)
-			{
-				for (int k = 0; k < populationSize; k++)
-				{
-					double[] individual1 = population.get(j).genome;
-					double[] individual2 = population.get(k).genome;
-
-					for (int l = 0; l < individual1.length; l++)
-					{
-						diversity += Math.abs(individual1[l] - individual2[l]);
-					}
-				}
-			}
-			diversityArray.add(diversity);
-			System.out.println(diversity);
+			// generations +=1;
+			// double diversity = 0;
+			//
+			// for (int j = 0; j < populationSize; j++)
+			// {
+			// 	for (int k = 0; k < populationSize; k++)
+			// 	{
+			// 		double[] individual1 = population.get(j).genome;
+			// 		double[] individual2 = population.get(k).genome;
+			//
+			// 		for (int l = 0; l < individual1.length; l++)
+			// 		{
+			// 			diversity += Math.abs(individual1[l] - individual2[l]);
+			// 		}
+			// 	}
+			// }
+			// diversityArray.add(diversity);
+			// System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
