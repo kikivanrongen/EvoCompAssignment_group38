@@ -66,16 +66,22 @@ public class player38 implements ContestSubmission
 		String[] parselopts = {"arena", "ranked-lin", "ranked-exp"};
 		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
-		// int[] funcs = new int[]{0,2,2,2}; // cigar
-		// int[] funcs = new int[]{0,5,0,2}; // schaffer
-		int[] funcs = new int[]{0,4,2,2}; // katsura
+	//	int[] funcs = new int[]{0,2,2,2}; // cigar aw__1, number 1 best
+		int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
+		//int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
+
+		//
+		// int[] funcs = new int[]{0,3,1,2}; // cigar as_ga
+		// int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
+
+
 
 		// Deze gebruiken met vastgestelde waardes voor alpha als je wil loopen door alle mogelijke combinaties van functies
 	//	int[][] funcIndex = new int[][]{{0, 0, 0, 2},{0, 1, 0, 2},{0, 2, 0, 2},{0, 3, 0, 2},{0, 4, 0, 2},{0, 5, 0, 2},{0, 0, 1, 2},{0, 1, 1, 2},{0, 2, 1, 2},{0, 3, 1, 2},{0, 4, 1, 2},{0, 5, 1, 2},{0, 0, 2, 2},{0, 1, 2, 2},{0, 2, 2, 2},{0, 3, 2, 2},{0, 4, 2, 2},{0, 5, 2, 2},{0, 0, 3, 2},{0, 1, 3, 2},{0, 2, 3, 2},{0, 3, 3, 2},{0, 4, 3, 2},{0, 5, 3, 2}};
 
 
 		double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
-		double[] stds = new double[]{0.01, 0.05, 0.1, 0.5, 1}; //0 1 2 3 4
+		double[] stds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
 
 		int[][] setups = new int[][] {
 			{0,0}, {0,1},	{0,2}, {1,0},	{1,1}, {1,2},
@@ -84,8 +90,8 @@ public class player38 implements ContestSubmission
 
 		int iter = Integer.parseInt(System.getProperty("iter"));
 		int[] setup = setups[iter];
-		double alpha = alphas[setup[0]];
-		double std = stds[setup[1]];
+		double alpha = alphas[setup[1]];
+		double std = stds[setup[0]];
 
 		int evals = 0;
 		int populationSize = 100;
@@ -149,7 +155,7 @@ public class player38 implements ContestSubmission
 				}
 			}
 			diversityArray.add(diversity);
-			// System.out.println(diversity);
+			System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
