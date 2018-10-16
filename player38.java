@@ -67,8 +67,8 @@ public class player38 implements ContestSubmission
 		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
 	//	int[] funcs = new int[]{0,2,2,2}; // cigar aw__1, number 1 best
-		int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
-		//int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
+	//	int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
+		int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
 
 
 		// int[] funcs = new int[]{0,3,1,2}; // cigar as_ga
