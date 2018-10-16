@@ -10,7 +10,7 @@ import sys
 scores = []
 
 for index in range(24):
-    name = 'schaffers_{i}.txt'.format(i=index)
+    name = 'katsuura_{i}.txt'.format(i=index)
 
     with open(name, 'r') as csvfile:
         score = []
@@ -23,7 +23,7 @@ for index in range(24):
         print('mean:', np.mean(score), '|| std:', np.std(score))
         scores.append(score)
 
-with open('schaffers_scores.csv', 'w') as fp:
+with open('katsuura_scores.csv', 'w') as fp:
     writer = csv.writer(fp, delimiter=',')
     for ar in scores:
         writer.writerows(zip(ar))
