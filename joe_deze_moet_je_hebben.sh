@@ -45,7 +45,7 @@ do
   > parameter_search/schaffers_bl_un_$i.txt
   for j in {1..100}
   do
-    java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1 >> parameter_search/schaffers_bl_un_$i.txt
+    java -Diter=$i -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1 >> parameter_search/schaffers_bl_un_$i.txt
   done
 done
 
