@@ -15,12 +15,12 @@ options = ["dp_un", "dt_un", "aw_un", "as_un", "a1_un", "bl_un", "dp_ga", "dt_ga
 #bestworst = ["dt_un", "aw_1"] # worst and best for BentCigar
 
 # ordering worst to best for SCHAFFERS
-plotoptions = ['dt_un', 'aw_un', 'a1_un', 'as_un', 'dp_un', 'dt_n', 'a1_n', 'bl_n', 'dt_ga', 'dt_1', 'dp_n', 'dp_ga', 'a1_1', 'bl_ga', 'a1_ga', 'bl_1', 'dp_1', 'as_n', 'as_ga', 'aw_ga', 'as_1', 'aw_n', 'aw_1', 'bl_un']
-bestworst = ["dt_un", "bl_un"] # worst and best for schaffers
+#plotoptions = ['dt_un', 'aw_un', 'a1_un', 'as_un', 'dp_un', 'dt_n', 'a1_n', 'bl_n', 'dt_ga', 'dt_1', 'dp_n', 'dp_ga', 'a1_1', 'bl_ga', 'a1_ga', 'bl_1', 'dp_1', 'as_n', 'as_ga', 'aw_ga', 'as_1', 'aw_n', 'aw_1', 'bl_un']
+#bestworst = ["dt_un", "bl_un"] # worst and best for schaffers
 
 # ordering worst-to-best for KATSUURA
-#plotoptions = ['dt_un', 'a1_un', 'bl_un', 'dp_un', 'aw_un', 'as_un', 'bl_ga', 'bl_n', 'bl_1', 'dp_n', 'dp_ga', 'dp_1', 'aw_n', 'dt_n', 'aw_ga', 'as_n', 'dt_ga', 'aw_1', 'as_ga', 'dt_1', 'a1_n', 'as_1', 'a1_ga', 'a1_1']
-#bestworst = ["dt_un", "a1_1"] # worst and best for katsuura
+plotoptions = ['dt_un', 'a1_un', 'bl_un', 'dp_un', 'aw_un', 'as_un', 'bl_ga', 'bl_n', 'bl_1', 'dp_n', 'dp_ga', 'dp_1', 'aw_n', 'dt_n', 'aw_ga', 'as_n', 'dt_ga', 'aw_1', 'as_ga', 'dt_1', 'a1_n', 'as_1', 'a1_ga', 'a1_1']
+bestworst = ["dt_un", "a1_1"] # worst and best for katsuura
 
 
 colors = ["#e41a1c", "#8ea6c1"]
@@ -28,8 +28,8 @@ colors = ["#e41a1c", "#8ea6c1"]
 function = "katsuura"
 
 
-generations = 13333 #65 for BC, 665 for SCH, 13333 for KAT
-generationHelper = 13336 # 68 for BC, 668 for SCH, 13336 for KAT
+generations = 6665 #65 for BC, 665 for SCH, 6665 for KAT
+generationHelper = 6668 # 68 for BC, 668 for SCH, 6668 for KAT
 
 dataFrame = pd.DataFrame(columns=options, index=range(0,generations+1))
 dataFrame = dataFrame.fillna(0)
@@ -45,19 +45,19 @@ for i in range(24):
 
             if not "Score" in line and not "Runtime" in line:
                 diversityValue = float(line)
-                updatedValue = (dataFrame.at[runIndex, options[i]] * sampleIndex + diversityValue) / (sampleIndex + 1)
-                dataFrame.at[runIndex, options[i]] = updatedValue
+                dataFrame.at[runIndex, options[i]] += diversityValue
 
             else:
                 sampleIndex += 1
 
-if function == "schaffers":
-    dataFrame = pd.DataFrame(np.log(dataFrame))
-dataFrame = dataFrame.reset_index()
-if function == "katsuura":
+dataFrame = dataFrame / sampleIndex
+
+if function == "schaffers":# or function == "katsuura":
     dataFrame = pd.DataFrame(np.log(dataFrame))
 
-print(dataFrame.head())
+dataFrame = dataFrame.reset_index()
+
+print(dataFrame.tail())
 
 
 
@@ -101,7 +101,8 @@ for n, plot in enumerate(plotoptions):
             scale = 0.3
         else:
             scale = 0.05
-    sbs.pointplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, scale=scale)
+    print(ax, color, scale)
+    sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, size=scale)
 
 
 ax.set(xlabel="Generation", ylabel="Total Manhattan distance (log)", title="Katsuura")
@@ -111,8 +112,8 @@ if function == "cigar":
     plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
 elif function == "schaffers":
     plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
-elif function == "katsuura":
-    plt.ticks([0, np.log(2000), np.log(4000), np.log(6000), np.log(8000), np.log(10000), np.log(12000)], labels=[0, 2000, 4000, 6000, 8000, 10000, 12000])
+#elif function == "katsuura":
+    #plt.xticks([0, 2000, 4000, 6000, 8000, 10000, 12000], labels=[0, 2000, 4000, 6000, 8000, 10000, 12000])
 
 
 plt.show()
