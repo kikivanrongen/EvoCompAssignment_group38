@@ -4,32 +4,36 @@ import seaborn as sbs
 import matplotlib.pyplot as plt
 
 #Mutopts en recopts can be used to print the full names below
-mutopts = {"un": "uniform", "ga": "gauss", "1": "uncorrelated-onestep", "n":"uncorrelated-nstep"}
-recopts = {"dp":"discrete-pointwise", "dt":"discrete-tailswap", "aw":"arithmetic-whole", "as":"arithmetic-simple", "a1":"arithmetic-single", "bl":"blendcrossover"}
 options = ["dp_un", "dt_un", "aw_un", "as_un", "a1_un", "bl_un", "dp_ga", "dt_ga", "aw_ga", "as_ga", "a1_ga", "bl_ga", "dp_1", "dt_1", "aw_1", "as_1", "a1_1", "bl_1", "dp_n" , "dt_n", "aw_n", "as_n", "a1_n", "bl_n"]
 
-# which options to plot QUALITATIVE PARAMETERS
-
-# ordering worst-to-best for BentCigar
-#plotoptions = ['dt_un', 'a1_un', 'aw_un', 'dp_un', 'bl_un', 'as_un', 'dt_n', 'dt_ga', 'a1_1', 'a1_ga', 'dt_1', 'a1_n', 'bl_n', 'dp_n', 'dp_1', 'bl_ga', 'bl_1', 'dp_ga', 'aw_ga', 'as_n', 'aw_n', 'as_ga', 'as_1', 'aw_1']
-#bestworst = ["dt_un", "aw_1"] # worst and best for BentCigar
-
-# ordering worst to best for SCHAFFERS
-#plotoptions = ['dt_un', 'aw_un', 'a1_un', 'as_un', 'dp_un', 'dt_n', 'a1_n', 'bl_n', 'dt_ga', 'dt_1', 'dp_n', 'dp_ga', 'a1_1', 'bl_ga', 'a1_ga', 'bl_1', 'dp_1', 'as_n', 'as_ga', 'aw_ga', 'as_1', 'aw_n', 'aw_1', 'bl_un']
-#bestworst = ["dt_un", "bl_un"] # worst and best for schaffers
-
-# ordering worst-to-best for KATSUURA
-plotoptions = ['dt_un', 'a1_un', 'bl_un', 'dp_un', 'aw_un', 'as_un', 'bl_ga', 'bl_n', 'bl_1', 'dp_n', 'dp_ga', 'dp_1', 'aw_n', 'dt_n', 'aw_ga', 'as_n', 'dt_ga', 'aw_1', 'as_ga', 'dt_1', 'a1_n', 'as_1', 'a1_ga', 'a1_1']
-bestworst = ["dt_un", "a1_1"] # worst and best for katsuura
-
-
-colors = ["#e41a1c", "#8ea6c1"]
+colors = ["#0038a8", "#e41a1c"]
 
 function = "katsuura"
 
+if function == "cigar":
+    plotoptions = ['dt_un', 'a1_un', 'aw_un', 'dp_un', 'bl_un', 'as_un', 'dt_n', 'dt_ga', 'a1_1', 'a1_ga', 'dt_1', 'a1_n', 'bl_n', 'dp_n', 'dp_1', 'bl_ga', 'bl_1', 'dp_ga', 'aw_ga', 'as_n', 'aw_n', 'as_ga', 'as_1', 'aw_1']
+    bestworst = ["dt_un", "aw_1"] # worst and best for BentCigar
 
-generations = 6665 #65 for BC, 665 for SCH, 6665 for KAT
-generationHelper = 6668 # 68 for BC, 668 for SCH, 6668 for KAT
+    generations = 65 #65 for BC, 665 for SCH, 6665 for KAT
+    generationHelper = 68 # 68 for BC, 668 for SCH, 6668 for KAT
+
+elif function == "schaffers":
+    # ordering worst to best for SCHAFFERS
+    plotoptions = ['dt_un', 'aw_un', 'a1_un', 'as_un', 'dp_un', 'dt_n', 'a1_n', 'bl_n', 'dt_ga', 'dt_1', 'dp_n', 'dp_ga', 'a1_1', 'bl_ga', 'a1_ga', 'bl_1', 'dp_1', 'as_n', 'as_ga', 'aw_ga', 'as_1', 'aw_n', 'aw_1', 'bl_un']
+    bestworst = ["dt_un", "bl_un"] # worst and best for schaffers
+
+    generations = 665 #65 for BC, 665 for SCH, 6665 for KAT
+    generationHelper = 668 # 68 for BC, 668 for SCH, 6668 for KAT
+
+elif function == "katsuura":
+
+    # ordering worst-to-best for KATSUURA
+    plotoptions = ['dt_un', 'a1_un', 'bl_un', 'dp_un', 'aw_un', 'as_un', 'bl_ga', 'bl_n', 'bl_1', 'dp_n', 'dp_ga', 'dp_1', 'aw_n', 'dt_n', 'aw_ga', 'as_n', 'dt_ga', 'aw_1', 'as_ga', 'dt_1', 'a1_n', 'as_1', 'a1_ga', 'a1_1']
+    bestworst = ["dt_un", "a1_1"] # worst and best for katsuura
+
+    generations = 6665 #65 for BC, 665 for SCH, 6665 for KAT
+    generationHelper = 6668 # 68 for BC, 668 for SCH, 6668 for KAT
+
 
 dataFrame = pd.DataFrame(columns=options, index=range(0,generations+1))
 dataFrame = dataFrame.fillna(0)
@@ -86,34 +90,34 @@ def lighten_color(color, amount=0.5):
 # Plotting
 f, ax = plt.subplots(1, 1)
 for n, plot in enumerate(plotoptions):
+    print(plot)
     if n < len(plotoptions) / 2:
         color = lighten_color(colors[0], 1-(n/ (len(plotoptions)/2)))
     else:
-        color= lighten_color(colors[1], n/(len(plotoptions)/2))
+        color= lighten_color(colors[1],  1-( (n/2) / (len(plotoptions)/2) ))
 
-    if function == "cigar":
-        if plot in bestworst:
-            scale = 0.6
+
+    if plot in bestworst:
+        if plot == bestworst[0]:
+            color = colors[0]
         else:
-            scale = 0.2
+            color = colors[1]
+        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=2)#marker="o")
     else:
-        if plot in bestworst:
-            scale = 0.3
-        else:
-            scale = 0.05
-    print(ax, color, scale)
-    sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, size=scale)
+        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=0.05) #0.05 fot katsuura
 
 
-ax.set(xlabel="Generation", ylabel="Total Manhattan distance (log)", title="Katsuura")
-#ax.legend(handles=ax.lines[::len(dataFrame)+1], labels=plotoptions)
-#ax.set_xticklabels([t.get_text().split("T")[0] for t in ax.get_xticklabels()])
+
+ax.set(xlabel="Generation", ylabel="Total Manhattan distance")
+
 if function == "cigar":
+    ax.set_title("Bent Cigar", fontsize=20)
     plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
 elif function == "schaffers":
+    ax.set_title("Schaffers", fontsize=20)
     plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
-#elif function == "katsuura":
-    #plt.xticks([0, 2000, 4000, 6000, 8000, 10000, 12000], labels=[0, 2000, 4000, 6000, 8000, 10000, 12000])
-
+elif function == "katsuura":
+    ax.set_title("Katsuura", fontsize=20)
+    plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000], labels=[0, 1000, 2000, 3000, 4000, 5000, 6000])
 
 plt.show()

@@ -2,35 +2,46 @@ import numpy as np
 import pandas as pd
 import seaborn as sbs
 import matplotlib.pyplot as plt
-
+sbs.set_context(rc={'lines.markeredgewidth': 0.1})
 #Mutopts en recopts can be used to print the full names below
 options = ["s_0.01_a_0.1", "s_0.01_a_0.3", "s_0.01_a_0.5", "s_0.05_a_0.1", "s_0.05_a_0.3", "s_0.05_a_0.5", "s_0.1_a_0.1", "s_0.1_a_0.3",  "s_0.1_a_0.5", "s_0.2_a_0.1", "s_0.2_a_0.3", "s_0.2_a_0.5", "s_0.5_a_0.1", "s_0.5_a_0.3","s_0.5_a_0.5"]
 
-# which options to plot QUALITATIVE PARAMETERS
-
-# ordering worst-to-best for BentCigar
-plotoptions = ['as_ga s_0.01_a_0.1', 'aw_1 s_0.01_a_0.5', 'aw_1 s_0.01_a_0.3', 'aw_1 s_0.01_a_0.1', 'as_ga s_0.05_a_0.1', 'aw_1 s_0.05_a_0.5', 'as_ga s_0.01_a_0.3', 'aw_1 s_0.05_a_0.3', 'aw_1 s_0.05_a_0.1', 'as_ga s_0.01_a_0.5', 'as_ga s_0.05_a_0.3', 'aw_1 s_0.1_a_0.5', 'as_ga s_0.1_a_0.1', 'as_ga s_0.05_a_0.5', 'aw_1 s_0.1_a_0.3', 'aw_1 s_0.1_a_0.1', 'as_ga s_0.5_a_0.1', 'aw_1 s_0.5_a_0.1', 'as_ga s_0.5_a_0.3', 'as_ga s_0.5_a_0.5', 'aw_1 s_0.5_a_0.3', 'aw_1 s_0.5_a_0.5', 'as_ga s_0.1_a_0.3', 'as_ga s_0.2_a_0.1', 'as_ga s_0.1_a_0.5', 'aw_1 s_0.2_a_0.1', 'as_ga s_0.2_a_0.3', 'as_ga s_0.2_a_0.5', 'aw_1 s_0.2_a_0.5', 'aw_1 s_0.2_a_0.3']
-bestworst = ['as_ga s_0.01_a_0.1', "aw_1 s_0.2_a_0.3"] # worst and best for BentCigar
-algoptions = ["as_ga", "aw_1"]
-
-# ordering worst to best for SCHAFFERS
-#plotoptions = ['bl_un s_0.5_a_0.1', 'bl_un s_0.05_a_0.1', 'bl_un s_0.2_a_0.1', 'bl_un s_0.1_a_0.1', 'bl_un s_0.01_a_0.1', 'bl_un s_0.05_a_0.3', 'bl_un s_0.5_a_0.3', 'bl_un s_0.1_a_0.3', 'bl_un s_0.01_a_0.3', 'bl_un s_0.2_a_0.3', 'bl_un s_0.5_a_0.5', 'bl_un s_0.05_a_0.5', 'bl_un s_0.01_a_0.5', 'bl_un s_0.2_a_0.5', 'bl_un s_0.1_a_0.5']
-#bestworst = ['bl_un s_0.5_a_0.1', 'bl_un s_0.1_a_0.5'] # worst and best for schaffers
-#algoptions = ["bl_un"]
-
-# ordering worst-to-best for KATSUURA
-#plotoptions = ['a1_1 s_0.2_a_0.3', 'a1_1 s_0.2_a_0.1', 'a1_1 s_0.5_a_0.1', 'a1_1 s_0.1_a_0.3', 'a1_ga s_0.5_a_0.1', 'a1_1 s_0.1_a_0.1', 'a1_ga s_0.5_a_0.5', 'a1_ga s_0.1_a_0.5', 'a1_1 s_0.2_a_0.5', 'a1_1 s_0.05_a_0.1', 'a1_ga s_0.05_a_0.5', 'a1_1 s_0.1_a_0.5', 'a1_1 s_0.5_a_0.3', 'a1_ga s_0.1_a_0.1', 'a1_1 s_0.05_a_0.3', 'a1_1 s_0.5_a_0.5', 'a1_ga s_0.5_a_0.3', 'a1_ga s_0.2_a_0.1', 'a1_ga s_0.1_a_0.3', 'a1_ga s_0.2_a_0.5', 'a1_ga s_0.2_a_0.3', 'a1_ga s_0.05_a_0.3', 'a1_1 s_0.05_a_0.5', 'a1_ga s_0.05_a_0.1', 'a1_ga s_0.01_a_0.1', 'a1_ga s_0.01_a_0.5', 'a1_ga s_0.01_a_0.3', 'a1_1 s_0.01_a_0.1', 'a1_1 s_0.01_a_0.5', 'a1_1 s_0.01_a_0.3']
-
-#bestworst = ['a1_1 s_0.2_a_0.3', 'a1_1 s_0.01_a_0.3'] # worst and best for katsuura
-#algoptions = ["a1_ga", "a1_1"]
 
 
-colors = ["#e41a1c", "#8ea6c1"]
+colors = ["#0038a8", "#e41a1c"]
 
-function = "cigar"
+function = "katsuura"
 
-generations = 65 #65 for BC, 665 for SCH, 6665 for KAT
-generationHelper = 68 # 68 for BC, 668 for SCH, 6668 for KAT
+if function == "cigar":
+
+    plotoptions = ['as_ga s_0.01_a_0.1', 'aw_1 s_0.01_a_0.5', 'aw_1 s_0.01_a_0.3', 'aw_1 s_0.01_a_0.1', 'as_ga s_0.05_a_0.1', 'aw_1 s_0.05_a_0.5', 'as_ga s_0.01_a_0.3', 'aw_1 s_0.05_a_0.3', 'aw_1 s_0.05_a_0.1', 'as_ga s_0.01_a_0.5', 'as_ga s_0.05_a_0.3', 'aw_1 s_0.1_a_0.5', 'as_ga s_0.1_a_0.1', 'as_ga s_0.05_a_0.5', 'aw_1 s_0.1_a_0.3', 'aw_1 s_0.1_a_0.1', 'as_ga s_0.5_a_0.1', 'aw_1 s_0.5_a_0.1', 'as_ga s_0.5_a_0.3', 'as_ga s_0.5_a_0.5', 'aw_1 s_0.5_a_0.3', 'aw_1 s_0.5_a_0.5', 'as_ga s_0.1_a_0.3', 'as_ga s_0.2_a_0.1', 'as_ga s_0.1_a_0.5', 'aw_1 s_0.2_a_0.1', 'as_ga s_0.2_a_0.3', 'as_ga s_0.2_a_0.5', 'aw_1 s_0.2_a_0.5', 'aw_1 s_0.2_a_0.3']
+    bestworst = ['as_ga s_0.01_a_0.1', "aw_1 s_0.2_a_0.3"] # worst and best for BentCigar
+    algoptions = ["as_ga", "aw_1"]
+
+    generations = 65 #65 for BC, 665 for SCH, 6665 for KAT
+    generationHelper = 68 # 68 for BC, 668 for SCH, 6668 for KAT
+
+elif function == "schaffers":
+
+    plotoptions = ['bl_un s_0.5_a_0.1', 'bl_un s_0.05_a_0.1', 'bl_un s_0.2_a_0.1', 'bl_un s_0.1_a_0.1', 'bl_un s_0.01_a_0.1', 'bl_un s_0.05_a_0.3', 'bl_un s_0.5_a_0.3', 'bl_un s_0.1_a_0.3', 'bl_un s_0.01_a_0.3', 'bl_un s_0.2_a_0.3', 'bl_un s_0.5_a_0.5', 'bl_un s_0.05_a_0.5', 'bl_un s_0.01_a_0.5', 'bl_un s_0.2_a_0.5', 'bl_un s_0.1_a_0.5']
+    bestworst = ['bl_un s_0.5_a_0.1', 'bl_un s_0.1_a_0.5'] # worst and best for schaffers
+    algoptions = ["bl_un"]
+
+    generations = 665 #65 for BC, 665 for SCH, 6665 for KAT
+    generationHelper = 668 # 68 for BC, 668 for SCH, 6668 for KAT
+
+elif function == "katsuura":
+
+    plotoptions = ['a1_1 s_0.2_a_0.3', 'a1_1 s_0.2_a_0.1', 'a1_1 s_0.5_a_0.1', 'a1_1 s_0.1_a_0.3', 'a1_ga s_0.5_a_0.1', 'a1_1 s_0.1_a_0.1', 'a1_ga s_0.5_a_0.5', 'a1_ga s_0.1_a_0.5', 'a1_1 s_0.2_a_0.5', 'a1_1 s_0.05_a_0.1', 'a1_ga s_0.05_a_0.5', 'a1_1 s_0.1_a_0.5', 'a1_1 s_0.5_a_0.3', 'a1_ga s_0.1_a_0.1', 'a1_1 s_0.05_a_0.3', 'a1_1 s_0.5_a_0.5', 'a1_ga s_0.5_a_0.3', 'a1_ga s_0.2_a_0.1', 'a1_ga s_0.1_a_0.3', 'a1_ga s_0.2_a_0.5', 'a1_ga s_0.2_a_0.3', 'a1_ga s_0.05_a_0.3', 'a1_1 s_0.05_a_0.5', 'a1_ga s_0.05_a_0.1', 'a1_ga s_0.01_a_0.1', 'a1_ga s_0.01_a_0.5', 'a1_ga s_0.01_a_0.3', 'a1_1 s_0.01_a_0.1', 'a1_1 s_0.01_a_0.5', 'a1_1 s_0.01_a_0.3']
+
+    bestworst = ['a1_1 s_0.2_a_0.3', 'a1_1 s_0.01_a_0.3'] # worst and best for katsuura
+    algoptions = ["a1_ga", "a1_1"]
+
+    generations = 6665 #65 for BC, 665 for SCH, 6665 for KAT
+    generationHelper = 6668 # 68 for BC, 668 for SCH, 6668 for KAT
+
+
+
 
 # quickfix ...
 for n, option in enumerate(plotoptions):
@@ -53,6 +64,7 @@ for alg in algoptions:
     for i in range(15):
         sampleIndex = 0
         filename = function + "_" + alg + "_" + str(i) + ".txt"
+
         with open(filename, 'r') as f:
             lines = f.readlines()
             for n, line in enumerate(lines):
@@ -103,33 +115,35 @@ def lighten_color(color, amount=0.5):
 # Plotting
 f, ax = plt.subplots(1, 1)
 for n, plot in enumerate(plotoptions):
+    print(plot)
     if n < len(plotoptions) / 2:
-        color = lighten_color(colors[0], 1-(n/ (len(plotoptions)/2)))
+        color = lighten_color(colors[0], (n/(len(plotoptions)/2)))
     else:
-        color= lighten_color(colors[1], n/(len(plotoptions)/2))
+        color = lighten_color(colors[1], 1-( (n/2) / (len(plotoptions)/2) ))
 
-    if function == "cigar":
-        if plot in bestworst:
-            scale = 1000
+
+    if plot in bestworst:
+        if plot == bestworst[0]:
+            color = colors[0]
         else:
-            scale = 0.2
+            color = colors[1]
+        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=2)#marker="o")
     else:
-        if plot in bestworst:
-            scale = 0.3
-        else:
-            scale = 0.05
-    print(ax, color, scale)
-    sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, size=scale)
+        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=0.05)
 
 
-ax.set(xlabel="Generation", ylabel="Total Manhattan distance (log)", title="Katsuura")
-#ax.legend(handles=ax.lines[::len(dataFrame)+1], labels=plotoptions)
-#ax.set_xticklabels([t.get_text().split("T")[0] for t in ax.get_xticklabels()])
+
+
+ax.set(xlabel="Generation", ylabel="Total Manhattan distance")
+
 if function == "cigar":
+    ax.set_title("Bent Cigar", fontsize=20)
     plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
 elif function == "schaffers":
+    ax.set_title("Schaffers", fontsize=20)
     plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
 elif function == "katsuura":
+    ax.set_title("Katsuura", fontsize=20)
     plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000], labels=[0, 1000, 2000, 3000, 4000, 5000, 6000])
 
 
