@@ -11,10 +11,12 @@ import java.util.Collections;
 public class Mutation
 {
   private String mutation_type;
+  private double arg;
   Random rnd_;
 
-  public Mutation(String mutation_type)
+  public Mutation(String mutation_type, double arg)
   {
+    this.arg=arg;
     this.mutation_type = mutation_type;
     rnd_ = new Random();
   }
@@ -22,6 +24,7 @@ public class Mutation
   public ArrayList<Individual> performMutation(ArrayList<Individual> population, double sd) {
     // First determine mutation type and run the corresponding function.
     switch(this.mutation_type) {
+<<<<<<< HEAD
       case "uniform":
           double threshold = .1;
           return this.uniformMutation(population, threshold);
@@ -37,6 +40,20 @@ public class Mutation
           tetas[0] = 1/ Math.sqrt(2*Math.sqrt(population.size()));
           tetas[1] = 1/ Math.sqrt(2*population.size());
           return this.nstepMutation(population, tetas);
+=======
+      case "uniform_mutation":
+        double threshold = this.arg;
+        return this.uniformMutation(population, threshold);
+        case "gauss_mutation":
+        double sd = this.arg;
+        return this.gaussMutation(population, sd);
+        // case "uncorrelated_onesize":
+        // //TODO: nadenken over hoe sigma lijsten terug te sturen.
+        //double teta = 1/ Math.sqrt(population.length);
+        // return this.onestopMutation(population);
+        // case "uncorrelated_nsize":
+        // return this.nsizeMutation(population);
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
         // case "correlated_mutation":
           //return this.correlatedMutation(population);
         default:
@@ -49,14 +66,24 @@ public class Mutation
   /*  1. uniform mutation: Dit is wat jij oorspronkelijk deed.
     Je moet dat eerst kiezen voor welke je flipt. (positionwise mutation probability)
     En dan kies je gewoon ene random getal binnen de grenzen. */
+<<<<<<< HEAD
     int nrTraits = population.get(0).genome.length;
       for (int i =0; i<population.size(); i++) {
+=======
+    int nrTraits = population[0].length;
+      for (int i =0; i<population.length; i++) {
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
         //for each individual
         for (int j=0; j<nrTraits; j++) {
           //For each allele determine whether to flip it.
+          //TODO: code geeft error in survival selection als threshold hier te laag is
           if (rnd_.nextDouble() < threshold) {
             //And flip it
+<<<<<<< HEAD
             population.get(i).genome[j] = rnd_.nextDouble() *10.0 -5.0;
+=======
+            population[i][j] = rnd_.nextDouble() *10.0 -5.0;
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
           }
         }
       }

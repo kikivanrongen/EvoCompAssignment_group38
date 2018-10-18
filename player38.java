@@ -95,15 +95,28 @@ public class player38 implements ContestSubmission
 
 		int evals = 0;
 		int populationSize = 100;
+		int nrParents = populationSize / 2;
 		int nrTraits = player38.nrTraits;
 		String mutationType = mutopts[funcs[2]];
 
+		// List that contains all options
+		String[] options_mutation = {"uniform_mutation","gauss_mutation"};
+
 		// init objects for the algorithm
+<<<<<<< HEAD
 		// ParentSelection parentSelector = new ParentSelection("arena");
 		ParentSelection parentSelector = new ParentSelection(parselopts[funcs[0]]);
 		Recombination recombinator = new Recombination(recopts[funcs[1]]);
 		Mutation mutator = new Mutation(mutationType);
 		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[funcs[3]]);
+=======
+		ParentSelection parentSelector = new ParentSelection("arena");
+		// ParentSelection parentSelector = new ParentSelection("ranked-lin");
+		// ParentSelection parentSelector = new ParentSelection("ranked-exp");
+		Recombination recombinator = new Recombination("blendcrossover");
+		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
+		Mutation mutator = new Mutation("uniform_mutation", 0.2);
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
 
 		// Diversity
@@ -164,9 +177,24 @@ public class player38 implements ContestSubmission
 			// Check and save fitness for all individuals
 			for (int j = 0; j < populationSize; j++)
 			{
+<<<<<<< HEAD
 				//TODO: rounsRobin geeft hier error
 				population.get(j).score = (double) evaluation_.evaluate(population.get(j).genome);
 				evals++;
+=======
+				// parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
+				parentProbs[i] = parentScores[i];
+			}
+
+			/*
+			* PARENT SELECTION
+			*/
+
+			int[] parentsIndices = parentSelector.performSelection(parentProbs, nrParents);
+
+			// store parents selected by selection algorithm
+			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
 				// save largest and smallest score for normalization
 				if (population.get(j).score > maxScore){maxScore = population.get(j).score;}
@@ -181,7 +209,18 @@ public class player38 implements ContestSubmission
 			double[][] genomes = recombinator.performRecombination(selectedParents, alpha);
 			int numChild = genomes.length;
 
+<<<<<<< HEAD
 			ArrayList<Individual> children = new ArrayList<Individual>();
+=======
+			int numChild = children.length;
+
+			children = mutator.performMutation(children);
+
+			/*
+			* EVALUATION
+			*/
+			double[] childScores = new double[numChild];
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 			for (int j = 0; j < numChild; j++)
 			{
 				Individual unit = new Individual(nrTraits,mutationType, std);
@@ -201,9 +240,14 @@ public class player38 implements ContestSubmission
 			ArrayList<Individual> oldPopulation = population;
 			for (int i = 0; i < numChild; i++) { oldPopulation.add(children.get(i));	}
 
+<<<<<<< HEAD
 			// Eliminate num child individuals
 			Collections.shuffle(oldPopulation);
 			population = survivorSelector.performSurvivorSelection(oldPopulation,numChild);
+=======
+			double[][] newPopulation = survivorSelector.performSurvivorSelection(oldPopulation, allProbs, numChild);
+			population = newPopulation;
+>>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
 		}
 	}

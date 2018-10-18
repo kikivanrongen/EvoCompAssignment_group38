@@ -16,8 +16,9 @@ public class Recombination
 		recombinationAlg_ = algType;
 	}
 
-	public double[][] performRecombination(ArrayList<Individual> selectedParents, double alphaIter)//with correct var
+	public double[][] performRecombination(ArrayList<double[]> selectedParents)//with correct var
 	{
+
 		int nrTraits = player38.nrTraits;
 		double alpha;
 		int k;
@@ -25,41 +26,36 @@ public class Recombination
 		switch(recombinationAlg_)
 		{
 			case "discrete-pointwise":
-				// alpha = 0.5;
-				return discretePointwiseRecombination(selectedParents, alphaIter);
+				alpha = 0.5;
+				return discretePointwiseRecombination(selectedParents, alpha);
 
 			case "discrete-tailswap":
 				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
 				return discreteTailswapRecombination(selectedParents, k);
 
 			case "arithmetic-whole":
-				// alpha = 0.5;
-				return wholeArithmeticRecombination(selectedParents, alphaIter);
+				alpha = 0.5;
+				return wholeArithmeticRecombination(selectedParents, alpha);
 
 			case "arithmetic-simple":
 				k = ThreadLocalRandom.current().nextInt(0, nrTraits+1);
-				// alpha = 0.5;
-				return simpleArithmeticRecombination(selectedParents, k, alphaIter);
+				alpha = 0.5;
+				return simpleArithmeticRecombination(selectedParents, k, alpha);
 
 			case "arithmetic-single":
-				// alpha = 0.5;
-				return singleArithmeticRecombination(selectedParents, alphaIter);
+				alpha = 0.5;
+				return singleArithmeticRecombination(selectedParents, alpha);
 
 			case "blendcrossover":
-				// alpha = 0.5;
-				return blendCrossoverRecombination(selectedParents, alphaIter);
-			default:
-				System.out.println("No valid method chosen");
-				double[][] genomes = new double[selectedParents.size()][nrTraits];
-					for (int i=0; i<selectedParents.size(); i++) {
-						genomes[i] = selectedParents.get(i).genome;
-					}
-					return genomes;
+				alpha = 0.5;
+				return blendCrossoverRecombination(selectedParents, alpha);
 		}
 
+		double[][] errorList = new double[0][0];
+		return errorList;
 	}
 
-	public double[][] discretePointwiseRecombination(ArrayList<Individual> selectedParents, double alpha)
+	public double[][] discretePointwiseRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 
 		/*
@@ -84,11 +80,11 @@ public class Recombination
 
 				// selecting a parent with equal probability for each allele
 				if (rndVal > alpha) {
-					children[ind][j] = selectedParents.get(ind).genome[j];
-					children[ind + 1][j] = selectedParents.get(ind + 1).genome[j];
+					children[ind][j] = selectedParents.get(ind)[j];
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 				} else {
-					children[ind][j] = selectedParents.get(ind + 1).genome[j];
-					children[ind + 1][j] = selectedParents.get(ind).genome[j];
+					children[ind][j] = selectedParents.get(ind + 1)[j];
+					children[ind + 1][j] = selectedParents.get(ind)[j];
 				}
 
 			}
@@ -100,7 +96,7 @@ public class Recombination
 
 
 
-	public double[][] discreteTailswapRecombination(ArrayList<Individual> selectedParents, int k)
+	public double[][] discreteTailswapRecombination(ArrayList<double[]> selectedParents, int k)
 	{
 		/*
 		* Two parents are recombined by switching their heads/tails
@@ -118,14 +114,14 @@ public class Recombination
 
 			for (int j = 0; j < k; j++)
 			{
-				 children[ind][j] = selectedParents.get(ind).genome[j];
-				 children[ind + 1][j] = selectedParents.get(ind + 1).genome[j];
+				 children[ind][j] = selectedParents.get(ind)[j];
+				 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 			}
 
 			for (int j = k; j < nrTraits; j++)
 			{
-				 children[ind][j] = selectedParents.get(ind + 1).genome[j];
-				 children[ind + 1][j] = selectedParents.get(ind).genome[j];
+				 children[ind][j] = selectedParents.get(ind + 1)[j];
+				 children[ind + 1][j] = selectedParents.get(ind)[j];
 			}
 
 		}
@@ -135,7 +131,7 @@ public class Recombination
 
 
 
-	public double[][] wholeArithmeticRecombination(ArrayList<Individual> selectedParents, double alpha)
+	public double[][] wholeArithmeticRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 		/*
 		* The weighted average of the two parent alleles is taken to create
@@ -158,8 +154,8 @@ public class Recombination
 		{
 				for (int j = 0; j < nrTraits; j++)
 				{
-					children[ind][j] = selectedParents.get(ind).genome[j] * alpha + selectedParents.get(ind + 1).genome[j] * (1-alpha);
-					children[ind + 1][j] = selectedParents.get(ind + 1).genome[j] * alpha + selectedParents.get(ind).genome[j] * (1-alpha);
+					children[ind][j] = selectedParents.get(ind)[j] * alpha + selectedParents.get(ind + 1)[j] * (1-alpha);
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j] * alpha + selectedParents.get(ind)[j] * (1-alpha);
 				}
 		}
 
@@ -168,7 +164,7 @@ public class Recombination
 
 
 
-	public double[][] simpleArithmeticRecombination(ArrayList<Individual> selectedParents, int k, double alpha)
+	public double[][] simpleArithmeticRecombination(ArrayList<double[]> selectedParents, int k, double alpha)
 	{
 		/*
 		* Up to a recombination point k, allele values come from a single parent.
@@ -192,14 +188,14 @@ public class Recombination
 		{
 			for (int j = 0; j < k; j++)
 			{
-				 children[ind][j] = selectedParents.get(ind).genome[j];
-				 children[ind + 1][j] = selectedParents.get(ind + 1).genome[j];
+				 children[ind][j] = selectedParents.get(ind)[j];
+				 children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 			}
 
 			for (int j = k; j < nrTraits; j++)
 			{
-				 children[ind][j] = selectedParents.get(ind + 1).genome[j] * alpha + selectedParents.get(ind).genome[j] * (1-alpha);
-				 children[ind + 1][j] = selectedParents.get(ind + 1).genome[j] * (1-alpha) + selectedParents.get(ind).genome[j] * alpha;
+				 children[ind][j] = selectedParents.get(ind + 1)[j] * alpha + selectedParents.get(ind)[j] * (1-alpha);
+				 children[ind + 1][j] = selectedParents.get(ind + 1)[j] * (1-alpha) + selectedParents.get(ind)[j] * alpha;
 			}
 
 		}
@@ -209,7 +205,7 @@ public class Recombination
 
 
 
-	public double[][] singleArithmeticRecombination(ArrayList<Individual> selectedParents, double alpha)
+	public double[][] singleArithmeticRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 		/*
 		* In each parent, a single point becomes the weighted average
@@ -236,11 +232,11 @@ public class Recombination
 			for (int j = 0; j < nrTraits; j++)
 			{
 				if (j == k) {
-					children[ind][j] = selectedParents.get(ind).genome[j] * alpha + selectedParents.get(ind + 1).genome[j] * (1-alpha);
-					children[ind + 1][j] = selectedParents.get(ind + 1).genome[j] * alpha + selectedParents.get(ind).genome[j] * (1-alpha);
+					children[ind][j] = selectedParents.get(ind)[j] * alpha + selectedParents.get(ind + 1)[j] * (1-alpha);
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j] * alpha + selectedParents.get(ind)[j] * (1-alpha);
 				} else {
-					children[ind][j] = selectedParents.get(ind).genome[j];
-					children[ind + 1][j] = selectedParents.get(ind + 1).genome[j];
+					children[ind][j] = selectedParents.get(ind)[j];
+					children[ind + 1][j] = selectedParents.get(ind + 1)[j];
 				}
 
 			}
@@ -251,7 +247,7 @@ public class Recombination
 
 
 
-	public double[][] blendCrossoverRecombination(ArrayList<Individual> selectedParents, double alpha)
+	public double[][] blendCrossoverRecombination(ArrayList<double[]> selectedParents, double alpha)
 	{
 		/*
 		* Offspring can lie outside parents. Offspring point in a range around
@@ -271,22 +267,8 @@ public class Recombination
 		{
 			for (int j = 0; j < nrTraits; j++)
 			{
-				double distance = Math.abs(selectedParents.get(ind).genome[j] - selectedParents.get(ind+1).genome[j]);
+				double distance = Math.abs(selectedParents.get(ind)[j] - selectedParents.get(ind+1)[j]);
 
-				if (distance > 0.0) {
-					double lowerVal = (selectedParents.get(ind).genome[j] < selectedParents.get(ind+1).genome[j]) ? selectedParents.get(ind).genome[j] : selectedParents.get(ind+1).genome[j];
-					double higherVal = (selectedParents.get(ind).genome[j] > selectedParents.get(ind+1).genome[j]) ? selectedParents.get(ind).genome[j] : selectedParents.get(ind+1).genome[j];
-
-					double min = lowerVal - alpha * distance;
-					double max = higherVal + alpha * distance;
-
-<<<<<<< HEAD
-					double new_value1 = -10.0;
-					while (new_value1 < -5.0 || new_value1 > 5.0) {
-						new_value1 = ThreadLocalRandom.current().nextDouble(min, max);
-					}
-
-=======
 				if (distance > 0.0) {
 					double lowerVal = (selectedParents.get(ind)[j] < selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
 					double higherVal = (selectedParents.get(ind)[j] > selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
@@ -299,21 +281,10 @@ public class Recombination
 						new_value1 = ThreadLocalRandom.current().nextDouble(min, max);
 					}
 
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 					double new_value2 = -10.0;
 					while (new_value2 < -5.0 || new_value2 > 5.0) {
 						new_value2 = ThreadLocalRandom.current().nextDouble(min, max);
 					}
-<<<<<<< HEAD
-
-					children[ind][j] = new_value1;
-					children[ind + 1][j] = new_value2;
-
-				} else {
-					children[ind][j] = selectedParents.get(ind).genome[j];
-					children[ind + 1][j] = selectedParents.get(ind+1).genome[j];
-				}
-=======
 
 					children[ind][j] = new_value1;
 					children[ind + 1][j] = new_value2;
@@ -323,14 +294,12 @@ public class Recombination
 					children[ind + 1][j] = selectedParents.get(ind+1)[j];
 				}
 
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 			}
 		}
 
 		return children;
 
 	}
-
 
 
 }
