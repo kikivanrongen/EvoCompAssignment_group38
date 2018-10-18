@@ -26,7 +26,6 @@ public class ParentSelection
       case "arena" :
         return battleArenaSelection(population, nrParents);
       case "ranked-lin" :
-<<<<<<< HEAD
         linearRanking(population);
         return stochasticUniversalSampling(population, nrParents);
       case "ranked-exp" :
@@ -35,14 +34,6 @@ public class ParentSelection
       default:
         System.out.println("warning no valid parent selection method");
         return battleArenaSelection(population, nrParents);
-=======
-        // rankedProbs = linearRanking(parentProbs);
-        return linearRanking(parentProbs, nrParents);
-      case "ranked-exp" :
-        return exponentialRanking(parentProbs, nrParents);
-        // return battleArenaSelection(rankedProbs, nrParents);
-        // return stochasticUniversalSampling(rankedProbs, nrParents);
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
     }
   }
 
@@ -59,7 +50,7 @@ public class ParentSelection
       cumSumProbs[i] = cumSumProbs[i-1] + population.get(i).prob;
     }
 
-    // Initialize counters and random double
+    // Initialize counters and radius
     int currentParents = 0;
     int i = 0;
     double r = (1.0 / nrSelected) * rnd_.nextDouble();
@@ -67,16 +58,6 @@ public class ParentSelection
     // Perform untill all parents are selected
     while (currentParents < nrSelected)
     {
-      // if (i >= 100)
-      // {
-      //   System.out.println("\ncurrentParents, r, i, cumSumProbs");
-      //   System.out.println(String.valueOf(currentParents));
-      //   System.out.println(String.valueOf(r));
-      //   System.out.println(String.valueOf(i));
-      //   System.out.println(Arrays.toString(cumSumProbs));
-      //   System.out.println(Arrays.toString(parentProbs));
-      // }
-
       while (r <= cumSumProbs[i])
       {
         //TODO: Nigel klopt dit nog???
@@ -87,30 +68,17 @@ public class ParentSelection
       i += 1;
     }
 
-    // System.out.println(Arrays.toString(selectedParents));
-
     // Return chosen parents
     return selectedParents;
   }
 
-<<<<<<< HEAD
   public void linearRanking(ArrayList<Individual> parentProbs)
-=======
-  public int[] linearRanking(double[] parentProbs, int nrSelected)
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
   {
+
     // Define parameters and array to store new probabilities
-<<<<<<< HEAD
     double s = 1.5; //Komt deze uit literatuur? anders veranderen TODO
     int mu = parentProbs.size();
     //double[] rankedProbs = new double[mu];
-=======
-    int[] selectedParents = new int[nrSelected];
-    int mu = parentProbs.length;
-    double[] rankedProbs = new double[mu];
-    int[] ranks = new int[mu];
-    double s = 1.0;
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
     // Loop over full population
     for (int i = 0; i < mu; i++)
@@ -128,7 +96,6 @@ public class ParentSelection
       }
 
       // Calculate probability according to ranking
-<<<<<<< HEAD
       parentProbs.get(i).prob = ((2 - s) / mu) + ((2 * rank * (s - 1)) / (mu * (mu - 1)));
     }
   }
@@ -138,66 +105,6 @@ public class ParentSelection
     // Define parameters and array to store new probabilities
     int mu = parentProbs.size(); //TODO is dit niet /2?
     // double[] rankedProbs = new double[mu];
-=======
-      rankedProbs[i] = ((2 - s) / mu) + ((2 * rank * (s - 1)) / (mu * (mu - 1)));
-      ranks[i] = rank;
-    }
-
-    // Normalize probabilities and make cumulative
-    for (int i = 0; i < mu; i++)
-    {
-      // rankedProbs[i] /= norm_factor;
-      if (i > 0)
-      {
-        rankedProbs[i] += rankedProbs[i - 1];
-      }
-    }
-    // System.out.println(Arrays.toString(rankedProbs));
-
-    // Initialize counters and random double
-    int currentParents = 0;
-    int iter = 0;
-    double r = (1.0 / nrSelected) * rnd_.nextDouble();
-
-    // Perform untill all parents are selected
-    while (currentParents < nrSelected)
-    {
-      while (r <= rankedProbs[iter])
-      {
-        selectedParents[currentParents] = iter;
-        r += (1.0 / nrSelected);
-        currentParents += 1;
-      }
-      iter += 1;
-    }
-
-    // Loop over full population
-    for (int i = 0; i < nrSelected; i++)
-    {
-      // Loop over full population
-      for (int j = 0; j < mu; j++)
-      {
-        // Match rank with label of individual
-        if (selectedParents[i] == ranks[j])
-        {
-          selectedParents[i] = j;
-          break;
-        }
-      }
-    }
-
-    // Return probabilities
-    return selectedParents;
-  }
-
-  public int[] exponentialRanking(double[] parentProbs, int nrSelected)
-  {
-    // Define parameters and array to store new probabilities
-    int[] selectedParents = new int[nrSelected];
-    int mu = parentProbs.length;
-    double[] rankedProbs = new double[mu];
-    int[] ranks = new int[mu];
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
     double norm_factor = 0.0;
 
     // Loop over full population
@@ -216,81 +123,17 @@ public class ParentSelection
       }
 
       // Calculate probability according to ranking
-<<<<<<< HEAD
       parentProbs.get(i).prob = 1 - Math.exp(-rank);
       norm_factor += parentProbs.get(i).prob;
-=======
-      rankedProbs[i] = 1 - Math.exp(-i);
-      norm_factor += rankedProbs[i];
-      ranks[i] = rank;
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
     }
 
-    // Normalize probabilities and make cumulative
+    // double total = 0.0;
+    // Normalize probabilities
     for (int i = 0; i < mu; i++)
     {
-<<<<<<< HEAD
       parentProbs.get(i).prob /= norm_factor;
       // total += rankedProbs[i];
     }
-=======
-      rankedProbs[i] /= norm_factor;
-      if (i > 0)
-      {
-        rankedProbs[i] += rankedProbs[i - 1];
-      }
-    }
-    // System.out.println(Arrays.toString(ranks));
-    // System.out.println(Arrays.toString(parentProbs));
-
-    int flag = 1;
-    for (int i = 0; i < mu; i++)
-    {
-      if (ranks[i] != 0)
-      {
-        flag = 0;
-      }
-    }
-    if (flag == 1)
-    {
-      flag = ranks[mu + 10];
-    }
-
-    // Initialize counters and random double
-    int currentParents = 0;
-    int iter = 0;
-    double r = (1.0 / nrSelected) * rnd_.nextDouble();
-
-    // Perform untill all parents are selected
-    while (currentParents < nrSelected)
-    {
-      while (r <= rankedProbs[iter])
-      {
-        selectedParents[currentParents] = iter;
-        r += (1.0 / nrSelected);
-        currentParents += 1;
-      }
-      iter += 1;
-    }
-
-    // Loop over full population
-    for (int i = 0; i < nrSelected; i++)
-    {
-      // Loop over full population
-      for (int j = 0; j < mu; j++)
-      {
-        // Match rank with label of individual
-        if (selectedParents[i] == ranks[j])
-        {
-          selectedParents[i] = j;
-          break;
-        }
-      }
-    }
-
-    // Return probabilities
-    return selectedParents;
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
   }
 
   public ArrayList<Individual> battleArenaSelection(ArrayList<Individual> population, int nrSelected)

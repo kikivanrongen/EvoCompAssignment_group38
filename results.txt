@@ -1,0 +1,204 @@
+
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998256628243992
+Runtime: 179ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.99841206191535
+Runtime: 117ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998439284840616
+Runtime: 134ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998668921179213
+Runtime: 124ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998081846092466
+Runtime: 120ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.999226610160838
+Runtime: 125ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.99830712166229
+Runtime: 113ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.999449509152702
+Runtime: 121ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.997164287337004
+Runtime: 146ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.99878733343708
+Runtime: 125ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998447300012753
+Runtime: 123ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998696205608603
+Runtime: 146ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.99802720713649
+Runtime: 133ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.996027948862555
+Runtime: 177ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998142097540201
+Runtime: 137ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.996844923771565
+Runtime: 179ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998357030236296
+Runtime: 148ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998250497188964
+Runtime: 150ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.996559283434745
+Runtime: 151ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.99842142147281
+Runtime: 153ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.99005538073772
+Runtime: 190ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.99142836913301
+Runtime: 204ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.990773731172755
+Runtime: 126ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.991594070443142
+Runtime: 114ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.987533573717377
+Runtime: 120ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.987478218472745
+Runtime: 131ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.98841201529264
+Runtime: 146ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.988762840252942
+Runtime: 117ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.05
+Score: 9.988823599185206
+Runtime: 138ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.996752304282172
+Runtime: 129ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998956717303267
+Runtime: 111ms
+Bent Cigar Function: 
+Sphere Evaluation Function:
+alpha: 0.4
+sigma: 0.01
+Score: 9.998953794251213
+Runtime: 129ms
+Bent Cigar Function: 
+Bent Cigar Function: 
+Bent Cigar Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 

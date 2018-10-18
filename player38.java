@@ -61,25 +61,27 @@ public class player38 implements ContestSubmission
 
 	public void run()
 	{
-		String[] mutopts = {"uniform", "gauss", "uncorrelated-onestep", "uncorrelated-nstep"};
-		String[] recopts = {"discrete-pointwise", "discrete-tailswap", "arithmetic-whole", "arithmetic-simple", "arithmetic-single", "blendcrossover", "none"};
 		String[] parselopts = {"arena", "ranked-lin", "ranked-exp"};
+		String[] recopts = {"discrete-pointwise", "discrete-tailswap", "arithmetic-whole", "arithmetic-simple", "arithmetic-single", "blendcrossover", "none"};
+		String[] mutopts = {"uniform", "gauss", "uncorrelated-onestep", "uncorrelated-nstep"};
 		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
 	//	int[] funcs = new int[]{0,2,2,2}; // cigar aw__1, number 1 best
 	//	int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
-		int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
+		// int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
 
 
 		// int[] funcs = new int[]{0,3,1,2}; // cigar as_ga
-		int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
+		// int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
 
-
+		// for submission
+		int[] funcs = new int[]{0,5,0,2};
 
 		// Deze gebruiken met vastgestelde waardes voor alpha als je wil loopen door alle mogelijke combinaties van functies
 	//	int[][] funcIndex = new int[][]{{0, 0, 0, 2},{0, 1, 0, 2},{0, 2, 0, 2},{0, 3, 0, 2},{0, 4, 0, 2},{0, 5, 0, 2},{0, 0, 1, 2},{0, 1, 1, 2},{0, 2, 1, 2},{0, 3, 1, 2},{0, 4, 1, 2},{0, 5, 1, 2},{0, 0, 2, 2},{0, 1, 2, 2},{0, 2, 2, 2},{0, 3, 2, 2},{0, 4, 2, 2},{0, 5, 2, 2},{0, 0, 3, 2},{0, 1, 3, 2},{0, 2, 3, 2},{0, 3, 3, 2},{0, 4, 3, 2},{0, 5, 3, 2}};
 
 
+		// double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
 		double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
 		double[] stds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
 
@@ -88,35 +90,24 @@ public class player38 implements ContestSubmission
 			{2,0}, {2,1},	{2,2}, {3,0}, {3,1}, {3,2},
 			{4,0}, {4,1},	{4,2} };
 
-		int iter = Integer.parseInt(System.getProperty("iter"));
+		int iter = 5;//Integer.parseInt(System.getProperty("iter"));
 		int[] setup = setups[iter];
 		double alpha = alphas[setup[1]];
 		double std = stds[setup[0]];
+		System.out.println("alpha: " + alpha);
+		System.out.println("sigma: " + std);
 
 		int evals = 0;
 		int populationSize = 100;
-		int nrParents = populationSize / 2;
 		int nrTraits = player38.nrTraits;
 		String mutationType = mutopts[funcs[2]];
 
-		// List that contains all options
-		String[] options_mutation = {"uniform_mutation","gauss_mutation"};
-
 		// init objects for the algorithm
-<<<<<<< HEAD
 		// ParentSelection parentSelector = new ParentSelection("arena");
 		ParentSelection parentSelector = new ParentSelection(parselopts[funcs[0]]);
 		Recombination recombinator = new Recombination(recopts[funcs[1]]);
 		Mutation mutator = new Mutation(mutationType);
 		SurvivorSelection survivorSelector = new SurvivorSelection(surselopts[funcs[3]]);
-=======
-		ParentSelection parentSelector = new ParentSelection("arena");
-		// ParentSelection parentSelector = new ParentSelection("ranked-lin");
-		// ParentSelection parentSelector = new ParentSelection("ranked-exp");
-		Recombination recombinator = new Recombination("blendcrossover");
-		SurvivorSelection survivorSelector = new SurvivorSelection("roundRobin");
-		Mutation mutator = new Mutation("uniform_mutation", 0.2);
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
 
 		// Diversity
@@ -154,21 +145,21 @@ public class player38 implements ContestSubmission
 			generations +=1;
 			double diversity = 0;
 
-			for (int j = 0; j < populationSize; j++)
-			{
-				for (int k = 0; k < populationSize; k++)
-				{
-					double[] individual1 = population.get(j).genome;
-					double[] individual2 = population.get(k).genome;
-
-					for (int l = 0; l < individual1.length; l++)
-					{
-						diversity += Math.abs(individual1[l] - individual2[l]);
-					}
-				}
-			}
-			// diversityArray.add(diversity);
-			System.out.println(diversity);
+			// for (int j = 0; j < populationSize; j++)
+			// {
+			// 	for (int k = 0; k < populationSize; k++)
+			// 	{
+			// 		double[] individual1 = population.get(j).genome;
+			// 		double[] individual2 = population.get(k).genome;
+			//
+			// 		for (int l = 0; l < individual1.length; l++)
+			// 		{
+			// 			diversity += Math.abs(individual1[l] - individual2[l]);
+			// 		}
+			// 	}
+			// }
+			// // diversityArray.add(diversity);
+			// System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
@@ -177,24 +168,9 @@ public class player38 implements ContestSubmission
 			// Check and save fitness for all individuals
 			for (int j = 0; j < populationSize; j++)
 			{
-<<<<<<< HEAD
 				//TODO: rounsRobin geeft hier error
 				population.get(j).score = (double) evaluation_.evaluate(population.get(j).genome);
 				evals++;
-=======
-				// parentProbs[i] = (parentScores[i] - minScore) / (maxScore - minScore);
-				parentProbs[i] = parentScores[i];
-			}
-
-			/*
-			* PARENT SELECTION
-			*/
-
-			int[] parentsIndices = parentSelector.performSelection(parentProbs, nrParents);
-
-			// store parents selected by selection algorithm
-			ArrayList<double[]> selectedParents = new ArrayList<double[]>();
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
 				// save largest and smallest score for normalization
 				if (population.get(j).score > maxScore){maxScore = population.get(j).score;}
@@ -209,18 +185,7 @@ public class player38 implements ContestSubmission
 			double[][] genomes = recombinator.performRecombination(selectedParents, alpha);
 			int numChild = genomes.length;
 
-<<<<<<< HEAD
 			ArrayList<Individual> children = new ArrayList<Individual>();
-=======
-			int numChild = children.length;
-
-			children = mutator.performMutation(children);
-
-			/*
-			* EVALUATION
-			*/
-			double[] childScores = new double[numChild];
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 			for (int j = 0; j < numChild; j++)
 			{
 				Individual unit = new Individual(nrTraits,mutationType, std);
@@ -240,14 +205,9 @@ public class player38 implements ContestSubmission
 			ArrayList<Individual> oldPopulation = population;
 			for (int i = 0; i < numChild; i++) { oldPopulation.add(children.get(i));	}
 
-<<<<<<< HEAD
 			// Eliminate num child individuals
 			Collections.shuffle(oldPopulation);
 			population = survivorSelector.performSurvivorSelection(oldPopulation,numChild);
-=======
-			double[][] newPopulation = survivorSelector.performSurvivorSelection(oldPopulation, allProbs, numChild);
-			population = newPopulation;
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 
 		}
 	}

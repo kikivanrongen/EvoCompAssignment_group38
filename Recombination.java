@@ -280,31 +280,15 @@ public class Recombination
 					double min = lowerVal - alpha * distance;
 					double max = higherVal + alpha * distance;
 
-<<<<<<< HEAD
 					double new_value1 = -10.0;
 					while (new_value1 < -5.0 || new_value1 > 5.0) {
 						new_value1 = ThreadLocalRandom.current().nextDouble(min, max);
 					}
 
-=======
-				if (distance > 0.0) {
-					double lowerVal = (selectedParents.get(ind)[j] < selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
-					double higherVal = (selectedParents.get(ind)[j] > selectedParents.get(ind+1)[j]) ? selectedParents.get(ind)[j] : selectedParents.get(ind+1)[j];
-
-					double min = lowerVal - alpha * distance;
-					double max = higherVal + alpha * distance;
-
-					double new_value1 = -10.0;
-					while (new_value1 < -5.0 || new_value1 > 5.0) {
-						new_value1 = ThreadLocalRandom.current().nextDouble(min, max);
-					}
-
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 					double new_value2 = -10.0;
 					while (new_value2 < -5.0 || new_value2 > 5.0) {
 						new_value2 = ThreadLocalRandom.current().nextDouble(min, max);
 					}
-<<<<<<< HEAD
 
 					children[ind][j] = new_value1;
 					children[ind + 1][j] = new_value2;
@@ -313,17 +297,6 @@ public class Recombination
 					children[ind][j] = selectedParents.get(ind).genome[j];
 					children[ind + 1][j] = selectedParents.get(ind+1).genome[j];
 				}
-=======
-
-					children[ind][j] = new_value1;
-					children[ind + 1][j] = new_value2;
-
-				} else {
-					children[ind][j] = selectedParents.get(ind)[j];
-					children[ind + 1][j] = selectedParents.get(ind+1)[j];
-				}
-
->>>>>>> cb746270aee9b6db472bb6fb596b369b5b4c885a
 			}
 		}
 
