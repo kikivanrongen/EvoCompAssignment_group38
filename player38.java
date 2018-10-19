@@ -75,14 +75,14 @@ public class player38 implements ContestSubmission
 		// int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
 
 		// for submission
-		int[] funcs = new int[]{0,5,0,2};
+		int[] funcs = new int[]{0,5,1,2};
 
 		// Deze gebruiken met vastgestelde waardes voor alpha als je wil loopen door alle mogelijke combinaties van functies
 	//	int[][] funcIndex = new int[][]{{0, 0, 0, 2},{0, 1, 0, 2},{0, 2, 0, 2},{0, 3, 0, 2},{0, 4, 0, 2},{0, 5, 0, 2},{0, 0, 1, 2},{0, 1, 1, 2},{0, 2, 1, 2},{0, 3, 1, 2},{0, 4, 1, 2},{0, 5, 1, 2},{0, 0, 2, 2},{0, 1, 2, 2},{0, 2, 2, 2},{0, 3, 2, 2},{0, 4, 2, 2},{0, 5, 2, 2},{0, 0, 3, 2},{0, 1, 3, 2},{0, 2, 3, 2},{0, 3, 3, 2},{0, 4, 3, 2},{0, 5, 3, 2}};
 
 
 		// double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
-		double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
+		double[] alphas = new double[]{0.1, 0.4, 0.5}; //0 1 2
 		double[] stds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
 
 		int[][] setups = new int[][] {
@@ -90,7 +90,7 @@ public class player38 implements ContestSubmission
 			{2,0}, {2,1},	{2,2}, {3,0}, {3,1}, {3,2},
 			{4,0}, {4,1},	{4,2} };
 
-		int iter = 5;//Integer.parseInt(System.getProperty("iter"));
+		int iter = 1;//Integer.parseInt(System.getProperty("iter"));
 		int[] setup = setups[iter];
 		double alpha = alphas[setup[1]];
 		double std = stds[setup[0]];

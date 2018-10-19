@@ -64,14 +64,14 @@ echo "Evaluate Bent Cigar"
 # echo "Start sphere evaluation"
 # echo "Sphere Evaluation Function:" >> results.txt
 # java -jar testrun.jar -submission=player38 -evaluation=SphereEvaluation -seed=1 >> results.txt
-#
-# echo "Start Cigar evaluation"
-# echo "Bent Cigar Function: " >> results.txt
-# java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1
 
-echo "Start Schaffer evaluation"
-echo "Schaffers Evaluation Function: " >> results.txt
-java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1
+echo "Start Cigar evaluation"
+echo "Bent Cigar Function: " >> results.txt
+java -jar testrun.jar -submission=player38 -evaluation=BentCigarFunction -seed=1
+
+# echo "Start Schaffer evaluation"
+# echo "Schaffers Evaluation Function: " >> results.txt
+# java -jar testrun.jar -submission=player38 -evaluation=SchaffersEvaluation -seed=1
 
 # echo "Start Katsuura evaluation"
 # echo "Katsuura Evaluation Function: " >> results.txt

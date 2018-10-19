@@ -202,3 +202,5 @@ Schaffers Evaluation Function:
 Schaffers Evaluation Function: 
 Schaffers Evaluation Function: 
 Schaffers Evaluation Function: 
+Schaffers Evaluation Function: 
+Bent Cigar Function: 
