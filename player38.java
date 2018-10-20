@@ -67,12 +67,12 @@ public class player38 implements ContestSubmission
 		String[] surselopts = {"worst", "elitism", "roundRobin"};
 
 	//	int[] funcs = new int[]{0,2,2,2}; // cigar aw__1, number 1 best
-	//	int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
-		int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
+		int[] funcs = new int[]{0,5,0,2}; // schaffers bl_un, number 1 best
+	//	int[] funcs = new int[]{0,4,2,2}; // katsura a1_1, number 1 best
 
 
 		// int[] funcs = new int[]{0,3,1,2}; // cigar as_ga
-		int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
+	//	int[] funcs = new int[]{0,4,1,2}; // Katsuura a1_ga
 
 
 
@@ -82,6 +82,7 @@ public class player38 implements ContestSubmission
 
 		double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
 		double[] stds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
+		double[] thresholds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
 
 		int[][] setups = new int[][] {
 			{0,0}, {0,1},	{0,2}, {1,0},	{1,1}, {1,2},
@@ -91,7 +92,8 @@ public class player38 implements ContestSubmission
 		int iter = Integer.parseInt(System.getProperty("iter"));
 		int[] setup = setups[iter];
 		double alpha = alphas[setup[1]];
-		double std = stds[setup[0]];
+		double std = stds[setup[0]]; //Used for katsuura and cigar
+		double threshold = thresholds[setup[0]]; //Used for schaffers
 
 		int evals = 0;
 		int populationSize = 100;
@@ -118,7 +120,8 @@ public class player38 implements ContestSubmission
 
 		for (int j = 0; j < populationSize; j++)
 		{
-			Individual unit = new Individual(nrTraits,mutationType, std);
+			// Individual unit = new Individual(nrTraits,mutationType, std); //Katsuura and Cigar
+			Individual unit = new Individual(nrTraits,mutationType, threshold); // Schaffer
 			double[] values = new double[nrTraits];
 			for (int k = 0; k < nrTraits; k++)
 			{
@@ -134,28 +137,28 @@ public class player38 implements ContestSubmission
 		while(evals < evaluations_limit_-200)
 		{
 
-			// CALCULATING DIVERSITY
-			// niet weggooien plzzzz
-			// Diversity is measured per generation, as the total Manhattan distance between all points
-
-			generations +=1;
-			double diversity = 0;
-
-			for (int j = 0; j < populationSize; j++)
-			{
-				for (int k = 0; k < populationSize; k++)
-				{
-					double[] individual1 = population.get(j).genome;
-					double[] individual2 = population.get(k).genome;
-
-					for (int l = 0; l < individual1.length; l++)
-					{
-						diversity += Math.abs(individual1[l] - individual2[l]);
-					}
-				}
-			}
-			// diversityArray.add(diversity);
-			System.out.println(diversity);
+			// // CALCULATING DIVERSITY
+			// // niet weggooien plzzzz
+			// // Diversity is measured per generation, as the total Manhattan distance between all points
+			//
+			// generations +=1;
+			// double diversity = 0;
+			//
+			// for (int j = 0; j < populationSize; j++)
+			// {
+			// 	for (int k = 0; k < populationSize; k++)
+			// 	{
+			// 		double[] individual1 = population.get(j).genome;
+			// 		double[] individual2 = population.get(k).genome;
+			//
+			// 		for (int l = 0; l < individual1.length; l++)
+			// 		{
+			// 			diversity += Math.abs(individual1[l] - individual2[l]);
+			// 		}
+			// 	}
+			// }
+			// // diversityArray.add(diversity);
+			// System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
