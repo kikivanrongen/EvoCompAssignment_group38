@@ -24,7 +24,7 @@ for i in range(15):
 
 
 # Define variable data will be stored in (mean/std, recombination, mutation)
-data = np.ndarray((5, 2, 5, 3))
+data = np.ndarray((5, 2, 3, 5))
 
 for files, filenames in enumerate([filenames_c_asga,
                                     filenames_c_aw1,
@@ -44,31 +44,44 @@ for files, filenames in enumerate([filenames_c_asga,
 
             score = np.array(score)
 
-            print(item, np.mean(score))
+            # print(item, np.mean(score))
 
             # print(score)
-            data[files, 0, i%5, i//5] = np.mean(score)
-            data[files, 1, i%5, i//5] = sp.stats.sem(score)
+            data[files, 0, i%3, i//3] = np.mean(score)
+            data[files, 1, i%3, i//3] = sp.stats.sem(score)
 
-
+data = data.transpose((0, 1, 3, 2))
 sns.set(font_scale = 1.2)
 
 y_labels = ["0.01", "0.05", "0.1", "0.2", "0.5"]
 x_labels = ["0.1", "0.3", "0.5"]
 titles = ["Cigar as-ga", "Cigar aw-1", "Schaffers bl-un", "Katsuura a1-1", "Katsuura a1-ga"]
 
-titles = ["Cigar as-ga", "Cigar aw-1", "Schaffers bl-un", "Katsuura a1-1", "Katsuura a1-ga"]
-f, axes = plt.subplots(1, 5, figsize=(12, 3), sharex=True, sharey=True)
-# sns.set_context("notebook", rc={"axes.labelsize":36})
-for i in range(5):
-    sns.heatmap(data[i,0], annot=True, vmin=0, vmax=10, ax=axes[i],
-                    xticklabels=x_labels, yticklabels=y_labels,
-                    cbar=False if i != 4 else True)
-    if i == 0:
-        axes[i].set(ylabel=r"$\sigma$")
 
-    axes[i].set(title=titles[i], xlabel=r"$\alpha$")
-    axes[i].invert_yaxis()
+f, axes = plt.subplots(1, 5, figsize=(12, 3), sharex=True, sharey=False)
+sns.set_context("notebook", rc={"axes.labelsize":36})
+for i in range(5):
+    if i == 2:
+        pass
+    else:
+        sns.heatmap(data[i,0], annot=True, vmin=0, vmax=10, ax=axes[i if i < 2 else i-1],
+                        xticklabels=x_labels, yticklabels=y_labels,
+                        cbar=True)# if i != 4 else True)
+        if i == 0:
+            axes[i if i < 2 else i-1].set(ylabel=r"$\sigma$")
+
+        axes[i if i < 2 else i-1].set(title=titles[i], xlabel=r"$\alpha$")
+        axes[i if i < 2 else i-1].invert_yaxis()
+
+
+# sns.set(font_scale = 1.2)
+# f, axes = plt.subplots(1, 1, figsize=(2, 3), sharex=True, sharey=True)
+sns.heatmap(data[2,0], annot=True, vmin=0, vmax=10, ax=axes[4],
+                xticklabels=x_labels, yticklabels=y_labels,
+                cbar=True)
+
+axes[4].set(title=titles[2], xlabel=r"$\alpha$", ylabel="Threshold")
+axes[4].invert_yaxis()
 
 f.tight_layout()
 plt.show()
