@@ -10,7 +10,7 @@ import sys
 scores = []
 
 for index in range(15):
-    name = 'schaffers_bl_un_{i}.txt'.format(i=index)
+    name = '../sanne_patch/schaffers_bl_un_{i}.txt'.format(i=index)
 
     with open(name, 'r') as csvfile:
         score = []
@@ -23,7 +23,7 @@ for index in range(15):
         print('mean:', np.mean(score), '|| std:', np.std(score))
         scores.append(score)
 
-with open('schaffers_bl_un_par.csv', 'w') as fp:
+with open('../sanne_patch/schaffers_bl_un_par.csv', 'w') as fp:
     writer = csv.writer(fp, delimiter=',')
     for ar in scores:
         writer.writerows(zip(ar))

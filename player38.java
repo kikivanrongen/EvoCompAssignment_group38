@@ -84,6 +84,7 @@ public class player38 implements ContestSubmission
 		// double[] alphas = new double[]{0.1, 0.3, 0.5}; //0 1 2
 		double[] alphas = new double[]{0.1, 0.4, 0.5}; //0 1 2
 		double[] stds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
+		double[] thresholds = new double[]{0.01, 0.05, 0.1, 0.2, 0.5}; //0 1 2 3 4
 
 		int[][] setups = new int[][] {
 			{0,0}, {0,1},	{0,2}, {1,0},	{1,1}, {1,2},
@@ -93,9 +94,8 @@ public class player38 implements ContestSubmission
 		int iter = 1;//Integer.parseInt(System.getProperty("iter"));
 		int[] setup = setups[iter];
 		double alpha = alphas[setup[1]];
-		double std = stds[setup[0]];
-		System.out.println("alpha: " + alpha);
-		System.out.println("sigma: " + std);
+		double std = stds[setup[0]]; //Used for katsuura and cigar
+		double threshold = thresholds[setup[0]]; //Used for schaffers
 
 		int evals = 0;
 		int populationSize = 100;
@@ -122,7 +122,8 @@ public class player38 implements ContestSubmission
 
 		for (int j = 0; j < populationSize; j++)
 		{
-			Individual unit = new Individual(nrTraits,mutationType, std);
+			// Individual unit = new Individual(nrTraits,mutationType, std); //Katsuura and Cigar
+			Individual unit = new Individual(nrTraits,mutationType, threshold); // Schaffer
 			double[] values = new double[nrTraits];
 			for (int k = 0; k < nrTraits; k++)
 			{
@@ -138,13 +139,13 @@ public class player38 implements ContestSubmission
 		while(evals < evaluations_limit_-200)
 		{
 
-			// CALCULATING DIVERSITY
-			// niet weggooien plzzzz
-			// Diversity is measured per generation, as the total Manhattan distance between all points
-
-			generations +=1;
-			double diversity = 0;
-
+			// // CALCULATING DIVERSITY
+			// // niet weggooien plzzzz
+			// // Diversity is measured per generation, as the total Manhattan distance between all points
+			//
+			// generations +=1;
+			// double diversity = 0;
+			//
 			// for (int j = 0; j < populationSize; j++)
 			// {
 			// 	for (int k = 0; k < populationSize; k++)
