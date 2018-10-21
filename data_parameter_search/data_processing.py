@@ -35,7 +35,7 @@ highest_mean = 0.0
 counter = 0
 for alg in algoptions:
     for i in range(15):
-        filename = function + "_" + alg + "_" + str(i) + ".txt"
+        filename = 'data_parameter_search' + function + "_" + alg + "_" + str(i) + ".txt"
         f = open(filename,'r')
         lines = f.readlines()
         values = [line.split()[1] for line in lines if "Score" in line]

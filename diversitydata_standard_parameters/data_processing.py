@@ -1,14 +1,18 @@
 import numpy as np
 import pandas as pd
-import seaborn as sbs
+
+# import matplotlib
+# matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+
+import seaborn as sbs
 
 #Mutopts en recopts can be used to print the full names below
 options = ["dp_un", "dt_un", "aw_un", "as_un", "a1_un", "bl_un", "dp_ga", "dt_ga", "aw_ga", "as_ga", "a1_ga", "bl_ga", "dp_1", "dt_1", "aw_1", "as_1", "a1_1", "bl_1", "dp_n" , "dt_n", "aw_n", "as_n", "a1_n", "bl_n"]
 
 colors = ["#0038a8", "#e41a1c"]
 
-function = "katsuura"
+function = "cigar"
 
 if function == "cigar":
     plotoptions = ['dt_un', 'a1_un', 'aw_un', 'dp_un', 'bl_un', 'as_un', 'dt_n', 'dt_ga', 'a1_1', 'a1_ga', 'dt_1', 'a1_n', 'bl_n', 'dp_n', 'dp_1', 'bl_ga', 'bl_1', 'dp_ga', 'aw_ga', 'as_n', 'aw_n', 'as_ga', 'as_1', 'aw_1']
@@ -39,6 +43,7 @@ dataFrame = pd.DataFrame(columns=options, index=range(0,generations+1))
 dataFrame = dataFrame.fillna(0)
 
 for i in range(24):
+    print(i)
     sampleIndex = 0
     filename = function + "_" + str(i) + ".txt"
     with open(filename, 'r') as f:
@@ -56,8 +61,8 @@ for i in range(24):
 
 dataFrame = dataFrame / sampleIndex
 
-if function == "schaffers":# or function == "katsuura":
-    dataFrame = pd.DataFrame(np.log(dataFrame))
+#if function == "schaffers":# or function == "katsuura":
+dataFrame = pd.DataFrame(np.log(dataFrame))
 
 dataFrame = dataFrame.reset_index()
 
@@ -103,21 +108,26 @@ for n, plot in enumerate(plotoptions):
         else:
             color = colors[1]
         sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=2)#marker="o")
+        ax.set_xlabel('Generation', fontsize=12)
+        ax.set_ylabel('Total Manhatten distance (log)', fontsize=12)
+        ax.tick_params(labelsize=12)
+        ax.set_ylim(9, 12.5)
     else:
-        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=0.05) #0.05 fot katsuura
+        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=0.5) #0.05 fot katsuura
 
 
 
-ax.set(xlabel="Generation", ylabel="Total Manhattan distance")
+# ax.set(xlabel="Generation", ylabel="Total Manhattan distance")
 
 if function == "cigar":
     ax.set_title("Bent Cigar", fontsize=20)
-    plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
+    # plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
 elif function == "schaffers":
     ax.set_title("Schaffers", fontsize=20)
-    plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
+    # plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
 elif function == "katsuura":
     ax.set_title("Katsuura", fontsize=20)
-    plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000], labels=[0, 1000, 2000, 3000, 4000, 5000, 6000])
+    # plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000], labels=[0, 1000, 2000, 3000, 4000, 5000, 6000])
 
+plt.tight_layout()
 plt.show()

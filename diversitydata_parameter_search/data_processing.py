@@ -1,7 +1,11 @@
 import numpy as np
 import pandas as pd
-import seaborn as sbs
+
+# import matplotlib
+# matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+import seaborn as sbs
+
 sbs.set_context(rc={'lines.markeredgewidth': 0.1})
 #Mutopts en recopts can be used to print the full names below
 options = ["s_0.01_a_0.1", "s_0.01_a_0.3", "s_0.01_a_0.5", "s_0.05_a_0.1", "s_0.05_a_0.3", "s_0.05_a_0.5", "s_0.1_a_0.1", "s_0.1_a_0.3",  "s_0.1_a_0.5", "s_0.2_a_0.1", "s_0.2_a_0.3", "s_0.2_a_0.5", "s_0.5_a_0.1", "s_0.5_a_0.3","s_0.5_a_0.5"]
@@ -61,6 +65,7 @@ dataFrame = dataFrame.fillna(0)
 
 counter = 0
 for alg in algoptions:
+    print(alg)
     for i in range(15):
         sampleIndex = 0
         filename = function + "_" + alg + "_" + str(i) + ".txt"
@@ -81,8 +86,8 @@ for alg in algoptions:
 
 dataFrame = dataFrame / sampleIndex
 
-if function == "schaffers":# or function == "katsuura":
-    dataFrame = pd.DataFrame(np.log(dataFrame))
+# if function == "schaffers":# or function == "katsuura":
+dataFrame = pd.DataFrame(np.log(dataFrame))
 
 dataFrame = dataFrame.reset_index()
 
@@ -128,23 +133,23 @@ for n, plot in enumerate(plotoptions):
         else:
             color = colors[1]
         sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=2)#marker="o")
+        ax.set_xlabel('Generation', fontsize=12)
+        ax.set_ylabel('Total Manhatten distance (log)', fontsize=12)
+        ax.tick_params(labelsize=12)
+        ax.set_ylim(6.1, 12.3)
     else:
-        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=0.05)
+        sbs.lineplot(ax=ax, data = dataFrame, x = 'index', y = plot, color=color, linewidth=0.05) #0.05 for katsuura
 
-
-
-
-ax.set(xlabel="Generation", ylabel="Total Manhattan distance")
 
 if function == "cigar":
     ax.set_title("Bent Cigar", fontsize=20)
-    plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
+    # plt.xticks([0, 10, 20, 30, 40, 50, 60], labels=[0, 10, 20, 30, 40, 50, 60])
 elif function == "schaffers":
     ax.set_title("Schaffers", fontsize=20)
-    plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
+    # plt.xticks([0, 100, 200, 300, 400, 500, 600], labels=[0, 100, 200, 300, 400, 500, 600])
 elif function == "katsuura":
     ax.set_title("Katsuura", fontsize=20)
-    plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000], labels=[0, 1000, 2000, 3000, 4000, 5000, 6000])
+    # plt.xticks([0, 1000, 2000, 3000, 4000, 5000, 6000], labels=[0, 1000, 2000, 3000, 4000, 5000, 6000])
 
-
+plt.tight_layout()
 plt.show()
