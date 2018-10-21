@@ -16,11 +16,11 @@ filenames_k_a11 = []
 filenames_k_a1ga = []
 
 for i in range(15):
-    filenames_c_asga.append("data_parameter_search/cigar_as_ga_" + str(i) + ".txt")
-    filenames_c_aw1.append("data_parameter_search/cigar_aw_1_" + str(i) + ".txt")
-    filenames_s.append("data_parameter_search/schaffers_bl_un_" + str(i) + ".txt")
-    filenames_k_a11.append("data_parameter_search/katsuura_a1_1_" + str(i) + ".txt")
-    filenames_k_a1ga.append("data_parameter_search/katsuura_a1_ga_" + str(i) + ".txt")
+    filenames_c_asga.append("../data_parameter_search/cigar_as_ga_" + str(i) + ".txt")
+    filenames_c_aw1.append("../data_parameter_search/cigar_aw_1_" + str(i) + ".txt")
+    filenames_s.append("../sanne_patch/schaffers_bl_un_" + str(i) + ".txt")
+    filenames_k_a11.append("../data_parameter_search/katsuura_a1_1_" + str(i) + ".txt")
+    filenames_k_a1ga.append("../data_parameter_search/katsuura_a1_ga_" + str(i) + ".txt")
 
 
 # Define variable data will be stored in (mean/std, recombination, mutation)
@@ -47,7 +47,10 @@ for files, filenames in enumerate([filenames_c_asga,
             # print(item, np.mean(score))
 
             # print(score)
-            data[files, 0, i%3, i//3] = np.mean(score)
+            value = np.mean(score)
+            if value < 0.1:
+                value=0.0
+            data[files, 0, i%3, i//3] = value
             data[files, 1, i%3, i//3] = sp.stats.sem(score)
 
 data = data.transpose((0, 1, 3, 2))

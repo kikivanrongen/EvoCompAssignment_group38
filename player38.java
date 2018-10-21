@@ -137,28 +137,28 @@ public class player38 implements ContestSubmission
 		while(evals < evaluations_limit_-200)
 		{
 
-			// // CALCULATING DIVERSITY
-			// // niet weggooien plzzzz
-			// // Diversity is measured per generation, as the total Manhattan distance between all points
-			//
-			// generations +=1;
-			// double diversity = 0;
-			//
-			// for (int j = 0; j < populationSize; j++)
-			// {
-			// 	for (int k = 0; k < populationSize; k++)
-			// 	{
-			// 		double[] individual1 = population.get(j).genome;
-			// 		double[] individual2 = population.get(k).genome;
-			//
-			// 		for (int l = 0; l < individual1.length; l++)
-			// 		{
-			// 			diversity += Math.abs(individual1[l] - individual2[l]);
-			// 		}
-			// 	}
-			// }
-			// // diversityArray.add(diversity);
-			// System.out.println(diversity);
+			// CALCULATING DIVERSITY
+			// niet weggooien plzzzz
+			// Diversity is measured per generation, as the total Manhattan distance between all points
+
+			generations +=1;
+			double diversity = 0;
+
+			for (int j = 0; j < populationSize; j++)
+			{
+				for (int k = 0; k < populationSize; k++)
+				{
+					double[] individual1 = population.get(j).genome;
+					double[] individual2 = population.get(k).genome;
+
+					for (int l = 0; l < individual1.length; l++)
+					{
+						diversity += Math.abs(individual1[l] - individual2[l]);
+					}
+				}
+			}
+			// diversityArray.add(diversity);
+			System.out.println(diversity);
 
 			// Compute scores per individual
 			double maxScore = 0;
